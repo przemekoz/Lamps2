@@ -153,8 +153,7 @@
 		<div style="clear:both"></div>
 	</div>
 </div>
-
-<div id="elements_msg"></div>
+<textarea id="elements_msg" style="border:none; width:100%; height:100px"></textarea>
 
 <!-- FOOTER -->
 <br clear="all">
@@ -214,6 +213,14 @@
 
 	<script type="text/javascript">
         $(document).ready(function() {
+
+
+
+					//tablica przechowuje dane na temat wygenerowanych przez usera lamp 
+        	var ELEMENTS_DATA = [];
+					<?php echo $JS_ELEMENTS_DATA?>
+        	
+            
             
             $(".draggable").draggable({ hoverClass: "product-active", revert: "invalid", cursor: 'move', opacity: 0.35, addClasses: false, helper: 'clone', containment: "document" /*, containment: 'window', helper: 'clone',  stack: "#canvas" */ });
             
@@ -242,7 +249,16 @@
                  products[id][4] = 0; //image height - 0 = oryginal
                  products[id][5] = 'norm'; //czy obrazek jest normalny czy odbicie lustrzane 
                  products[id][6] = dragObject.children().attr('class'); //w class trzymana jest nazwa pliku 
+                 
+                 //zapisanie informacji o dodanym elemencie
+                 document.getElementById('elements_msg').value += ' ' + ELEMENTS_DATA[products[id][6]+'.png']['text'] + "\r\n";
 
+                 //zwiekszenie liczby dodanych elementow
+                 ELEMENTS_DATA[products[id][6]+'.png']['count'] += 1;
+
+								alert(id);	
+                 
+                 alert(ELEMENTS_DATA[products[id][6]+'.png']['count']);
                  
                  lastXY += 20;
                  prodId ++;
@@ -348,7 +364,15 @@
               //usuniecie z tablicy obiektu
               //products[currCanvasId][0] = '';
 
+              alert(currCanvasId)
+              
+              //zminijszenie liczby dodanych elementow
+              alert(ELEMENTS_DATA[products[currCanvasId][6]+'.png']['count']);
+              ELEMENTS_DATA[products[currCanvasId][6]+'.png']['count'] -= 1;
+
               products = unset(products, currCanvasId);
+              
+
          }
 
 

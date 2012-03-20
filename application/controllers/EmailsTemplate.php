@@ -110,15 +110,28 @@ class EmailsTemplate extends CI_Controller {
 		$idUser = 1;
 
 
+		//[rzechowuje tablice JS - informacje o wygenerowanych lampach usera
+		$data['JS_ELEMENTS_DATA'] = '';
 
 
-
-
+		$this->db->select('id, id_column, id_crown, id_fitting, text_column, text_crown, text_fitting');
+		$this->db->where('id_user', $idUser);
+		$this->db->order_by('id', 'desc');
+		$query = $this->db->get('saved_element');
+		
+		//zmienna przechwuje nazwy plikow
+		$aItems = array();
+		foreach ($query->result() as $row) {
+			$data['JS_ELEMENTS_DATA'] .= "ELEMENTS_DATA['u{$idUser}_i{$row->id}.png'] = {'text':'{$row->text_column} {$row->text_crown} {$row->text_fitting}', 'count':0};\r\n";
+			$aItems[] = "u{$idUser}_i{$row->id}.png";
+		}
+		
 		/*
 		 * odczytanie z katalogu obrazkow usera
 		 * elementy: u{id_usera}_i{id_elementu}.png
 		 * tlo: u{id_usera}bg.jpg
 		 */
+		/*
 		$bg = '';
 		$aItems = array();
 		if ($handle = opendir('uploads/tmp')) {
@@ -132,9 +145,9 @@ class EmailsTemplate extends CI_Controller {
 			}
 			closedir($handle);
 		}
+*/
 
-
-		$data['bg'] = $bg;
+		$data['bg'] = "u{$idUser}bg.jpg";
 		$data['items'] = $aItems;
 		$data['userid'] = $idUser;
 
@@ -184,7 +197,7 @@ class EmailsTemplate extends CI_Controller {
 		}
 
 		if ($step == 0) {
-			$res = $this->db->query("SELECT id, code, 'column' as type FROM clmn ORDER BY code");
+			$res = $this->db->query("SELECT id, code, 'column' as type FROM `column` ORDER BY code");
 		} else if ($step == 1) {
 			$res = $this->db->query("SELECT id, code, 'crown' as type FROM crown ORDER BY code");
 		} else {
@@ -208,6 +221,22 @@ class EmailsTemplate extends CI_Controller {
 	}
 
 
+	/*
+	|
+		 CREATE TABLE IF NOT EXISTS saved_element (
+         id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+         id_user INT NOT NULL DEFAULT 0,
+         id_column INT NOT NULL DEFAULT 0,
+         id_crown INT NOT NULL DEFAULT 0,
+         id_fitting INT NOT NULL DEFAULT 0,
+         text_column VARCHAR(255) NOT NULL DEFAULT '',
+         text_crown VARCHAR(255) NOT NULL DEFAULT '',
+         text_fitting VARCHAR(255) NOT NULL DEFAULT ''
+       );
+	
+	|
+	*/
+	
 	public function save_item() {
 		echo 'SAVE ITEM ';
 
@@ -229,15 +258,45 @@ class EmailsTemplate extends CI_Controller {
 		$fitting = $this->UI->getimage('uploads/fitting_'.intval($_GET['fitting']).'.png');
 		$this->UI->imagecopy($img, $fitting, 0, 0, 0, 0, imagesx($fitting), imagesy($fitting));
 
+		//zapisz do bazy id_usera, wybrane elementy, kody, tych elementów + nazwę wygenerowanego pliku
+		
+		//ustawienie jake pola nalezy zczytac
+		$this->db->select('code, title');
+		
+		//tablica pmocnicza, przechowuje dane z bazy o elementach
+		$t = array();
+		$a = array('column', 'crown', 'fitting');
+		//dla kazdego typu elementu zczytanie z bazy danych i zapisanie do tablicy pomocniczej
+		foreach ($a as $element) {
+			//dodanie do where wartosci z GET
+			$this->db->where('id', $this->input->get($element));
+			//ustawienie odpowiedniaj nazwy tabeli
+			$query = $this->db->get($element);
+			$row = $query->row_array();
+			$t[$element] = $row['title'].', kod: '.$row['code'];
+		}
+		
 		
 		//zapisz calosc
+		$insert = array(
+			'id_user'=>1,
+			'id_column'=>$this->input->get('column'),
+			'text_column'=>$t['column'],
+			'id_crown'=>$this->input->get('crown'),
+			'text_crown'=>$t['crown'],
+			'id_fitting'=>$this->input->get('fitting'),
+			'text_fitting'=>$t['fitting']
+		);
+		$this->db->insert('saved_element',$insert);
+
+		//opdczytanie dodanego idka
+		$lastId = $this->db->insert_id();
 		
-		/*
-		 *  @TODO
-		 *  !! rand() zamienic na kolejne id !!
-		 */
+		//ustawienie nazwy pliku
+		$filename = 'u'.$idUser.'_i'.$lastId;
+		
 		//zapisz obrazek oraz jego lustrzane odbicie
-		$this->UI->imagesaveflip($img, 'u'.$idUser.'_i'.rand(1,99), 'PNG');
+		$this->UI->imagesaveflip($img, $filename, 'PNG');
 
 		redirect('emailstemplate/drag');
 	}
