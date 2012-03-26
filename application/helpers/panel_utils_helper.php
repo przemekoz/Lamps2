@@ -20,7 +20,10 @@ if ( ! function_exists('panelshowTop'))
 		<div style="background:#003D4C; color: white; width: 100%;height:41px;margin-bottom: 20px">
 			<div style="padding: 0 25px;font-family:tahoma,sans-serif;">
 			
+			<!--
 				<div onclick="location.href=\'/index.php/klienci\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj klientami">Klienci</div>
+			-->
+				
 				<div onclick="location.href=\'/index.php/slupy\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj slupami">Slupy</div>
 				<div onclick="location.href=\'/index.php/korony\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj koronami">Korony</div>
 				<div onclick="location.href=\'/index.php/oprawy\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj oprawami">Oprawy</div>
@@ -76,8 +79,10 @@ if ( ! function_exists('panelShowTableTop'))
 		$html = '<table cellpadding="5" cellspacing="5" width="100%" style="margin:0 auto;">
 		<tr>
 			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 5%">Id</td>
-			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 50%">Nazwa</td>
-			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 45%">Akcje</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 60%">Nazwa</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 5%">Ulica</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 5%">Ogród</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 25%">Akcje</td>
 		</tr>';
 		echo $html;
 		
@@ -89,10 +94,17 @@ if ( ! function_exists('panelShowTableList'))
 	/**
 	 * wyswietla top
 	 */
-	function panelShowTableList($id, $title, $actions) {
+	function panelShowTableList($id, $title, $street, $garden, $actions) {
+		
+		$street = intval($street);
+		$garden = intval($garden);
+		$aStretGarden = array('street'=>array('&nbsp;', '<font color=green>Tak</font>'), 'garden'=>array('&nbsp;','<font color=green>Tak</font>'));
+		
 		$html = '<tr>
 			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$id.'</td>
-			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$title.'&nbsp;</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$title.'</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$aStretGarden['street'][$street].'</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$aStretGarden['garden'][$garden].'</td>
 			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$actions.'</td>
 		</tr>';
 		

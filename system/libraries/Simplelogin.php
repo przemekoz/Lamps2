@@ -177,7 +177,7 @@ class Simplelogin
 
             //pkoz - dodalem to sprawdzenie dla rozornienia logowania do panelu lub zwyklego usera
             if(strtolower($type) == 'admin' && $row['type'] != 'admin') {
-              die('s');  
+              //die('s');  
             	return false;
             }
             

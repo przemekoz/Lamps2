@@ -12,6 +12,8 @@ class Korony extends CI_Controller {
         parent::__construct();
         $this->load->helper('url');
         $this->load->helper('buttons');
+        $this->load->helper('form');
+        $this->load->helper('input');
         $this->load->helper('panel_utils');
         $this->load->library('session');
 
@@ -32,15 +34,17 @@ class Korony extends CI_Controller {
          * sprawdzenie sesji
          */
         
-        if($this->session->userdata('logged_in')) {
-            //echo 'jestes zalogowany';
+     if($this->session->userdata('logged_in')) {
+            echo '<div style="height:32px"><img src="/img/user_blue.png" width="32" height="32" style="float:left"> <div style="float:left;color:#162080;font-weight:bold;padding:8px 0 0 5px">'.$this->session->userdata('username').'</div><div style="clear:both"></div></div>';
         } else {
-            //echo 'nie jestes zalogowany -> wylot';
+            redirect('/Home/login_page');
         } 
     }
 
     public function index() {
-        $data['list'] = $this->db->query("SELECT id, code, title FROM crown ORDER BY code");
+    			$this->db->select('id, title, street, garden');
+		$this->db->order_by('title');
+		$data['list'] = $this->db->get('crown');
         
         $data['msg'] = isset($_GET['msg']) ? $this->msg[$_GET['msg']] : '';
         $data['msg_css'] = (isset($_GET['msg']) && strlen($_GET['msg'])) ? $_GET['css'] : '';
@@ -53,11 +57,13 @@ class Korony extends CI_Controller {
     }//function
     
     public function edycja($id) {
-        $query = $this->db->query("SELECT code, title, description FROM crown WHERE id='$id'");
+    	$this->db->select('title, description, street, garden');
+		$query = $this->db->get_where('crown', array('id' => $id));
+		
         $row = $query->result_array();
         
         if (!count($row)) {
-            $row = array(0=>array('code'=>''));
+           $row = array(0=>array('title'=>'', 'description'=>'', 'garden'=>0, 'street'=>0));
         }
         
         
@@ -70,9 +76,10 @@ class Korony extends CI_Controller {
         $id = $_POST['id'];
         if ($id > 0) {
             $data = array(
-                'code' => $_POST['code']
-               ,'title' => $_POST['title']
+               'title' => $_POST['title']
                ,'description' => $_POST['description']
+               	,'street' => $_POST['street']
+			,'garden' => $_POST['garden']
             );
             
             $this->db->where('id', $id);
@@ -90,7 +97,7 @@ class Korony extends CI_Controller {
     }//save()
     
     public function usun($id) {
-        $this->db->query("DELETE FROM crown WHERE id='$id' LIMIT 1 ");
+        $this->db->delete('crown', array('id' => $id));
         
         @unlink($this->uploadDir.'crown_'.$id.'.png');
         redirect($this->module_url.'/?msg=delete_success&css=ms');

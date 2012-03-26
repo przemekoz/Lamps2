@@ -31,7 +31,9 @@
 		
 		<?php panelShowTableList(
 			$row->id, 
-			$row->code, 
+			$row->title, 
+			$row->street, 
+			$row->garden, 
 			getLink('Edycja',"/index.php/{$url}/edycja/{$row->id}").' '.
 			getLink('Usun',"#usun", "if(confirm('Potwierdz usuniecie'))location.href='/index.php/{$url}/usun/{$row->id}'")
 			);	 
@@ -44,15 +46,3 @@
 
 <?php panelShowBottom(); ?>
 
-
-
-<br><br><br><br><br><br>
-<form method="post" action="/index.php/Users/login">
-    Logowanie:
-    <input type="text" name="username" value="">
-    <input type="password" name="password" value="">
-    <input type="hidden" name="type" value="user">
-    <input type="submit" value="zaloguj">
-    <input type="button" value="wyloguj" onclick="location.href='/index.php/Users/logout'">
-</form>
-</br>

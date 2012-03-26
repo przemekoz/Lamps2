@@ -1,6 +1,14 @@
 <html>
 <head>
    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   <link rel="stylesheet" href="/css/one.css?r=<?php echo rand(0,999)?>">
+   <link rel="stylesheet" href="/css/tw.css?r=<?php echo rand(0,999)?>">
+   <link rel="stylesheet" href="/css/three.css?r=<?php echo rand(0,999)?>">
+
+<!-- 
+   <link rel="stylesheet" href="/css/cache.css?r=<?php echo rand(0,999)?>">
+ -->
+   
 <style type="text/css">
 
 * {
@@ -16,7 +24,7 @@
 	z-index: 200;
 }
 
-#resizable {
+#resizable {m
 	width: 200px;
 	border: 1px dotted #eee;
 	height: 300px;
@@ -42,6 +50,25 @@
     	margin: 3px 0 15px 0;
     }
 
+.btn_in{
+	padding:8px 4px 0 0; 
+	text-align:center; 
+	color:#67806E;
+	font-weight:bold; 
+	font-family:tahoma,sans-serif;
+	font-size:11px
+}	
+
+.btn_out {
+	cursor:pointer; 
+	float:left; 
+	margin:44px 0 0 38px; 
+	width: 94px; 
+	height: 34px; 
+	background: url('/img/btn.png') top left no-repeat;
+}	
+
+
 </style>
 
 </head>
@@ -52,26 +79,26 @@
 
 	<div style="width: 956px; height: 126px; background: url('/img/toolbar2.png') top left no-repeat; margin: 0 auto; text-align: left">
 
-		<div onclick="show_prods()" style="cursor:pointer; float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Zapisz">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold; font-family:tahoma,sans-serif;font-size:11px">Zapisz</div>
+		<div onclick="show_prods()" class="btn_out" title="Zapisz">
+			<div class="btn_in">Zapisz</div>
 		</div>
-		<div onclick="window.open('/uploads/tmp/u<?php echo $userid ?>_saved.jpg', '_blank')" style="cursor:pointer; float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Podgląd">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold; font-family:tahoma,sans-serif;font-size:11px">Podgląd</div>
+		<div onclick="window.open('/uploads/tmp/u<?php echo $userid ?>_saved.jpg', '_blank')" class="btn_out" title="Podgląd">
+			<div class="btn_in">Podgląd</div>
 		</div>
-		<div onclick="clear_canvas()" style="cursor:pointer; float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Wyczyść">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold;font-family:tahoma,sans-serif;font-size:11px">Wyczyść</div>
+		<div onclick="clear_canvas()" class="btn_out" title="Wyczyść">
+			<div class="btn_in">Wyczyść</div>
 		</div>
-		<div onclick="window.open('/index.php/emailstemplate/pdf', '_blank')" style="cursor:pointer;float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Wydrukuj">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold;font-family:tahoma,sans-serif;font-size:11px">Wydrukuj</div>
+		<div onclick="window.open('/index.php/emailstemplate/pdf', '_blank')" class="btn_out" title="Wydrukuj">
+			<div class="btn_in">Wydrukuj</div>
 		</div>
-		<div onclick="window.open('/index.php/emailstemplate/downloadjpg', '_blank')" style="cursor:pointer;float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Pobierz JPG">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold;font-family:tahoma,sans-serif;font-size:11px">Pobierz JPG</div>
+		<div onclick="window.open('/index.php/emailstemplate/downloadjpg', '_blank')" class="btn_out" title="Pobierz JPG">
+			<div class="btn_in">Pobierz JPG</div>
 		</div>
-		<div onclick="window.open('/index.php/emailstemplate/downloadpdf', '_blank')" style="cursor:pointer;float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Pobierz PDF">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold;font-family:tahoma,sans-serif;font-size:11px">Pobierz PDF</div>
+		<div onclick="window.open('/index.php/emailstemplate/downloadpdf', '_blank')" class="btn_out" title="Pobierz PDF">
+			<div class="btn_in">Pobierz PDF</div>
 		</div>
-		<div onclick="window.open('/index.php/emailstemplate/send', '_blank')" style="cursor:pointer;float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Wyślij email">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold;font-family:tahoma,sans-serif;font-size:11px">Wyślij email</div>
+		<div onclick="window.open('/index.php/emailstemplate/send', '_blank')" class="btn_out" title="Wyślij email">
+			<div class="btn_in">Wyślij email</div>
 		</div>
 
 		
@@ -98,13 +125,6 @@
 			?>
 				
 				<br>
-			 
-			 <!-- onsubmit="alert('Funkcjonalność zablokowana.');return false;"  -->
-			<!-- 
-					<form enctype="multipart/form-data" name="form" method="post" action="/index.php/emailstemplate/uploadBg">
-					<table width="100%"><tr><td width="50%"><input class="input_text" style="width:20%" type="file" name="file"></td><td width="50%"><?php showSubmit('Dodaj tło', 'grey'); ?></td></tr></table>
-					</form>
-			 -->
 			 <?php showButton('Dodaj tło', "show_add_bg()", 'grey'); ?>
 		</div>
 		<div style="float:left;">
@@ -127,9 +147,6 @@
 							</div>
 							';
 						}//foreach
-								//<img id="prod3" class="'.$filename.'" src="/uploads/tmp/'.$filename.'">
-						
-						
 						
 						?>
 						
@@ -143,11 +160,6 @@
 				echo '<br>';		
 				showButton('Dodaj element', "location.href='/index.php/emailstemplate/choose_item'", 'grey')
 			?>
-			<!-- 
-				<a href="/index.php/emailstemplate/choose_item" title="Dodaj nowy element...">
-					<img src="/img/icon/ico_new_element.png" width="60" height="60" style="border: 1px solid #ddd" title="Dodaj nowy element...">
-				</a>
-			 -->
 				
 		</div>
 		<div style="clear:both"></div>
@@ -189,13 +201,13 @@
 
 
 <!-- onclick="hide_add_bg()" -->
-<div onclick="alert(1)" id="overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; display: none; background: black; opacity: 0.7"></div>
+<div id="overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; display: none; background: black; opacity: 0.7"></div>
 <div id="popup_canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3000; display: none;">
-	<div id="add_bg_form" style="position: relative; top: 200px; margin: 0 auto; width: 500px; height: 308px; border: 1px solid #ddd; z-index: 4000; background: white;">
+	<div id="add_bg_form" style="position: relative; top: 400px; margin: 0 auto; width: 500px; height: 308px; border: 1px solid #ddd; z-index: 4000; background: white;">
 		<div style="padding: 20px">
 		 Wybierz obrazek tła:
-			<form enctype="multipart/form-data" name="form" method="post" action="/index.php/emailstemplate/uploadBg">
-				<input class="input_text" style="width:20%" type="file" name="file">
+			<form enctype="multipart/form-data" name="form" method="post" action="/index.php/EmailsTemplate/uploadBg">
+				<input type="file" style="height:30px" name="file"><br><br>
 				<table width="100%"><tr><td width="50%"><?php showSubmit('Zapisz', 'green'); ?></td><td width="50%"><?php showButton('Anuluj', 'hide_add_bg()', 'grey'); ?></td></tr></table>
 			</form>
 		</div>
@@ -221,15 +233,8 @@
 					<?php echo $JS_ELEMENTS_DATA?>
         	
             
-            
             $(".draggable").draggable({ hoverClass: "product-active", revert: "invalid", cursor: 'move', opacity: 0.35, addClasses: false, helper: 'clone', containment: "document" /*, containment: 'window', helper: 'clone',  stack: "#canvas" */ });
             
-            
-            $("#parent_prod6").draggable({hoverClass: "product-active", cursor: 'move', opacity: 0.35, addClasses: false,containment: '#canvas'});
-            
-            
-            //$("#resizable").resizable();
-            //$("div#canvas > div > img").resizable({ aspectRatio: true, autoHide: true, ghost: true });
             
             $("#canvas").droppable({
               accept: "#list-items div",
@@ -255,10 +260,6 @@
 
                  //zwiekszenie liczby dodanych elementow
                  ELEMENTS_DATA[products[id][6]+'.png']['count'] += 1;
-
-								alert(id);	
-                 
-                 alert(ELEMENTS_DATA[products[id][6]+'.png']['count']);
                  
                  lastXY += 20;
                  prodId ++;
@@ -363,11 +364,8 @@
               $('#'+currCanvasId).remove();
               //usuniecie z tablicy obiektu
               //products[currCanvasId][0] = '';
-
-              alert(currCanvasId)
               
               //zminijszenie liczby dodanych elementow
-              alert(ELEMENTS_DATA[products[currCanvasId][6]+'.png']['count']);
               ELEMENTS_DATA[products[currCanvasId][6]+'.png']['count'] -= 1;
 
               products = unset(products, currCanvasId);
@@ -550,16 +548,12 @@ function onContextMenu( mode ) {
 var globalWasRightClick = false;
 
 $(document).bind('mousedown',function(e){ 
-    //$("#message").text("e.pageX: " + e.pageX + ", e.pageY: " + e.pageY);
-    //$('#contextMenu').css('top', e.pageY);
-    //$('#contextMenu').css('left', e.pageX);
     
     //jesli nie kliknieto prawym przyciskiem myszy - to ustawiaj pozycje menu 
     if (checkRightClick(e)) {
 	    $('#contextMenu, #contextMenuMain').css({'left':e.pageX,'top':e.pageY});
     }    
     
-    //hideContextMenu();
 });
 
 

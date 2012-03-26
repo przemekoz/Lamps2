@@ -25,9 +25,13 @@
 
 <?php echo inputText('Nazwa:', 'title', $title) ?>
 
-<?php echo inputText('Kod:', 'code', $code) ?>
+<?php echo inputTextarea('Opis:', 'description', $description) ?>
 
-<?php //echo inputTextarea('Opis:', 'description', $description) ?>
+<?php echo form_checkbox('street', 1, $street); ?> Ulica<br>
+
+<?php echo form_checkbox('garden', 1, $garden); ?> Ogród<br>
+
+
 
 <?php echo inputFile('Obrazek (PNG):', 'file', 'column_'.$id.'.png') ?>
 

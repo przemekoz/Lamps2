@@ -37,7 +37,7 @@ class Home extends CI_Controller {
 		$login = new Simplelogin();
 		if ($login->login($this->input->post('username'),$this->input->post('password'), 'admin')) {
 			// -- OK --
-			redirect('/Klienci/');
+			redirect('/Slupy/');
 		}
 		else {
 			// -- FAIL --
