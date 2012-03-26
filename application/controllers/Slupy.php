@@ -41,7 +41,7 @@ class Slupy extends CI_Controller {
     }
 
     public function index() {
-        $data['list'] = $this->db->query("SELECT id, code, title FROM column ORDER BY code");
+        $data['list'] = $this->db->query("SELECT id, code, title FROM `column` ORDER BY code");
 
         
         $data['msg'] = isset($_GET['msg']) ? $this->msg[$_GET['msg']] : '';
@@ -55,7 +55,7 @@ class Slupy extends CI_Controller {
     }//function
     
     public function edycja($id) {
-        $query = $this->db->query("SELECT code, title, description FROM column WHERE id='$id'");
+        $query = $this->db->query("SELECT code, title, description FROM `column` WHERE id='$id'");
         $row = $query->result_array();
         
         if (!count($row)) {
@@ -92,7 +92,7 @@ class Slupy extends CI_Controller {
     }//save()
     
     public function usun($id) {
-        $this->db->query("DELETE FROM column WHERE id='$id' LIMIT 1 ");
+        $this->db->query("DELETE FROM `column` WHERE id='$id' LIMIT 1 ");
         
         @unlink($this->uploadDir.'column_'.$id.'.png');
         redirect($this->module_url.'/?msg=delete_success&css=ms');

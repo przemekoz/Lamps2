@@ -114,11 +114,14 @@ class EmailsTemplate extends CI_Controller {
 		$data['JS_ELEMENTS_DATA'] = '';
 
 
+		/*
+*/		
 		$this->db->select('id, id_column, id_crown, id_fitting, text_column, text_crown, text_fitting');
 		$this->db->where('id_user', $idUser);
 		$this->db->order_by('id', 'desc');
 		$query = $this->db->get('saved_element');
-		
+
+
 		//zmienna przechwuje nazwy plikow
 		$aItems = array();
 		foreach ($query->result() as $row) {
