@@ -1,130 +1,21 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Korony extends CI_Controller {
+require_once 'Controller_Abstract.php';
+
+class Korony extends Controller_Abstract {
  
-    
-    private $module_url;
-    private $msg;
-    private $uploadDir;
-    private $uploadDirRelative;
-    
-    public function __construct() {
-        parent::__construct();
-        $this->load->helper('url');
-        $this->load->helper('buttons');
-        $this->load->helper('panel_utils');
-        $this->load->library('session');
+	public function __construct() {
+		parent::__construct();
 
-        /*
-         * konfiguracja modułu
-         */
-        
-        $this->module_url = 'korony';
-        $this->uploadDir = './uploads/';
-        $this->uploadDirRelative = '/uploads/';
-        $this->msg = array(
-             'insert_success'   => 'Korona została dodana'
-            ,'edit_success'     => 'Korona została zmieniona'
-            ,'delete_success'   => 'Korona została usunięta'
-        );
-        
-        /*
-         * sprawdzenie sesji
-         */
-        
-        if($this->session->userdata('logged_in')) {
-            //echo 'jestes zalogowany';
-        } else {
-            //echo 'nie jestes zalogowany -> wylot';
-        } 
-    }
-
-    public function index() {
-        $data['list'] = $this->db->query("SELECT id, code, title FROM crown ORDER BY code");
-        
-        $data['msg'] = isset($_GET['msg']) ? $this->msg[$_GET['msg']] : '';
-        $data['msg_css'] = (isset($_GET['msg']) && strlen($_GET['msg'])) ? $_GET['css'] : '';
-        $data['url'] = $this->module_url;
-        
-        $data['dir'] = $this->uploadDir; 
-        $data['dir_relative'] = $this->uploadDirRelative;
-        
-        $this->load->view($this->module_url.'/list', $data);
-    }//function
-    
-    public function edycja($id) {
-        $query = $this->db->query("SELECT code, title, description FROM crown WHERE id='$id'");
-        $row = $query->result_array();
-        
-        if (!count($row)) {
-            $row = array(0=>array('code'=>''));
-        }
-        
-        
-        
-        $data = array_merge($row[0], array('id'=>$id, 'url'=>$this->module_url, 'dir'=>$this->uploadDir, 'dir_relative'=>$this->uploadDirRelative));
-        $this->load->view($this->module_url.'/edit', $data);
-    }//edycja()
-    
-    public function save() {
-        $id = $_POST['id'];
-        if ($id > 0) {
-            $data = array(
-                'code' => $_POST['code']
-               ,'title' => $_POST['title']
-               ,'description' => $_POST['description']
-            );
-            
-            $this->db->where('id', $id);
-            $this->db->update('crown', $data); 
-            $msg = 'edit_success';
-        }
-        else {
-            $this->db->insert('crown', $_POST);
-            $id = $this->db->insert_id();
-            $msg = 'insert_success';
-        }
-  
-        $this->upload('crown_'.$id.'.png');
-        redirect($this->module_url.'/?msg='.$msg.'&css=ms');
-    }//save()
-    
-    public function usun($id) {
-        $this->db->query("DELETE FROM crown WHERE id='$id' LIMIT 1 ");
-        
-        @unlink($this->uploadDir.'crown_'.$id.'.png');
-        redirect($this->module_url.'/?msg=delete_success&css=ms');
-    }//usun()
-    
-    
-    
-    function upload($filename='')
-    {
-        $config['upload_path'] = $this->uploadDir;
-        $config['allowed_types'] = 'png';
-        $config['max_size']	= '2048'; //KB
-        $config['max_width']  = '1000';
-        $config['max_height']  = '1000';
-        $config['overwrite']  = TRUE;
-        if (strlen($filename)) { 
-            $config['file_name']  = $filename;
-        }
-        
-        $this->load->library('upload', $config);
-        $this->upload->initialize($config);    
-
-        if ( ! $this->upload->do_upload('file'))
-        {
-                $error = array('error' => $this->upload->display_errors());
-                echo $this->upload->display_errors();    
-                print_r( $this->upload->data() );    
-        }
-        else
-        {
-                $data = array('upload_data' => $this->upload->data());
-                print_r( $this->upload->data() );    
-        }
-    }
-    
-    
+		/* nazwa tabeli db */
+		$this->tablename = 'crown';
+		/* url do modułu */
+		$this->module_url = 'Korony';
+		/* komunikaty */
+		$this->msg['edit_success'] 		= 'Korona została dodana';
+		$this->msg['insert_success'] 	= 'Korona została zmieniona';
+		$this->msg['delete_success'] 	= 'Korona została usunięta';
+		
+	}
+   
 }

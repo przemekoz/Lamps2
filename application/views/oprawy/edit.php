@@ -20,8 +20,13 @@
 
 <input type="hidden" name="id" value="<?php echo $id; ?>">
 
-Kod:
-<input class="input_text" type="text" name="code" value="<?php echo $code; ?>">
+<?php echo inputText('Nazwa:', 'title', $title) ?>
+
+<?php echo inputTextarea('Opis:', 'description', $description) ?>
+
+<?php echo form_checkbox('street', 1, $street); ?> Ulica<br>
+
+<?php echo form_checkbox('garden', 1, $garden); ?> Ogród<br>
 
 <?php if(is_file($dir.'fitting_'.$id.'.png')) echo '<img src="'.$dir_relative.'/fitting_'.$id.'.png'.'" style="max-width: 600px; max-height: 600px"><br><br>'; ?>
 Obrazek (PNG)<br> 

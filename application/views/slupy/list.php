@@ -30,7 +30,9 @@
 		
 		<?php panelShowTableList(
 			$row->id, 
-			$row->title.' '.$row->code, 
+			$row->title, 
+			$row->street, 
+			$row->garden, 
 			getLink('Edycja',"/index.php/{$url}/edycja/{$row->id}").' '.
 			getLink('Usun',"#usun", "if(confirm('Potwierdz usuniecie'))location.href='/index.php/{$url}/usun/{$row->id}'")
 			);	 

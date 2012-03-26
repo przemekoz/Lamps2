@@ -1,0 +1,5 @@
+CREATE TABLE `mss`.`background` (
+`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+) ENGINE = MYISAM ;
+
+

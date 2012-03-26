@@ -25,8 +25,8 @@ body {
 <br>
 
 <table border="0" cellpadding="7" cellspacing="7" style="border: 1px solid #003D4C; margin: 0 auto; text-align: left">
-<tr><td>Nazwa uzytkownika</td><td><?php echo form_input(array('name'=>'username', 'type'=>'text'), '', 'style="width:170px; height:27px; padding:0 5px"') ?></td></tr>
-<tr><td>Haslo</td><td><?php echo form_input(array('name'=>'password', 'type'=>'password'),'', 'style="width:170px; height:27px; padding:0 5px"') ?></td></tr>
+<tr><td>Nazwa użytkownika</td><td><?php echo form_input(array('name'=>'username', 'type'=>'text'), '', 'style="width:170px; height:27px; padding:0 5px"') ?></td></tr>
+<tr><td>Hasło</td><td><?php echo form_input(array('name'=>'password', 'type'=>'password'),'', 'style="width:170px; height:27px; padding:0 5px"') ?></td></tr>
 <tr><td colspan="2" style="color:red"><?php if (!empty($msg)) echo $msg?></td></tr>
 <tr><td colspan="2" align="center"><?php echo showSubmit('Zaloguj')?></td></tr>
 </table>

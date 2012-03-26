@@ -16,9 +16,9 @@ body {
 </head>
 <body>
 
-<h1>Wylogowa³eœ siê</h1>
+<h1>WylogowaÅ‚eÅ› siÄ™</h1>
 <br>
-<a href="/index.php/Home/login_page">zaloguj siê</a> ponownie
+<a href="/index.php/Home/login_page">zaloguj siÄ™</a> ponownie
 
 </body>
 </html>
