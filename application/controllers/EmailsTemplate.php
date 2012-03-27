@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
-
 class EmailsTemplate extends CI_Controller {
 
 	/**
@@ -10,6 +9,12 @@ class EmailsTemplate extends CI_Controller {
 	 */
 	public $UI = null;
 
+	/* przechowuje nazwe pliku tła */
+	private $userBackgroundFile;
+
+	/* identyfikator usera */
+	private $userId;
+	
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper('url');
@@ -17,6 +22,17 @@ class EmailsTemplate extends CI_Controller {
 		$this->load->helper('email');
 		$this->load->library('PK_UtilImage');
 		$this->UI = new PK_UtilImage();
+		
+		/* identyfikator sesji */
+		
+		////////////////////////////////////////
+		// @TODO - zmienic na id sesji        //
+		////////////////////////////////////////
+		$this->userId = '1234567';
+		////////////////////////////////////////
+		// @TODO - zmienic na id sesji        //
+		////////////////////////////////////////
+		
 	}
 
 	public function choose_template($id) {
@@ -74,18 +90,16 @@ class EmailsTemplate extends CI_Controller {
 	function uploadBg()
 	{
 			
-		/*
-		 * zczytac id zalogowanego usera
-		 */
-		$idUser = 1;
-
-		$config['upload_path'] = 'uploads/tmp/';
+		$config['upload_path'] = 'uploads/';
 		$config['allowed_types'] = 'jpg';
 		$config['max_size']	= '2048'; //KB
 		$config['max_width']  = '1000';
 		$config['max_height']  = '1000';
 		$config['overwrite']  = TRUE;
-		$config['file_name']  = 'u'.$idUser.'bg.jpg';
+		
+		/* ustawienie nazwy pliku ktory uploadowal user */
+		$this->userBackgroundFile = 'user_background_'.$this->userId.'.jpg';
+		$config['file_name']  = $this->userBackgroundFile; 
 
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
@@ -102,14 +116,6 @@ class EmailsTemplate extends CI_Controller {
 
 
 
-
-
-		/*
-		 * zczytac id zalogowanego usera
-		 */
-		$idUser = 1;
-
-
 		//[rzechowuje tablice JS - informacje o wygenerowanych lampach usera
 		$data['JS_ELEMENTS_DATA'] = '';
 
@@ -117,7 +123,7 @@ class EmailsTemplate extends CI_Controller {
 		/*
 */		
 		$this->db->select('id, id_column, id_crown, id_fitting, text_column, text_crown, text_fitting');
-		$this->db->where('id_user', $idUser);
+		$this->db->where('id_user', $this->userId);
 		$this->db->order_by('id', 'desc');
 		$query = $this->db->get('saved_element');
 
@@ -125,8 +131,8 @@ class EmailsTemplate extends CI_Controller {
 		//zmienna przechwuje nazwy plikow
 		$aItems = array();
 		foreach ($query->result() as $row) {
-			$data['JS_ELEMENTS_DATA'] .= "ELEMENTS_DATA['u{$idUser}_i{$row->id}.png'] = {'text':'{$row->text_column} {$row->text_crown} {$row->text_fitting}', 'count':0};\r\n";
-			$aItems[] = "u{$idUser}_i{$row->id}.png";
+			$data['JS_ELEMENTS_DATA'] .= "ELEMENTS_DATA['u{$this->userId}_i{$row->id}.png'] = {'text':'{$row->text_column} {$row->text_crown} {$row->text_fitting}', 'count':0};\r\n";
+			$aItems[] = "u{$this->userId}_i{$row->id}.png";
 		}
 		
 		/*
@@ -139,10 +145,10 @@ class EmailsTemplate extends CI_Controller {
 		$aItems = array();
 		if ($handle = opendir('uploads/tmp')) {
 			while (false !== ($file = readdir($handle))) {
-				if (preg_match('/^u'.$idUser.'_i[0-9]+\./', $file)) {
+				if (preg_match('/^u'.$this->userId.'_i[0-9]+\./', $file)) {
 					$aItems[] = $file;
 				}
-				if (preg_match('/u'.$idUser.'bg\./', $file)) {
+				if (preg_match('/u'.$this->userId.'bg\./', $file)) {
 					$bg = $file.'?r'.rand(1,99); //dodane zeby nie bylo cachowania obrazkow w przegladare
 				}
 			}
@@ -150,9 +156,16 @@ class EmailsTemplate extends CI_Controller {
 		}
 */
 
-		$data['bg'] = "u{$idUser}bg.jpg";
+		//$data['bg'] = "/uploads/tmp/u{$this->userId}bg.jpg";
+		$data['bg'] = $this->userBackgroundFile;
+		
+		/* jesli user wybral predefiniowane tło */
+		if ($this->input->get('bg') > 0) {
+			$data['bg'] = "/uploads/background_".$this->input->get('bg').".jpg";
+		}
+		
 		$data['items'] = $aItems;
-		$data['userid'] = $idUser;
+		$data['userid'] = $this->userId;
 
 
 		$this->load->view('drag', $data);
@@ -163,10 +176,6 @@ class EmailsTemplate extends CI_Controller {
 	public function pdf($type='I') {
 		require('fpdf/fpdf.php');
 
-		/*
-		 * zczytac id zalogowanego usera
-		 */
-		$idUser = 1;
 
 		//@todo - trzeba sprawdzic czy obrazek zostal zapisany , jak nie to zapisa�
 
@@ -175,15 +184,13 @@ class EmailsTemplate extends CI_Controller {
 		$pdf->SetFont('Arial','B',16);
 		$pdf->Cell(40,10,'Hello World!');
 		$pdf->Ln(10);
-		$pdf->Image('uploads/tmp/u'.$idUser.'_saved.jpg');
+		$pdf->Image('uploads/u'.$this->userId.'_saved.jpg');
 		//$pdf->Output();
-		return $pdf->Output($_SERVER['DOCUMENT_ROOT'].'uploads/tmp/u'.$idUser.'.pdf',$type);
+		return $pdf->Output($_SERVER['DOCUMENT_ROOT'].'uploads/u'.$this->userId.'.pdf',$type);
 	}
 
 
 	public function choose_item() {
-		
-		$idUser = 1;
 		
 		$this->load->helper('choose_item');
 		$this->load->helper('buttons');
@@ -200,11 +207,11 @@ class EmailsTemplate extends CI_Controller {
 		}
 
 		if ($step == 0) {
-			$res = $this->db->query("SELECT id, code, 'column' as type FROM `column` ORDER BY code");
+			$res = $this->db->query("SELECT id, title, 'column' as type FROM `column` ORDER BY title");
 		} else if ($step == 1) {
-			$res = $this->db->query("SELECT id, code, 'crown' as type FROM crown ORDER BY code");
+			$res = $this->db->query("SELECT id, title, 'crown' as type FROM crown ORDER BY title");
 		} else {
-			$res = $this->db->query("SELECT id, code, 'fitting' as type FROM fitting ORDER BY code");
+			$res = $this->db->query("SELECT id, title, 'fitting' as type FROM fitting ORDER BY title");
 		}
 		
 
@@ -217,13 +224,38 @@ class EmailsTemplate extends CI_Controller {
 		$data['type'] = $aType[$step];
 		$data['step'] = $step+1;
 		$data['list'] = $res->result();
-		$data['userid'] = $idUser;
+		$data['userid'] = $this->userId;
 
 		$this->load->view('choose_item', $data);
 
 	}
 
 
+	
+	
+	public function choose_background() {
+		
+		
+		$this->load->helper('buttons');
+		$this->load->helper('form');
+
+		
+		$this->db->select('id');
+		$this->db->order_by('id', 'desc');
+		$res = $this->db->get('background');
+		
+		$data['list'] = $res->result();
+		$data['userid'] = $this->userId;
+		$data['url'] = 'EmailsTemplate';
+
+		$this->load->view('choose_background', $data);
+	}
+	
+	
+	
+	
+	
+	
 	/*
 	|
 		 CREATE TABLE IF NOT EXISTS saved_element (
@@ -244,9 +276,6 @@ class EmailsTemplate extends CI_Controller {
 		echo 'SAVE ITEM ';
 
 		
-		$idUser = 1;
-		
-		
 		$img = $this->UI->createimage(200, 550, true);
 
 		//wczytaj i dodaj do nowego obrazka kolumne
@@ -264,7 +293,7 @@ class EmailsTemplate extends CI_Controller {
 		//zapisz do bazy id_usera, wybrane elementy, kody, tych elementów + nazwę wygenerowanego pliku
 		
 		//ustawienie jake pola nalezy zczytac
-		$this->db->select('code, title');
+		$this->db->select('title');
 		
 		//tablica pmocnicza, przechowuje dane z bazy o elementach
 		$t = array();
@@ -276,7 +305,7 @@ class EmailsTemplate extends CI_Controller {
 			//ustawienie odpowiedniaj nazwy tabeli
 			$query = $this->db->get($element);
 			$row = $query->row_array();
-			$t[$element] = $row['title'].', kod: '.$row['code'];
+			$t[$element] = $row['title'];
 		}
 		
 		
@@ -296,7 +325,7 @@ class EmailsTemplate extends CI_Controller {
 		$lastId = $this->db->insert_id();
 		
 		//ustawienie nazwy pliku
-		$filename = 'u'.$idUser.'_i'.$lastId;
+		$filename = 'u'.$this->userId.'_i'.$lastId;
 		
 		//zapisz obrazek oraz jego lustrzane odbicie
 		$this->UI->imagesaveflip($img, $filename, 'PNG');
@@ -361,13 +390,10 @@ class EmailsTemplate extends CI_Controller {
 			return false;
 		}
 
-		/*
-		 * zczytac id zalogowanego usera
-		 */
-		$idUser = 1;
 
 		//wczytaj obrazek tla
-		$bg = $this->UI->getimage('uploads/tmp/u'.$idUser.'bg.jpg');
+		//$bg = $this->UI->getimage('uploads/tmp/u'.$this->userId.'bg.jpg');
+		$bg = $this->UI->getimage($this->userBackgroundFile);
 
 		foreach ($aProducts as $key => $row) {
 			/*
@@ -401,7 +427,7 @@ class EmailsTemplate extends CI_Controller {
 		}
 
 
-		$this->UI->imagesave($bg, 'uploads/tmp/u'.$idUser.'_saved', 'JPG');
+		$this->UI->imagesave($bg, 'uploads/u'.$this->userId.'_saved', 'JPG');
 		$this->UI->imagedestroy($bg);
 	}
 
@@ -421,7 +447,7 @@ class EmailsTemplate extends CI_Controller {
 		@header("Content-Transfer-Encoding: binary");
 
 		// Read the file from disk
-		readfile($_SERVER['DOCUMENT_ROOT'].'/uploads/tmp/'.$file);
+		readfile($_SERVER['DOCUMENT_ROOT'].'/uploads/'.$file);
 	}
 
 	public function downloadPdf() {
@@ -429,41 +455,31 @@ class EmailsTemplate extends CI_Controller {
 	}
 
 	public function downloadJpg() {
-		/*
-		 * zczytac id zalogowanego usera
-		 */
-		$idUser = 1;
 
 
-		$this->download('u'.$idUser.'_saved.jpg', 'jpg');
+		$this->download('u'.$this->userId.'_saved.jpg', 'jpg');
 	}
 
 	public function send() {
 
-		/*
-		 * zczytac id zalogowanego usera
-		 */
-		$idUser = 1;
 
-		$data = array('title'=>'Wysyłam email, z załącznikiem...', 'userid'=>$idUser);
+		$data = array('title'=>'Wysyłam email, z załącznikiem...', 'userid'=>$this->userId);
 		$this->load->view('main_template', $data);
 		return;
 		
-		
-
 
 		//zapisanie pdf-a
 		$filename = $this->pdf('F');
 
 
 		$my_file = $filename;
-		$my_path = $_SERVER['DOCUMENT_ROOT']."/uploads/tmp/";
+		$my_path = $_SERVER['DOCUMENT_ROOT']."/uploads/";
 		$my_name = "Promar";
 		$my_mail = "Promar@mail.com";
 		$my_replyto = "my_reply_to@mail.net";
-		$my_subject = "Testowy mail.";
+		$my_subject = "Zapytanie z aplikacji.";
 		$my_message = "Test...";
-		mail_attachment($my_file, $my_path, "recipient@mail.org", $my_mail, $my_name, $my_replyto, $my_subject, $my_message);
+		mail_attachment($my_file, $my_path, "biuro@promar-sj.com.pl", $my_mail, $my_name, $my_replyto, $my_subject, $my_message);
 
 	}
 

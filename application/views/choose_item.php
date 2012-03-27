@@ -132,8 +132,10 @@ function back() {
 	document.form.step.value = parseInt(document.form.step.value - 2);
 	if (document.form.step.value < 0) {
 		document.form.step.value = 0;
+		location.href='/index.php/EmailsTemplate/drag';
+	} else {
+		document.form.submit(); 
 	}
-	document.form.submit(); 
 }
 
 </script>
@@ -226,15 +228,3 @@ function back() {
 
 </body>
 </html>
-
-
-
-<?php 
-
-
-/**
- */
-
-
-
-?>

@@ -50,7 +50,7 @@ if ( ! function_exists('showItemsInColumns'))
 			
 			foreach ($ids as $id) {
 				if (isset($arrayOfItems[$id])) {
-					$column[$idColumn] .= showItem($arrayOfItems[$id]->id, $arrayOfItems[$id]->code, $arrayOfItems[$id]->type);
+					$column[$idColumn] .= showItem($arrayOfItems[$id]->id, $arrayOfItems[$id]->title, $arrayOfItems[$id]->type);
 				}
 			}
 		}

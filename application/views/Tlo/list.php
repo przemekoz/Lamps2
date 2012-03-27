@@ -20,7 +20,7 @@
 	
 		<?php foreach($list->result() as $row): ?>
 
-		<img style="max-width:200px; max-height: 200px; padding: 10px" src="/uploads/background_<?php echo $row->id ?>.jpg"> <?php echo getLink('Usuń',"#usun", "if(confirm('Potwierdź usunięcie'))location.href='/index.php/{$url}/usun/{$row->id}'"); ?> <br clear="all">		
+		<img style="max-width:150px; max-height: 150px; padding: 10px" src="/uploads/background_<?php echo $row->id ?>.jpg"> <?php echo getLink('Usuń',"#usun", "if(confirm('Potwierdź usunięcie'))location.href='/index.php/{$url}/usun/{$row->id}'"); ?> <br clear="all">		
 		
 		<?php endforeach; ?>
 		

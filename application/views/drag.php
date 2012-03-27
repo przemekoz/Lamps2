@@ -76,23 +76,23 @@
 			<div class="btn_in">Zapisz</div>
 		</div>
  -->
-		<div style="margin-left: 95px" onclick="window.open('/uploads/tmp/u<?php echo $userid ?>_saved.jpg', '_blank')" class="btn_out" title="Podgląd">
+		<div style="margin-left: 95px" onclick="window.open('/uploads/u<?php echo $userid ?>_saved.jpg', '_blank')" class="btn_out" title="Podgląd">
 			<div class="btn_in">Podgląd</div>
 		</div>
 		<div onclick="clear_canvas()" class="btn_out" title="Wyczyść">
 			<div class="btn_in">Wyczyść</div>
 		</div>
-		<div onclick="window.open('/index.php/emailstemplate/pdf', '_blank')" class="btn_out" title="Wydrukuj">
+		<div onclick="window.open('/index.php/EmailsTemplate/pdf', '_blank')" class="btn_out" title="Wydrukuj">
 			<div class="btn_in">Wydrukuj</div>
 		</div>
-		<div onclick="window.open('/index.php/emailstemplate/downloadjpg', '_blank')" class="btn_out" title="Pobierz JPG">
+		<div onclick="window.open('/index.php/EmailsTemplate/downloadjpg', '_blank')" class="btn_out" title="Pobierz JPG">
 			<div class="btn_in">Pobierz JPG</div>
 		</div>
-		<div onclick="window.open('/index.php/emailstemplate/downloadpdf', '_blank')" class="btn_out" title="Pobierz PDF">
+		<div onclick="window.open('/index.php/EmailsTemplate/downloadpdf', '_blank')" class="btn_out" title="Pobierz PDF">
 			<div class="btn_in">Pobierz PDF</div>
 		</div>
-		<div onclick="window.open('/index.php/emailstemplate/send', '_blank')" class="btn_out" title="Wyślij email">
-			<div class="btn_in">Wyślij email</div>
+		<div onclick="window.open('/index.php/EmailsTemplate/send', '_blank')" class="btn_out" title="Wyślij email">
+			<div class="btn_in" style="font-size:10px">Wyślij Zapytanie</div>
 		</div>
 
 		
@@ -111,7 +111,7 @@
 						
 						
 
-		<div id="canvas" style="z-index: 100;position: relative; width:688px; height: 588px; background: url('/uploads/tmp/<?php echo $bg ?>') no-repeat;"></div>
+		<div id="canvas" style="z-index: 100;position: relative; width:688px; height: 588px; background: url('<?php echo $bg ?>') no-repeat;"></div>
 		
 			<?php 
 				$content = ob_get_clean();
@@ -119,7 +119,8 @@
 			?>
 				
 				<br>
-			 <?php showButton('Dodaj tło', "show_add_bg()", 'grey'); ?>
+			 <?php //showButton('Wybierz tło', "show_add_bg()", 'grey'); ?>
+			 <?php showButton('Wybierz tło', "location.href='/index.php/EmailsTemplate/choose_background'", 'grey'); ?>
 		</div>
 		<div style="float:left;">
 		
@@ -137,7 +138,7 @@
 							
 							echo '
 							<div class="draggable" title="Przeciagnij obrazek na tło" id="parent-prod'.str_replace('.png', '', $filename).'" style="margin-bottom: 10px">
-								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/tmp/'.$filename.'" width="200" height="550">
+								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'" width="200" height="550">
 							</div>
 							';
 						}//foreach
@@ -152,7 +153,7 @@
 				$content = ob_get_clean();
 				echo divShadow(300, 600, $content,0);
 				echo '<br>';		
-				showButton('Dodaj element', "location.href='/index.php/emailstemplate/choose_item'", 'grey')
+				showButton('Dodaj element', "location.href='/index.php/EmailsTemplate/choose_item'", 'grey')
 			?>
 				
 		</div>
@@ -187,7 +188,7 @@
 		 	
  		$aLinks = array();
  		$aLinks[] = contextMenuLink('Zapisz obrazek','save_all();hideContextMenu()', 'save.png');
- 		$aLinks[] = contextMenuLink('Zapisz jako pdf', "window.open('/index.php/emailstemplate/pdf');hideContextMenu()", 'pdf.png');
+ 		$aLinks[] = contextMenuLink('Zapisz jako pdf', "window.open('/index.php/EmailsTemplate/pdf');hideContextMenu()", 'pdf.png');
  		$aLinks[] = contextMenuLink('Wyczyść', 'clear_canvas();hideContextMenu()', 'package_purge.png');
  		
 		showContextMenu($aLinks, 'contextMenuMain'); 	
@@ -355,7 +356,7 @@
   
   
          function save_all() {
-              $.post("/index.php/emailstemplate/ajax_save_image/", { products: array2json(products) },
+              $.post("/index.php/EmailsTemplate/ajax_save_image/", { products: array2json(products) },
                function(data) {
                     if (data == 'ok') {
                        //ok 
@@ -468,7 +469,7 @@
 					 //jest img normalne, zamien na inv -> po zmianie wylot
         	 if(products[i][5] == 'norm') {
 							products[i][5] = 'inv';
-							products[i][0] = '/uploads/tmp/inv_'+products[i][6]+'.png'; 
+							products[i][0] = '/uploads/inv_'+products[i][6]+'.png'; 
 							obj.attr('src', products[i][0]);
 							
 							/* zapisanie automatyczne */
@@ -479,7 +480,7 @@
 			 
 					 //jest img inv, zamien na normalne
 					 products[i][5] = 'norm';
-					 products[i][0] = '/uploads/tmp/'+products[i][6]+'.png'; 
+					 products[i][0] = '/uploads/'+products[i][6]+'.png'; 
 					 obj.attr('src', products[i][0])
 
 						/* zapisanie automatyczne */
