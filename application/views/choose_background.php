@@ -73,15 +73,30 @@
 		
 		<?php ob_start(); ?>
 
-			
+			<form enctype="multipart/form-data" name="form" method="post" action="/index.php/<?php echo $url ?>/upload_bg">
+
+
+		<h4 style="padding: 0 0 0 15px">Wybierz plik z dysku</h4>
+		<div style="float:left;padding: 15px 10px 0 15px">
+			<?php echo inputFile('Obrazek (JPG):', 'file') ?>
+		</div>
+		<div style="float:left;">
+			<?php echo getButton('Dodaj', 'document.form.submit()') ?>
+		</div>
+		<div style="clear:both"></div>
+	
+</form>
 						
-						
+		<br>				
+		<h4 style="padding: 0 0 0 15px">lub wybierz dostępne tło</h4>
 				<?php
 						foreach ($list as $row) {
-							echo '<a href="/index.php/'.$url.'/drag?bg='.$row->id.'"><img src="/uploads/background_'.$row->id.'.jpg" style="max-width:200px; max-height:200px"></a>';
+							echo '<div style="float:left; margin: 15px"><a href="/index.php/'.$url.'/drag?bg='.$row->id.'" title="Wybierz tło"><img src="/uploads/background_'.$row->id.'.jpg" style="max-width:200px; max-height:200px;padding: 2px; border: 1px solid #ddd"></a></div>';
 						}//foreach
 						
 				?>
+		
+			<div style="clear:both"></div>
 		
 			<?php 
 				$content = ob_get_clean();

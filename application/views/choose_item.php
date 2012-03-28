@@ -5,7 +5,9 @@
 <script src="/javascript/ui.draggable.min.js" type="text/javascript"></script>
 <script src="/javascript/ui.droppable.min.js" type="text/javascript"></script>
 <script src="/javascript/ui.resizable.min.js" type="text/javascript"></script>
+<!-- 
 <script src="/javascript/json.js" type="text/javascript"></script>
+ -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <style type="text/css">
 * {

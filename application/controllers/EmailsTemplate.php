@@ -21,7 +21,12 @@ class EmailsTemplate extends CI_Controller {
 		$this->load->helper('div');
 		$this->load->helper('email');
 		$this->load->library('PK_UtilImage');
+		$this->load->helper('buttons');
+		$this->load->helper('input');
+		$this->load->helper('form');
 		$this->UI = new PK_UtilImage();
+
+		
 		
 		/* identyfikator sesji */
 		
@@ -32,6 +37,9 @@ class EmailsTemplate extends CI_Controller {
 		////////////////////////////////////////
 		// @TODO - zmienic na id sesji        //
 		////////////////////////////////////////
+
+		/* ustawienie nazwy pliku ktory uploadowal user */
+		$this->userBackgroundFile = 'user_background_'.$this->userId.'.jpg';
 		
 	}
 
@@ -87,7 +95,7 @@ class EmailsTemplate extends CI_Controller {
 
 
 
-	function uploadBg()
+	function upload_bg()
 	{
 			
 		$config['upload_path'] = 'uploads/';
@@ -97,15 +105,13 @@ class EmailsTemplate extends CI_Controller {
 		$config['max_height']  = '1000';
 		$config['overwrite']  = TRUE;
 		
-		/* ustawienie nazwy pliku ktory uploadowal user */
-		$this->userBackgroundFile = 'user_background_'.$this->userId.'.jpg';
 		$config['file_name']  = $this->userBackgroundFile; 
 
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
 
 		$this->upload->do_upload('file');
-		redirect('emailstemplate/drag');
+		redirect('EmailsTemplate/drag');
 	}
 
 
@@ -157,12 +163,13 @@ class EmailsTemplate extends CI_Controller {
 */
 
 		//$data['bg'] = "/uploads/tmp/u{$this->userId}bg.jpg";
-		$data['bg'] = $this->userBackgroundFile;
+		$data['bg'] = '/uploads/'.$this->userBackgroundFile;
 		
 		/* jesli user wybral predefiniowane tło */
 		if ($this->input->get('bg') > 0) {
 			$data['bg'] = "/uploads/background_".$this->input->get('bg').".jpg";
 		}
+		
 		
 		$data['items'] = $aItems;
 		$data['userid'] = $this->userId;
@@ -232,7 +239,7 @@ class EmailsTemplate extends CI_Controller {
 
 
 	
-	
+	/* ekran wyboru tla predefioniownego lub upload przez usera */
 	public function choose_background() {
 		
 		
@@ -247,12 +254,9 @@ class EmailsTemplate extends CI_Controller {
 		$data['list'] = $res->result();
 		$data['userid'] = $this->userId;
 		$data['url'] = 'EmailsTemplate';
-
+		
 		$this->load->view('choose_background', $data);
 	}
-	
-	
-	
 	
 	
 	
@@ -311,7 +315,7 @@ class EmailsTemplate extends CI_Controller {
 		
 		//zapisz calosc
 		$insert = array(
-			'id_user'=>1,
+			'id_user'=>$this->userId,
 			'id_column'=>$this->input->get('column'),
 			'text_column'=>$t['column'],
 			'id_crown'=>$this->input->get('crown'),
@@ -330,7 +334,7 @@ class EmailsTemplate extends CI_Controller {
 		//zapisz obrazek oraz jego lustrzane odbicie
 		$this->UI->imagesaveflip($img, $filename, 'PNG');
 
-		redirect('emailstemplate/drag');
+		redirect('EmailsTemplate/drag');
 	}
 
 
@@ -393,7 +397,7 @@ class EmailsTemplate extends CI_Controller {
 
 		//wczytaj obrazek tla
 		//$bg = $this->UI->getimage('uploads/tmp/u'.$this->userId.'bg.jpg');
-		$bg = $this->UI->getimage($this->userBackgroundFile);
+		$bg = $this->UI->getimage('uploads/'.$this->userBackgroundFile);
 
 		foreach ($aProducts as $key => $row) {
 			/*

@@ -12,10 +12,7 @@
 			<?php echo getButton('Dodaj', 'document.form.submit()') ?>
 		</div>
 		<div style="clear:both"></div>
-		
-
-
-		
+	
 </form>
 	
 		<?php foreach($list->result() as $row): ?>

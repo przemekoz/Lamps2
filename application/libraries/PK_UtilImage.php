@@ -123,7 +123,7 @@ class PK_UtilImage {
 	 */
 	public function imagesaveflip($img_resource, $filename, $type='PNG') {
 
-		$dir = 'uploads/tmp/';
+		$dir = 'uploads/';
 		
 		//zapsanie obrazka normalnego
 		$this->imagesave($img_resource, $dir.$filename, $type);

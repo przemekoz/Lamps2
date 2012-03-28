@@ -216,7 +216,9 @@
 <script src="/javascript/ui.droppable.min.js" type="text/javascript"></script>
 <link href="/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="/javascript/ui.resizable.min.js" type="text/javascript"></script>
+<!-- 
 <script src="/javascript/json.js" type="text/javascript"></script>
+ -->
 
 	<script type="text/javascript">
         $(document).ready(function() {
@@ -588,6 +590,10 @@ $(document).bind('mousedown',function(e){
 			$('#overlay').fadeOut();
 		}
 
+
+	/* zapisanie układu po uruchomieuniu strony - np. wybranie tla przez usera */
+	save_all();
+		
     </script>
 </body>
 </html>
