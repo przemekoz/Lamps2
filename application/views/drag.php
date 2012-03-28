@@ -1,6 +1,7 @@
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <style type="text/css">
 
 * {
@@ -8,22 +9,31 @@
 	padding:0;
 }
 
+.product-resize {
+	border: 1px solid black;
+}
 .draggable {
 	z-index: 200;
 }
 .draggable img {
-	border: 1px dotted #eee;
+	/* border: 1px dotted #000; */
 	z-index: 200;
 }
 
-#resizable {m
+
+#resizable {
 	width: 200px;
 	border: 1px dotted #eee;
 	height: 300px;
 }
 
+
 .canvas-active {
 	opacity: 0.8;
+}
+
+.product-active {
+	border: 1px solid black;
 }
 
 .draggable:hover {
@@ -137,7 +147,7 @@
 						foreach ($items as $filename) {
 							
 							echo '
-							<div class="draggable" title="Przeciagnij obrazek na tło" id="parent-prod'.str_replace('.png', '', $filename).'" style="margin-bottom: 10px">
+							<div class="draggable" title="&raquo; Złap lampę i przesuń na tło" id="parent-prod'.str_replace('.png', '', $filename).'" style="margin-bottom: 10px">
 								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'" width="200" height="550">
 							</div>
 							';
@@ -214,7 +224,6 @@
 <script src="/javascript/ui.core.min.js" type="text/javascript"></script>
 <script src="/javascript/ui.draggable.min.js" type="text/javascript"></script>
 <script src="/javascript/ui.droppable.min.js" type="text/javascript"></script>
-<link href="/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="/javascript/ui.resizable.min.js" type="text/javascript"></script>
 <!-- 
 <script src="/javascript/json.js" type="text/javascript"></script>
@@ -288,9 +297,11 @@
             clone.css('position', 'absolute');
             clone.css('top', lastXY+'px');
             clone.css('left', lastXY+'px');
+            clone.children().css('border', '1px dotted black');
+            
             clone.appendTo($("#canvas"));
             
-            clone.attr('title', 'mozesz przesuwac obiekt, oraz zmieniac rozmiar lapiac za prawy dolny rog');
+            clone.attr('title', "Złap lampę i przesuń \nZłap lampę za róg i przeskaluj");
                 
             //zmiana id clonowanego obiektu
             clone.attr('id', prodId+'canvas-'+clone.attr('id'));
@@ -305,6 +316,14 @@
             //dziala w IE - rightclick
 						clone.mousedown(function(event, ui){
 							checkRightClickIE(event);
+						});	
+
+						clone.children().mouseover(function(event, ui){
+							this.style.border = '1px dotted white';
+						});
+				
+						clone.children().mouseout(function(event, ui){
+							this.style.border = '1px dotted black';
 						});	
             
             clone.draggable({
@@ -336,7 +355,7 @@
            
            /*
             */
-           clone.children().resizable({containment: '#canvas', aspectRatio: true, 
+           clone.children().resizable({containment: '#canvas', aspectRatio: true,animateDuration: 500, autoHide: true, handles: "ne, se, sw, nw",
                stop: function(event, ui){ 
 
                	   	 var id = clone.attr('id');
