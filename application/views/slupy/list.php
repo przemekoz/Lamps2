@@ -34,7 +34,7 @@
 			$row->street, 
 			$row->garden, 
 			getLink('Edycja',"/index.php/{$url}/edycja/{$row->id}").' '.
-			getLink('Usun',"#usun", "if(confirm('Potwierdz usuniecie'))location.href='/index.php/{$url}/usun/{$row->id}'")
+			getLink('Usuń',"#usun", "if(confirm('Potwierdź usunięcie'))location.href='/index.php/{$url}/usun/{$row->id}'")
 			);	 
 		?>
 		

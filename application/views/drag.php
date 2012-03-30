@@ -114,14 +114,22 @@
 
 <div style="text-align: center;width:100%;margin-top:15px">
 	<div style="width:1000px; height:600px; background: #fff; margin:0 auto;text-align: left">
-		<div style="float:left;">
+		<div style="float:left;text-align: center">
 		
 		<?php ob_start(); ?>
 
 						
-						
+		<?php
 
-		<div id="canvas" style="z-index: 100;position: relative; width:688px; height: 588px; background: url('<?php echo $bg ?>') no-repeat;"></div>
+			/* odczytanie rozmiaru pliku tła - potrzebne do dynamicznego skalowania warstwy #canvas */
+			list($bgWidth, $bgHeight) = getimagesize($_SERVER['DOCUMENT_ROOT'].$bg);
+			
+			//@todo - dodac zabezpieczneie na wypadek za duzego rozmiaru
+			
+			//@todo - dodac zabezpiecznie jakby odczytany rozmiar byl null
+		?>
+
+		<div id="canvas" style="margin: 0 auto; z-index: 100;position: relative; width:<?php echo $bgWidth?>px; height: <?php echo $bgHeight?>px; background: url('<?php echo $bg ?>') no-repeat red;"></div>
 		
 			<?php 
 				$content = ob_get_clean();
@@ -147,7 +155,7 @@
 						foreach ($items as $filename) {
 							
 							echo '
-							<div class="draggable" title="&raquo; Złap lampę i przesuń na tło" id="parent-prod'.str_replace('.png', '', $filename).'" style="margin-bottom: 10px">
+							<div class="draggable" title="Złap lampę i przesuń na tło" id="parent-prod'.str_replace('.png', '', $filename).'" style="margin-bottom: 10px">
 								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'" width="200" height="550">
 							</div>
 							';
@@ -301,7 +309,7 @@
             
             clone.appendTo($("#canvas"));
             
-            clone.attr('title', "Złap lampę i przesuń \nZłap lampę za róg i przeskaluj");
+            clone.attr('title', "Złap lampę i przesuń. Złap lampę za róg i przeskaluj");
                 
             //zmiana id clonowanego obiektu
             clone.attr('id', prodId+'canvas-'+clone.attr('id'));
@@ -377,7 +385,7 @@
   
   
          function save_all() {
-              $.post("/index.php/EmailsTemplate/ajax_save_image/", { products: array2json(products) },
+              $.post("/index.php/EmailsTemplate/ajax_save_image/", { products: array2json(products), bg: '<?php echo $bg ?>' },
                function(data) {
                     if (data == 'ok') {
                        //ok 

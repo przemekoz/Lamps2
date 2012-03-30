@@ -26,7 +26,7 @@ class PK_UtilImage {
 	 */
 	public function createimage($width, $height, $isTransparentBg=false) {
 		$img = @imagecreatetruecolor($width, $height)
-		or errorlog('Cannot run imagecreatetruecolor() in '.__CLASS__);
+			or errorlog('Cannot run imagecreatetruecolor() in '.__CLASS__);
 
 		//zwraca obrazek bez przezroczystego tla
 		if (!$isTransparentBg) {
@@ -34,17 +34,17 @@ class PK_UtilImage {
 		}
 			
 		@imagealphablending($img, false)
-		or errorlog('Cannot run imagealphablending() in '.__CLASS__);
+			or errorlog('Cannot run imagealphablending() in '.__CLASS__);
 			
 		@imagesavealpha($img,true)
-		or errorlog('Cannot run imagesavealpha() in '.__CLASS__);
+			or errorlog('Cannot run imagesavealpha() in '.__CLASS__);
 			
 		if( $transparent = @imagecolorallocatealpha($img, 255, 255, 255, 127) === FALSE ) {
 			errorlog('Cannot run imagecolorallocatealpha() in '.__CLASS__);
 		}
 			
 		@imagefilledrectangle($img, 0, 0, $width, $height, $transparent)
-		or errorlog('Cannot run imagefilledrectangle() in '.__CLASS__);
+			or errorlog('Cannot run imagefilledrectangle() in '.__CLASS__);
 			
 			
 		return $img;

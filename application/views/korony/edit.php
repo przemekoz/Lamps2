@@ -24,9 +24,9 @@
 
 <?php echo inputTextarea('Opis:', 'description', $description) ?>
 
-<?php echo form_checkbox('street', 1, $street); ?> Ulica<br>
+<?php echo form_checkbox('street', 1, $street); ?> Miasto - Ulica<br>
 
-<?php echo form_checkbox('garden', 1, $garden); ?> Ogród<br>
+<?php echo form_checkbox('garden', 1, $garden); ?> Dom - Ogród<br>
 
 <?php if(is_file($dir.'crown_'.$id.'.png')) echo '<img src="'.$dir_relative.'/crown_'.$id.'.png'.'" style="max-width: 600px; max-height: 600px"><br><br>'; ?>
 obrazek (PNG)<br> 

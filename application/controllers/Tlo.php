@@ -33,6 +33,7 @@ class Tlo extends CI_Controller {
 
 	public function index() {
 		$this->db->select('id');
+		$this->db->order_by('id', 'desc');
 		$data['list'] = $this->db->get('background');
 		
 		$data['url'] = $this->module_url;
