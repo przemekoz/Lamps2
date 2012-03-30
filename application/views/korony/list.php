@@ -27,15 +27,19 @@
 		
 		<?php panelShowTableTop() ?>
 	
-		<?php foreach($list->result() as $row): ?>
+		<?php 
+		$iter = 1;
+		foreach($list->result() as $row): ?>
 		
-		<?php panelShowTableList(
-			$row->id, 
+		<?php 
+		panelShowTableList(
+			//$row->id, 
+			$iter++, 
 			$row->title, 
 			$row->street, 
 			$row->garden, 
 			getLink('Edycja',"/index.php/{$url}/edycja/{$row->id}").' '.
-			getLink('Usun',"#usun", "if(confirm('Potwierdz usuniecie'))location.href='/index.php/{$url}/usun/{$row->id}'")
+			getLink('Usuń',"#usun", "if(confirm('Potwierdz usuniecie'))location.href='/index.php/{$url}/usun/{$row->id}'")
 			);	 
 		?>
 		

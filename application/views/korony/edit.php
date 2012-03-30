@@ -28,6 +28,11 @@
 
 <?php echo form_checkbox('garden', 1, $garden); ?> Ogród<br>
 
+<?php echo form_dropdown('mode', array('stand'=>'Oprawa stojąca', 'hang'=>'Oprawa wisząca'), $mode); ?> Typ<br>
+
+Szerokość obrazka: <?php  echo $width?>px<br>
+Wysokość obrazka: <?php  echo $height?>px<br>
+
 <?php if(is_file($dir.'crown_'.$id.'.png')) echo '<img src="'.$dir_relative.'/crown_'.$id.'.png'.'" style="max-width: 600px; max-height: 600px"><br><br>'; ?>
 obrazek (PNG)<br> 
 <input class="input_text" style="width:50%" type="file" name="file">
