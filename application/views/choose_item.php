@@ -70,9 +70,20 @@
 	 -->
 
 
-
 <div style="text-align: center;width:100%;margin-top:15px">
-	<div style="width:1000px; height:600px; background: #fff; margin:0 auto;text-align: left">
+	<div style="width:1000px; height:690px; background: #fff; margin:0 auto;text-align: left">
+
+		<p style="margin:10px 0; color: green; border: 1px dotted green; padding: 10px 0; text-align: center">
+			<b style="color:black">Wybrana kategoria:
+			<?php if (!empty($street)) echo ' "Miasto - ulica" ';?>
+			<?php if (!empty($garden)) echo ' "Dom - ogród" ';?>
+			<?php if (empty($garden) && empty($street)) echo ' "Wszystkie" ';?>
+			</b>
+		
+			<?php if (!empty($extra_info)) echo '<br><b>INFO:</b> Wybrana kolumna może być łączona bezpośrednio z oprawą (z pominięciem korony).<br>Kliknij przycisk "<b>Dalej</b>" jeśli chcesz wybrać od razu oprawę .' ?>
+		</p>
+			
+		<div style="clear:both"></div>
 		<div style="float:left;">
 		
 			<?php 
@@ -99,7 +110,9 @@
 		<input type="hidden" value="<?php echo $columnId; ?>" name="column" id="column"> 
 			<input type="hidden" value="<?php echo $crownId; ?>" name="crown" id="crown"> 
 			<input type="hidden" value="<?php echo $fittingId; ?>" name="fitting" id="fitting"> 
-			<input type="hidden" value="<?php echo $step; ?>" name="step"> 
+			<input type="hidden" value="<?php echo $step; ?>" name="step">
+			<?php echo form_hidden('street', $street);?> 
+			<?php echo form_hidden('garden', $garden);?> 
 			<table width="100%"><tr><td width="50%"><?php showButton('Wstecz', 'back()', 'grey') ?></td><td width="50%"><?php showSubmit('Dalej') ?></td></tr></table>
 	</form>
 </div>
@@ -134,7 +147,7 @@ function back() {
 	document.form.step.value = parseInt(document.form.step.value - 2);
 	if (document.form.step.value < 0) {
 		document.form.step.value = 0;
-		location.href='/index.php/EmailsTemplate/drag';
+		location.href='/index.php/EmailsTemplate/choose_item';
 	} else {
 		document.form.submit(); 
 	}

@@ -57,7 +57,7 @@ if ( ! function_exists('showItemsInColumns'))
 		
 			
 		
-		$html  = '<div style="width: 100%;">';
+		$html  = '<div style="width: 100%; height:588px; position: relative; overflow: auto;">';
 
 		$divColumnWidth = floor(100 / $columnsCount);
 		foreach ($column as $key => $col) {

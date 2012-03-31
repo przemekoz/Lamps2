@@ -31,7 +31,8 @@
 
 <?php echo form_checkbox('garden', 1, $garden); ?> Dom - Ogród<br>
 
-
+Szerokość obrazka: <?php  echo $width?>px<br>
+Wysokość obrazka: <?php  echo $height?>px<br>
 
 <?php echo inputFile('Obrazek (PNG):', 'file', 'column_'.$id.'.png') ?>
 

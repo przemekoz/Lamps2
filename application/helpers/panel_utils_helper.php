@@ -28,6 +28,9 @@ if ( ! function_exists('panelshowTop'))
 				<div onclick="location.href=\'/index.php/Slupy\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj słupami">Słupy</div>
 				<div onclick="location.href=\'/index.php/Korony\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj koronami">Korony</div>
 				<div onclick="location.href=\'/index.php/Oprawy\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj oprawami">Oprawy</div>
+				<div onclick="location.href=\'/index.php/Merge/choose/column/crown\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Łączenie kolumny z koronami</div>
+				<div onclick="location.href=\'/index.php/Merge/choose/column/fitting\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Łączenie kolumny z oprawami</div>
+				<div onclick="location.href=\'/index.php/Merge/choose/crown/fitting\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Łączenie korony z oprawami</div>
 				<div onclick="location.href=\'/index.php/Home/logout\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 30px;cursor:pointer" title="Wyloguj">Wyloguj</div>
 				<!--
 				<div style="margin:5px 10px 0 30px; float:left; border:2px solid #0F7D98; width:100px; height:30px; color:#0F7D98"><div style="padding:5px 0 0 5px">jlkalajdlajlds</div></div>
@@ -79,8 +82,8 @@ if ( ! function_exists('panelShowTableTop'))
 	function panelShowTableTop() {
 		$html = '<table cellpadding="5" cellspacing="5" width="100%" style="margin:0 auto;">
 		<tr>
-			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 5%">Id</td>
-			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 60%">Nazwa</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 3%">Lp.</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 62%">Nazwa</td>
 			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 5%">Ulica</td>
 			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 5%">Ogród</td>
 			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 25%">Akcje</td>
@@ -100,9 +103,9 @@ if ( ! function_exists('panelShowTableList'))
 		$street = intval($street);
 		$garden = intval($garden);
 		$aStretGarden = array('street'=>array('&nbsp;', '<font color=green>Tak</font>'), 'garden'=>array('&nbsp;','<font color=green>Tak</font>'));
-		
+		$iter = 1;
 		$html = '<tr>
-			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$id.'</td>
+		  <td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$id.'.</td>
 			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$title.'</td>
 			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$aStretGarden['street'][$street].'</td>
 			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$aStretGarden['garden'][$garden].'</td>

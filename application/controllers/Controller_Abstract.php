@@ -55,13 +55,13 @@ class Controller_Abstract extends CI_Controller {
 	
 	
 	public function edycja($id) {
-		$this->db->select('title, description, street, garden');
+		$this->db->select('title, description, street, garden, width, height, mode');
 		$query = $this->db->get_where($this->tablename, array('id' => $id));
 
 		$row = $query->result_array();
 
 		if (!count($row)) {
-			$row = array(0=>array('title'=>'', 'description'=>'', 'garden'=>0, 'street'=>0));
+			$row = array(0=>array('title'=>'', 'description'=>'', 'garden'=>0, 'street'=>0, 'width'=>0, 'height'=>0, 'mode'=>'stand'));
 		}
 
 
@@ -74,15 +74,16 @@ class Controller_Abstract extends CI_Controller {
 	public function save() {
 		$id = $_POST['id'];
 		if ($id > 0) {
+			/*
 			$data = array(
          'title' => $_POST['title']
 			,'description' => $_POST['description']
 			,'street' => $_POST['street']
 			,'garden' => $_POST['garden']
 			);
-
+*/
 			$this->db->where('id', $id);
-			$this->db->update($this->tablename, $data);
+			$this->db->update($this->tablename, $_POST);
 			$msg = 'edit_success';
 		}
 		else {
@@ -91,7 +92,15 @@ class Controller_Abstract extends CI_Controller {
 			$msg = 'insert_success';
 		}
 
-		$this->upload($this->tablename.'_'.$id.'.png');
+		/* jesli zostal wrzucony plik*/
+		if ($this->upload($this->tablename.'_'.$id.'.png') ) {
+			/* odczytanie wymoiarów obrazka */
+			list($width, $height) = getimagesize($_SERVER['DOCUMENT_ROOT'].'/uploads/'.$this->tablename.'_'.$id.'.png');
+			
+			/* odczytanie jego wymiarów i zapisanie do rekordu */
+			$this->db->update($this->tablename, array('width'=>$width, 'height'=>$height), array('id' => $id));
+		}
+		
 		redirect($this->module_url.'/?msg='.$msg.'&css=ms');
 	}//save()
 
@@ -104,6 +113,12 @@ class Controller_Abstract extends CI_Controller {
 
 
 
+	/**
+	 * 
+	 * Uploaduje plik
+	 * @param string $filename - nazwa pliku
+	 * @return boolean - true w momencie gdy zostal wrzucony plik
+	 */
 	function upload($filename='')
 	{
 		$config['upload_path'] = $this->uploadDir;
@@ -121,12 +136,14 @@ class Controller_Abstract extends CI_Controller {
 
 		if ( ! $this->upload->do_upload('file'))
 		{
-			$error = array('error' => $this->upload->display_errors());
-			echo $this->upload->display_errors();
+			//$error = array('error' => $this->upload->display_errors());
+			//echo $this->upload->display_errors();
+			return false;
 		}
 		else
 		{
 			$data = array('upload_data' => $this->upload->data());
+			return true;
 		}
 	}
 

@@ -15,6 +15,9 @@ class EmailsTemplate extends CI_Controller {
 	/* identyfikator usera */
 	private $userId;
 
+	/* główny url modułu */
+	private $module_url;
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper('url');
@@ -27,6 +30,7 @@ class EmailsTemplate extends CI_Controller {
 		$this->UI = new PK_UtilImage();
 
 
+		$this->module_url = 'EmailsTemplate';
 
 		/* identyfikator sesji */
 
@@ -121,7 +125,7 @@ class EmailsTemplate extends CI_Controller {
 		$this->upload->initialize($config);
 
 		$this->upload->do_upload('file');
-		redirect('EmailsTemplate/drag');
+		redirect($this->module_url.'/drag');
 	}
 
 
@@ -203,27 +207,60 @@ class EmailsTemplate extends CI_Controller {
 
 
 	public function choose_item() {
+		$data['url'] = $this->module_url;
+		 
+		$this->load->view('choose_item_pre', $data);
+	}
+	
+	public function choose_items() {
 
 		$this->load->helper('choose_item');
 		$this->load->helper('buttons');
 
-		$step = isset($_GET['step']) 				? intval($_GET['step']) 	: 0;
-		$columnId = isset($_GET['column']) 	? intval($_GET['column']) : 0;
-		$crownId = isset($_GET['crown']) 		? intval($_GET['crown']) 	: 0;
-		$fittingId = isset($_GET['fitting'])? intval($_GET['fitting']): 0;
+		$step = 			isset($_GET['step']) 	 ? intval($_GET['step']) 	 : 0;
+		$columnId = 	isset($_GET['column']) ? intval($_GET['column']) : 0;
+		$crownId = 		isset($_GET['crown'])  ? intval($_GET['crown'])  : 0;
+		$fittingId = 	isset($_GET['fitting'])? intval($_GET['fitting']): 0;
+		$street = 		isset($_GET['street']) ? intval($_GET['street']) : 0;
+		$garden = 		isset($_GET['garden']) ? intval($_GET['garden']) : 0;
+		
 
+		$addWhere = '';
+		if ($street) {
+			$addWhere = ' AND street=1';
+		}
+		if ($garden) {
+			$addWhere = ' AND garden=1';
+		}
+		if ($garden && $street) {
+			$addWhere = ' AND (garden=1 OR street=1)';
+		}
+		
+		
 		//jesli przekroczono 3 krok - zapis
 		if ($step == 3) {
 			$this->save_item();
 			return true;
 		}
 
+		$data['extra_info'] = '';
+		
 		if ($step == 0) {
-			$res = $this->db->query("SELECT id, title, 'column' as type FROM `column` ORDER BY title");
-		} else if ($step == 1) {
-			$res = $this->db->query("SELECT id, title, 'crown' as type FROM crown ORDER BY title");
-		} else {
-			$res = $this->db->query("SELECT id, title, 'fitting' as type FROM fitting ORDER BY title");
+			$res = $this->db->query("SELECT id, title, 'column' as type FROM `column` WHERE 1 ".$addWhere." ORDER BY title");
+		} 
+		elseif ($step == 1) {
+			/* wyswieltelenie tylko takich koron, jakie zostaly polaczone z kolumnami w panelu */
+			$res = $this->db->query("SELECT c.id, c.title, 'crown' as type FROM crown c, merge_column_crown m WHERE c.id=m.id_crown AND m.id_column=".$columnId." ".$addWhere." ORDER BY c.title");
+		} 
+		/* nie zostala wybrana korona */
+		elseif ($step == 2 && empty($crownId)) {
+			/* wyswieltelenie tylko takich opraw, jakie zostaly polaczone ze slupami w panelu */
+			$res = $this->db->query("SELECT f.id, f.title, 'fitting' as type FROM fitting f, merge_column_fitting m WHERE f.id=m.id_fitting AND m.id_column=".$columnId." ".$addWhere." ORDER BY f.title");
+		}
+		/* zostala wybrana korona */
+		elseif ($step == 2 && $crownId) {
+			/* wysiwetlenie opraw polaczonych z koronami */
+			$res = $this->db->query("SELECT f.id, f.title, 'fitting' as type FROM fitting f, merge_crown_fitting m WHERE f.id=m.id_fitting AND m.id_crown=".$columnId." ".$addWhere." ORDER BY f.title");
 		}
 
 
@@ -233,15 +270,30 @@ class EmailsTemplate extends CI_Controller {
 		$data['columnId'] = $columnId;
 		$data['crownId'] = $crownId;
 		$data['fittingId'] = $fittingId;
+		$data['street'] = $street;
+		$data['garden'] = $garden;
 		$data['type'] = $aType[$step];
 		$data['step'] = $step+1;
 		$data['list'] = $res->result();
 		$data['userid'] = $this->userId;
 
+		
+		if ($step == 1) {
+			$query = $this->db->select('id_fitting')->get_where('merge_column_fitting', array('id_column'=>$columnId));
+			
+			/* jezeli istnoieja powiazania wybranej kolumny z oprawami wyswietlenie info */
+			if ($query->num_rows()) {
+				$data['extra_info'] = 1;
+			}
+			
+		} 
+		
+		
+		
 		$this->load->view('choose_item', $data);
-
 	}
 
+	
 
 
 	/* ekran wyboru tla predefioniownego lub upload przez usera */
@@ -258,7 +310,7 @@ class EmailsTemplate extends CI_Controller {
 
 		$data['list'] = $res->result();
 		$data['userid'] = $this->userId;
-		$data['url'] = 'EmailsTemplate';
+		$data['url'] = $this->module_url;
 
 		$this->load->view('choose_background', $data);
 	}
@@ -339,7 +391,7 @@ class EmailsTemplate extends CI_Controller {
 		//zapisz obrazek oraz jego lustrzane odbicie
 		$this->UI->imagesaveflip($img, $filename, 'PNG');
 
-		redirect('EmailsTemplate/drag');
+		redirect($this->module_url.'/drag');
 	}
 
 
