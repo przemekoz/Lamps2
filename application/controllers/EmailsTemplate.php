@@ -334,7 +334,104 @@ class EmailsTemplate extends CI_Controller {
 	 */
 
 	public function save_item() {
-		echo 'SAVE ITEM ';
+
+		$idColumn = 	isset($_GET['column']) ? intval($_GET['column']) : 0;
+		$idCrown = 		isset($_GET['crown'])  ? intval($_GET['crown'])  : 0;
+		$idFitting = 	isset($_GET['fitting'])? intval($_GET['fitting']): 0;
+
+		
+		/* odczytanie wymiarów wybranych obrazków */
+		$height = 0;
+		$width = 0;
+		
+		/* dane kolumny */
+		$q = $this->db->select('width, height')->get_where('column', array('id'=>$idColumn));
+		$column = $q->result_array();
+		$column = $column[0];
+		$width = $column['width'];
+		$height += $column['height'];
+
+		//jesli wybrano korone
+		if ($idCrown) {
+			/* dane korony */
+			$q = $this->db->select('width, height')->get_where('crown', array('id'=>$idCrown));
+			$crown = $q->result_array();
+			$crown = $crown[0];
+			$height += $crown['height'];
+		} 
+		//w przeciwnym przypadku
+		else {
+			$crown = array('width'=>0, 'height'=>0);
+		}
+
+		/* dane oprawy */
+		$q = $this->db->select('width, height')->get_where('fitting', array('id'=>$idFitting));
+		$fitting = $q->result_array();
+		$fitting = $fitting[0];
+		$height += $fitting['height'];
+		
+		/* utworzenie pustego obrazka */
+		$img = $this->UI->createimage($width, $height, true);
+
+		//wczytaj i dodaj do nowego obrazka kolumne
+		$imgColumn = $this->UI->getimage('uploads/column_'.$idColumn.'.png');
+		$this->UI->imagecopy($img, $imgColumn, 0, $fitting['height']+$crown['height'], 0, 0, $column['width'], $column['height']);
+
+		//jesli istnieje korona
+		if ($idCrown) {
+			//wczytaj i dodaj do nowego obrazka korone
+			$imgCrown = $this->UI->getimage('uploads/crown_'.$idCrown.'.png');
+			$this->UI->imagecopy($img, $imgCrown, 0, $fitting['height'], 0, 0, $crown['width'], $crown['height']);
+		}
+
+		//wczytaj i dodaj do nowego obrazka oprawe
+		$imgFitting = $this->UI->getimage('uploads/fitting_'.$idFitting.'.png');
+		$this->UI->imagecopy($img, $imgFitting, 0, 0, 0, 0, $fitting['width'], $fitting['height']);
+
+		//zapisz do bazy id_usera, wybrane elementy, kody, tych elementów + nazwę wygenerowanego pliku
+
+		//ustawienie jake pola nalezy zczytac
+		$this->db->select('title');
+
+		//tablica pmocnicza, przechowuje dane z bazy o elementach
+		$t = array();
+		$a = array('column', 'crown', 'fitting');
+		//dla kazdego typu elementu zczytanie z bazy danych i zapisanie do tablicy pomocniczej
+		foreach ($a as $element) {
+			//dodanie do where wartosci z GET
+			$this->db->where('id', $this->input->get($element));
+			//ustawienie odpowiedniaj nazwy tabeli
+			$query = $this->db->get($element);
+			$row = $query->row_array();
+			$t[$element] = $row['title'];
+		}
+
+
+		//zapisz calosc
+		$insert = array(
+			'id_user'=>$this->userId,
+			'id_column'=>$this->input->get('column'),
+			'text_column'=>$t['column'],
+			'id_crown'=>$this->input->get('crown'),
+			'text_crown'=>$t['crown'],
+			'id_fitting'=>$this->input->get('fitting'),
+			'text_fitting'=>$t['fitting']
+		);
+		$this->db->insert('saved_element',$insert);
+
+		//opdczytanie dodanego idka
+		$lastId = $this->db->insert_id();
+
+		//ustawienie nazwy pliku
+		$filename = 'u'.$this->userId.'_i'.$lastId;
+
+		//zapisz obrazek oraz jego lustrzane odbicie
+		$this->UI->imagesaveflip($img, $filename, 'PNG');
+
+		redirect($this->module_url.'/drag');
+	}
+	
+	public function save_item__OLD() {
 
 
 		$img = $this->UI->createimage(200, 550, true);

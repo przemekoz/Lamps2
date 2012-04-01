@@ -25,12 +25,12 @@ if ( ! function_exists('panelshowTop'))
 			-->
 				
 				<div onclick="location.href=\'/index.php/Tlo\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj tłami">Tła</div>
-				<div onclick="location.href=\'/index.php/Slupy\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj słupami">Słupy</div>
+				<div onclick="location.href=\'/index.php/Slupy\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj kolumnami">Kolumny</div>
 				<div onclick="location.href=\'/index.php/Korony\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj koronami">Korony</div>
 				<div onclick="location.href=\'/index.php/Oprawy\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj oprawami">Oprawy</div>
-				<div onclick="location.href=\'/index.php/Merge/choose/column/crown\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Łączenie kolumny z koronami</div>
-				<div onclick="location.href=\'/index.php/Merge/choose/column/fitting\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Łączenie kolumny z oprawami</div>
-				<div onclick="location.href=\'/index.php/Merge/choose/crown/fitting\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Łączenie korony z oprawami</div>
+				<div onclick="location.href=\'/index.php/Merge/choose/column/crown\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Kolumny --&gt; korony</div>
+				<div onclick="location.href=\'/index.php/Merge/choose/column/fitting\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Kolumny --&gt; oprawy</div>
+				<div onclick="location.href=\'/index.php/Merge/choose/crown/fitting\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Korony --&gt; oprawy</div>
 				<div onclick="location.href=\'/index.php/Home/logout\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 30px;cursor:pointer" title="Wyloguj">Wyloguj</div>
 				<!--
 				<div style="margin:5px 10px 0 30px; float:left; border:2px solid #0F7D98; width:100px; height:30px; color:#0F7D98"><div style="padding:5px 0 0 5px">jlkalajdlajlds</div></div>
@@ -40,7 +40,7 @@ if ( ! function_exists('panelshowTop'))
 		</div>
 		
 		<div style="width: 100%; text-align: center;">
-			<div style="margin:0 auto; width: 95%; text-align: left;height: 500px;overflow: auto;">
+			<div style="margin:0 auto; width: 95%; text-align: left;">
 		';
 		echo $html;
 	}
@@ -84,9 +84,10 @@ if ( ! function_exists('panelShowTableTop'))
 		<tr>
 			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 3%">Lp.</td>
 			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 62%">Nazwa</td>
-			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 5%">Ulica</td>
-			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 5%">Ogród</td>
-			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 25%">Akcje</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 5%;text-align:center">Ulica</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 5%;text-align:center">Ogród</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 10%;text-align:center">Wymiary</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 2px solid #aaa; width: 15%;text-align:center">Akcje</td>
 		</tr>';
 		echo $html;
 		
@@ -98,7 +99,7 @@ if ( ! function_exists('panelShowTableList'))
 	/**
 	 * wyswietla top
 	 */
-	function panelShowTableList($id, $title, $street, $garden, $actions) {
+	function panelShowTableList($id, $title, $street, $garden, $size, $actions) {
 		
 		$street = intval($street);
 		$garden = intval($garden);
@@ -107,9 +108,10 @@ if ( ! function_exists('panelShowTableList'))
 		$html = '<tr>
 		  <td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$id.'.</td>
 			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$title.'</td>
-			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$aStretGarden['street'][$street].'</td>
-			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$aStretGarden['garden'][$garden].'</td>
-			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd">'.$actions.'</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd;text-align:center">'.$aStretGarden['street'][$street].'</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd;text-align:center">'.$aStretGarden['garden'][$garden].'</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd;text-align:center">'.$size.'</td>
+			<td style="color:#003D4C;font-weight: bold; border-bottom: 1px solid #ddd;text-align:center">'.$actions.'</td>
 		</tr>';
 		
 		echo $html;
@@ -124,7 +126,7 @@ if ( ! function_exists('panelShowSubmitCancel'))
 	 */
 	function panelShowSubmitCancel($cancelUrl) {
 		$html = '
-			<table cellpadding="5" style="margin:40px 0 10px 0;">
+			<table cellpadding="5" style="margin:10px 0 10px 0;">
 				<tr><td>'.getLink('Anuluj', "/index.php/$cancelUrl", '', true).'</td><td>'.getButton('Zapisz', 'document.form.submit()').'</td></tr>
 			</table> 
 			';

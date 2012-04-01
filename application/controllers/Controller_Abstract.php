@@ -35,7 +35,7 @@ class Controller_Abstract extends CI_Controller {
 	}
 
 	public function index() {
-		$this->db->select('id, title, street, garden');
+		$this->db->select('id, title, street, garden, width, height');
 		$this->db->order_by('title');
 		$data['list'] = $this->db->get($this->tablename);
 

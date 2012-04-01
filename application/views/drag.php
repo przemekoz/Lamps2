@@ -133,7 +133,7 @@
 		
 			<?php 
 				$content = ob_get_clean();
-				echo divShadow(700, 600, $content,0) 
+				echo divShadow(800, 600, $content,0) 
 			?>
 				
 				<br>
@@ -148,7 +148,7 @@
 
 
 
-					<div id="list-items" style="position: relative;  width: 288px; height: 588px; text-align: center; overflow: auto;">
+					<div id="list-items" style="position: relative;  width: 188px; height: 588px; text-align: center; overflow: auto;">
 						
 						<?php 
 						
@@ -156,7 +156,7 @@
 							
 							echo '
 							<div class="draggable" title="Złap lampę i przesuń na tło" id="parent-prod'.str_replace('.png', '', $filename).'" style="margin-bottom: 10px">
-								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'" width="200" height="550">
+								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'" style="max-height:570px">
 							</div>
 							';
 						}//foreach
@@ -169,7 +169,7 @@
 		
 			<?php 
 				$content = ob_get_clean();
-				echo divShadow(300, 600, $content,0);
+				echo divShadow(200, 600, $content,0);
 				echo '<br>';		
 				showButton('Dodaj element', "location.href='/index.php/EmailsTemplate/choose_item'", 'grey')
 			?>

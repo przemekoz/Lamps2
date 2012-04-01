@@ -37,6 +37,7 @@
 			$row->title, 
 			$row->street, 
 			$row->garden, 
+			$row->width.' x '.$row->height,
 			getLink('Edycja',"/index.php/{$url}/edycja/{$row->id}").' '.
 			getLink('Usuń',"#usun", "if(confirm('Potwierdź usunięcie'))location.href='/index.php/{$url}/usun/{$row->id}'")
 			);	 
