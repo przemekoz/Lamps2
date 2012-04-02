@@ -86,7 +86,7 @@
 			<div class="btn_in">Zapisz</div>
 		</div>
  -->
-		<div style="margin-left: 95px" onclick="window.open('/uploads/u<?php echo $userid ?>_saved.jpg', '_blank')" class="btn_out" title="Podgląd">
+		<div style="margin-left: 95px" onclick="window.open('/uploads/u<?php echo $userid ?>_saved.jpg?r=<?php echo rand(0,99)?>', '_blank')" class="btn_out" title="Podgląd">
 			<div class="btn_in">Podgląd</div>
 		</div>
 		<div onclick="clear_canvas()" class="btn_out" title="Wyczyść">
@@ -113,7 +113,7 @@
 
 
 <div style="text-align: center;width:100%;margin-top:15px">
-	<div style="width:1000px; height:600px; background: #fff; margin:0 auto;text-align: left">
+	<div style="width:1010px; height:610px; background: #fff; margin:0 auto;text-align: left">
 		<div style="float:left;text-align: center">
 		
 		<?php ob_start(); ?>
@@ -133,7 +133,7 @@
 		
 			<?php 
 				$content = ob_get_clean();
-				echo divShadow(800, 600, $content,0) 
+				echo divShadow(810, 610, $content,0) 
 			?>
 				
 				<br>
@@ -169,9 +169,9 @@
 		
 			<?php 
 				$content = ob_get_clean();
-				echo divShadow(200, 600, $content,0);
+				echo divShadow(200, 610, $content,0);
 				echo '<br>';		
-				showButton('Dodaj element', "location.href='/index.php/EmailsTemplate/choose_item'", 'grey')
+				showButton('Dodaj element', "location.href='/index.php/EmailsTemplate/choose_item?bg=".$bgid."'", 'grey')
 			?>
 				
 		</div>

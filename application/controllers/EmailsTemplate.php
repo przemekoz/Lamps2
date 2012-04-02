@@ -44,12 +44,12 @@ class EmailsTemplate extends CI_Controller {
 
 
 		/* jesli user wybral predefiniowane tło */
-		if ($this->input->get('bg') > 0) 
+		if ($this->input->get('bg') > 0)
 		{
 			$this->userBackgroundFile = "background_".$this->input->get('bg').".jpg";
-		} 
-		/* w przeciwnym przypadku */	
-		else 
+		}
+		/* w przeciwnym przypadku */
+		else
 		{
 			/* ustawienie nazwy pliku ktory uploadowal user */
 			$this->userBackgroundFile = 'user_background_'.$this->userId.'.jpg';
@@ -180,6 +180,8 @@ class EmailsTemplate extends CI_Controller {
 		$data['bg'] = '/uploads/'.$this->userBackgroundFile;
 
 
+		/* przekazanie do szablonu id backgroundu */
+		$data['bgid'] = $this->input->get('bg');
 		$data['items'] = $aItems;
 		$data['userid'] = $this->userId;
 
@@ -208,22 +210,24 @@ class EmailsTemplate extends CI_Controller {
 
 	public function choose_item() {
 		$data['url'] = $this->module_url;
-		 
+		$data['bgid'] = $this->input->get('bg');
+			
 		$this->load->view('choose_item_pre', $data);
 	}
-	
+
 	public function choose_items() {
 
 		$this->load->helper('choose_item');
 		$this->load->helper('buttons');
 
+		$bgid 	= 		isset($_GET['bgid']) 	 ? intval($_GET['bgid']) : 0;
 		$step = 			isset($_GET['step']) 	 ? intval($_GET['step']) 	 : 0;
 		$columnId = 	isset($_GET['column']) ? intval($_GET['column']) : 0;
 		$crownId = 		isset($_GET['crown'])  ? intval($_GET['crown'])  : 0;
 		$fittingId = 	isset($_GET['fitting'])? intval($_GET['fitting']): 0;
 		$street = 		isset($_GET['street']) ? intval($_GET['street']) : 0;
 		$garden = 		isset($_GET['garden']) ? intval($_GET['garden']) : 0;
-		
+
 
 		$addWhere = '';
 		if ($street) {
@@ -235,8 +239,8 @@ class EmailsTemplate extends CI_Controller {
 		if ($garden && $street) {
 			$addWhere = ' AND (garden=1 OR street=1)';
 		}
-		
-		
+
+
 		//jesli przekroczono 3 krok - zapis
 		if ($step == 3) {
 			$this->save_item();
@@ -244,14 +248,14 @@ class EmailsTemplate extends CI_Controller {
 		}
 
 		$data['extra_info'] = '';
-		
+
 		if ($step == 0) {
 			$res = $this->db->query("SELECT id, title, 'column' as type FROM `column` WHERE 1 ".$addWhere." ORDER BY title");
-		} 
+		}
 		elseif ($step == 1) {
 			/* wyswieltelenie tylko takich koron, jakie zostaly polaczone z kolumnami w panelu */
 			$res = $this->db->query("SELECT c.id, c.title, 'crown' as type FROM crown c, merge_column_crown m WHERE c.id=m.id_crown AND m.id_column=".$columnId." ".$addWhere." ORDER BY c.title");
-		} 
+		}
 		/* nie zostala wybrana korona */
 		elseif ($step == 2 && empty($crownId)) {
 			/* wyswieltelenie tylko takich opraw, jakie zostaly polaczone ze slupami w panelu */
@@ -266,6 +270,7 @@ class EmailsTemplate extends CI_Controller {
 
 		$aType = array('column', 'crown', 'fitting');
 
+		$data['bgid'] = $bgid;
 		$data['header'] = 'Step '.($step+1);
 		$data['columnId'] = $columnId;
 		$data['crownId'] = $crownId;
@@ -277,23 +282,23 @@ class EmailsTemplate extends CI_Controller {
 		$data['list'] = $res->result();
 		$data['userid'] = $this->userId;
 
-		
+
 		if ($step == 1) {
 			$query = $this->db->select('id_fitting')->get_where('merge_column_fitting', array('id_column'=>$columnId));
-			
+				
 			/* jezeli istnoieja powiazania wybranej kolumny z oprawami wyswietlenie info */
 			if ($query->num_rows()) {
 				$data['extra_info'] = 1;
 			}
-			
-		} 
-		
-		
-		
+				
+		}
+
+
+
 		$this->load->view('choose_item', $data);
 	}
 
-	
+
 
 
 	/* ekran wyboru tla predefioniownego lub upload przez usera */
@@ -316,6 +321,33 @@ class EmailsTemplate extends CI_Controller {
 	}
 
 
+	
+	
+	/**
+	 * 
+	 * Funckcja pobiera dane o elementacg z bazy, width, height, mode
+	 * @return array - zwraza tablice 2 wymiarową
+	 */
+	private function get_data_elelemnts($p) {
+		$v = array();
+		$a = array('column', 'crown', 'fitting');
+		//odczytanie parametrów z bazy
+		for ($i=0; $i<count($a); $i++) {
+			$q = $this->db->select('width, height, mode')->get_where($a[$i], array('id'=>$p[$i]));
+			$r = $q->result_array();
+			$v[$i] = !empty($r[0]) ? $r[0] : array('width'=>0, 'height'=>0, 'mode'=>'');
+		}
+		
+		//odczytanie obrzków z dysku	
+		for ($i=0; $i<count($a); $i++) {
+			//wczytaj obrazek 
+			$img = $this->UI->getimage('uploads/'.$a[$i].'_'.$p[$i].'.png');
+			$v[$i+3] = !empty($img) ? $img : null;
+		}
+		
+		return $v;
+	}
+	
 
 	/*
 	 |
@@ -338,55 +370,65 @@ class EmailsTemplate extends CI_Controller {
 		$idColumn = 	isset($_GET['column']) ? intval($_GET['column']) : 0;
 		$idCrown = 		isset($_GET['crown'])  ? intval($_GET['crown'])  : 0;
 		$idFitting = 	isset($_GET['fitting'])? intval($_GET['fitting']): 0;
+		$bgid = 			isset($_GET['bgid'])	 ? intval($_GET['bgid']): 0;
 
-		
+
 		/* odczytanie wymiarów wybranych obrazków */
 		$height = 0;
 		$width = 0;
 		
+		/* pobranie danych kolumny, oprawy, korony oraz zapisanie do zmiennych tablicowych. Tablica: np. $column['width'], $column['height'], $column['mode'] */
+		list($column, $crown, $fitting, $imgColumn, $imgCrown, $imgFitting) = $this->get_data_elelemnts(array($idColumn, $idCrown, $idFitting));
+		
 		/* dane kolumny */
-		$q = $this->db->select('width, height')->get_where('column', array('id'=>$idColumn));
-		$column = $q->result_array();
-		$column = $column[0];
 		$width = $column['width'];
 		$height += $column['height'];
 
 		//jesli wybrano korone
 		if ($idCrown) {
-			/* dane korony */
-			$q = $this->db->select('width, height')->get_where('crown', array('id'=>$idCrown));
-			$crown = $q->result_array();
-			$crown = $crown[0];
+			/* zwiekszamy wysokosc o wysokosc korony */
 			$height += $crown['height'];
-		} 
-		//w przeciwnym przypadku
-		else {
-			$crown = array('width'=>0, 'height'=>0);
+			/* jesli jest korona - zmieniamy szerokosc generowanej lampy  - korna jest najszerszym elementem */
+			$width = $crown['width'];
 		}
 
-		/* dane oprawy */
-		$q = $this->db->select('width, height')->get_where('fitting', array('id'=>$idFitting));
-		$fitting = $q->result_array();
-		$fitting = $fitting[0];
+		/* zwiększamy wysokość obrazka o wysokość oprawy - przypadek gdy oprawa stojąca */
 		$height += $fitting['height'];
-		
+
+		/* -------------------------- */
 		/* utworzenie pustego obrazka */
+		/* -------------------------- */
 		$img = $this->UI->createimage($width, $height, true);
 
-		//wczytaj i dodaj do nowego obrazka kolumne
-		$imgColumn = $this->UI->getimage('uploads/column_'.$idColumn.'.png');
-		$this->UI->imagecopy($img, $imgColumn, 0, $fitting['height']+$crown['height'], 0, 0, $column['width'], $column['height']);
 
-		//jesli istnieje korona
+		//dodaj do nowego obrazka kolumne - umieszczenie na środku (x)
+		$this->UI->imagecopy($img, $imgColumn, floor(($width-$column['width'])/2), $fitting['height']+$crown['height'], 0, 0, $column['width'], $column['height']);
+
+
+		//jest korona
 		if ($idCrown) {
-			//wczytaj i dodaj do nowego obrazka korone
-			$imgCrown = $this->UI->getimage('uploads/crown_'.$idCrown.'.png');
-			$this->UI->imagecopy($img, $imgCrown, 0, $fitting['height'], 0, 0, $crown['width'], $crown['height']);
+			
+			/* umieszczenie na obrazku korony  - umieszczenie na środku (x) */
+			$this->UI->imagecopy($img, $imgCrown, floor(($width-$crown['width'])/2), $fitting['height'], 0, 0, $crown['width'], $crown['height']);
+			
+			//jesli korona dla opraw stojących
+			if ($crown['mode'] == 'stand') {
+				/* dodanie lewej kolumny */	
+				$this->UI->imagecopy($img, $imgFitting, 0, 0, 0, 0, $fitting['width'], $fitting['height']);
+				/* dodanie prawej kolumny */	
+				$this->UI->imagecopy($img, $imgFitting, $width-$fitting['width'], 0, 0, 0, $fitting['width'], $fitting['height']);
+			}
+			//w przeciwnym przypadku - wiszące oprawy
+			else {
+
+			}
+		}
+		//nie ma korony
+		else {
+			/* dodaj oprawę na środku - oprawa bezpośrednio na kolumnie */
+			$this->UI->imagecopy($img, $imgFitting, 0, 0, 0, 0, $fitting['width'], $fitting['height']);
 		}
 
-		//wczytaj i dodaj do nowego obrazka oprawe
-		$imgFitting = $this->UI->getimage('uploads/fitting_'.$idFitting.'.png');
-		$this->UI->imagecopy($img, $imgFitting, 0, 0, 0, 0, $fitting['width'], $fitting['height']);
 
 		//zapisz do bazy id_usera, wybrane elementy, kody, tych elementów + nazwę wygenerowanego pliku
 
@@ -409,10 +451,10 @@ class EmailsTemplate extends CI_Controller {
 
 		//zapisz calosc
 		$insert = array(
-			'id_user'=>$this->userId,
-			'id_column'=>$this->input->get('column'),
+			'id_user'		=>$this->userId,
+			'id_column'	=>$this->input->get('column'),
 			'text_column'=>$t['column'],
-			'id_crown'=>$this->input->get('crown'),
+			'id_crown'	=>$this->input->get('crown'),
 			'text_crown'=>$t['crown'],
 			'id_fitting'=>$this->input->get('fitting'),
 			'text_fitting'=>$t['fitting']
@@ -428,9 +470,9 @@ class EmailsTemplate extends CI_Controller {
 		//zapisz obrazek oraz jego lustrzane odbicie
 		$this->UI->imagesaveflip($img, $filename, 'PNG');
 
-		redirect($this->module_url.'/drag');
+		redirect($this->module_url.'/drag?bg='.$bgid);
 	}
-	
+
 	public function save_item__OLD() {
 
 

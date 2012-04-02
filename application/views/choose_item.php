@@ -29,34 +29,11 @@
 </head>
 <body>
 
-
-
-
-
-
-
-
-
-
-
-
-
 <div style="width:100%; height: 120px; text-align:center; background: url('/img/bg.gif') top left; padding: 10px 0 0 0;">
 
 	
 </div>
 <div style="width: 100%; height: 4px; background: url('/img/break.png') repeat-x;"></div>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -107,12 +84,14 @@
 		<div style="clear:both"></div>
 	</div>
 	<form style="margin: 20px auto; width:500px;" name="form">
+	
 		<input type="hidden" value="<?php echo $columnId; ?>" name="column" id="column"> 
 			<input type="hidden" value="<?php echo $crownId; ?>" name="crown" id="crown"> 
 			<input type="hidden" value="<?php echo $fittingId; ?>" name="fitting" id="fitting"> 
 			<input type="hidden" value="<?php echo $step; ?>" name="step">
 			<?php echo form_hidden('street', $street);?> 
 			<?php echo form_hidden('garden', $garden);?> 
+			<?php echo form_hidden('bgid', $bgid);?> 
 			<table width="100%"><tr><td width="50%"><?php showButton('Wstecz', 'back()', 'grey') ?></td><td width="50%"><?php showSubmit('Dalej') ?></td></tr></table>
 	</form>
 </div>

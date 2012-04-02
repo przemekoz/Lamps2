@@ -31,6 +31,7 @@
 		
 	<h3>Wybierz kategorie produktów:</h3>	<br>
 	<form name="form" action="/index.php/<?php echo $url?>/choose_items">
+			<?php echo form_hidden('bgid', $bgid);?>
 			<?php echo form_checkbox('street', 1, true);?> Miasto - ulica <br>
 			<?php echo form_checkbox('garden', 1, true);?> Dom - ogród<br><br><br>
 			<table width="100%" ><tr><td width="50%"><?php showButton('Wstecz', 'location.href=\'/index.php/'.$url.'/drag\'', 'grey') ?></td><td width="50%"><?php showSubmit('Dalej') ?></td></tr></table>
