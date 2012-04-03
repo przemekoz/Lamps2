@@ -1,0 +1,14 @@
+ [2012-04-03 00:24:18] Cannot run imagecreatetruecolor() in PK_UtilImage
+ [2012-04-03 00:24:18] Cannot run imagealphablending() in PK_UtilImage
+ [2012-04-03 00:24:18] Cannot run imagecolorallocatealpha() in PK_UtilImage
+ [2012-04-03 00:24:18] Cannot run imagefilledrectangle() in PK_UtilImage
+ [2012-04-03 00:24:18] Cannot write image: uploads/test
+ [2012-04-03 00:24:18] Cannot run imagecreatetruecolor() in PK_UtilImage
+ [2012-04-03 00:24:18] Cannot run imagealphablending() in PK_UtilImage
+ [2012-04-03 00:24:18] Cannot run imagecolorallocatealpha() in PK_UtilImage
+ [2012-04-03 00:24:18] Cannot run imagefilledrectangle() in PK_UtilImage
+ [2012-04-03 00:24:18] Cannot resize image
+ [2012-04-03 00:24:18] Cannot write image: uploads/inv_test
+ [2012-04-03 00:24:18] Cannot destroy image
+ [2012-04-03 00:25:54] Cannot run imagecolorallocatealpha() in PK_UtilImage
+ [2012-04-03 00:25:54] Cannot run imagecolorallocatealpha() in PK_UtilImage

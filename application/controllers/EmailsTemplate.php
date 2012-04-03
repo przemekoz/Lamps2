@@ -198,9 +198,9 @@ class EmailsTemplate extends CI_Controller {
 		//@todo - trzeba sprawdzic czy obrazek zostal zapisany , jak nie to zapisa�
 
 		$pdf = new FPDF();
-		$pdf->AddPage();
+		$pdf->AddPage('L');
 		$pdf->SetFont('Arial','B',16);
-		$pdf->Cell(40,10,'Hello World!');
+		//$pdf->Cell(40,10,'Hello World!');
 		$pdf->Ln(10);
 		$pdf->Image('uploads/u'.$this->userId.'_saved.jpg');
 		//$pdf->Output();
@@ -259,12 +259,13 @@ class EmailsTemplate extends CI_Controller {
 		/* nie zostala wybrana korona */
 		elseif ($step == 2 && empty($crownId)) {
 			/* wyswieltelenie tylko takich opraw, jakie zostaly polaczone ze slupami w panelu */
-			$res = $this->db->query("SELECT f.id, f.title, 'fitting' as type FROM fitting f, merge_column_fitting m WHERE f.id=m.id_fitting AND m.id_column=".$columnId." ".$addWhere." ORDER BY f.title");
+			$res = $this->db->query("SELECT f.id, f.title, 'fitting' as type FROM fitting f, merge_column_fitting m WHERE f.id=m.id_fitting AND m.id_column=".$crownId." ".$addWhere." ORDER BY f.title");
 		}
 		/* zostala wybrana korona */
 		elseif ($step == 2 && $crownId) {
 			/* wysiwetlenie opraw polaczonych z koronami */
-			$res = $this->db->query("SELECT f.id, f.title, 'fitting' as type FROM fitting f, merge_crown_fitting m WHERE f.id=m.id_fitting AND m.id_crown=".$columnId." ".$addWhere." ORDER BY f.title");
+			$res = $this->db->query("SELECT f.id, f.title, 'fitting' as type FROM fitting f, merge_crown_fitting m WHERE f.id=m.id_fitting AND m.id_crown=".$crownId." ".$addWhere." ORDER BY f.title");
+			echo $this->db->last_query();
 		}
 
 
@@ -349,6 +350,19 @@ class EmailsTemplate extends CI_Controller {
 	}
 	
 
+	public function test() {
+		/* -------------------------- */
+		/* utworzenie pustego obrazka */
+		/* -------------------------- */
+		$img = $this->UI->createimage(100, 100, true);
+
+
+		//zapisz obrazek oraz jego lustrzane odbicie
+		$this->UI->imagesaveflip($img, 'test', 'PNG');
+		
+	}
+	
+	
 	/*
 	 |
 	 CREATE TABLE IF NOT EXISTS saved_element (
@@ -388,8 +402,8 @@ class EmailsTemplate extends CI_Controller {
 		if ($idCrown) {
 			/* zwiekszamy wysokosc o wysokosc korony */
 			$height += $crown['height'];
-			/* jesli jest korona - zmieniamy szerokosc generowanej lampy  - korna jest najszerszym elementem */
-			$width = $crown['width'];
+			/* jesli jest korona - zmieniamy szerokosc generowanej lampy  - korona jest najszerszym elementem */
+			$width = $crown['width']+80;
 		}
 
 		/* zwiększamy wysokość obrazka o wysokość oprawy - przypadek gdy oprawa stojąca */
@@ -399,8 +413,7 @@ class EmailsTemplate extends CI_Controller {
 		/* utworzenie pustego obrazka */
 		/* -------------------------- */
 		$img = $this->UI->createimage($width, $height, true);
-
-
+		
 		//dodaj do nowego obrazka kolumne - umieszczenie na środku (x)
 		$this->UI->imagecopy($img, $imgColumn, floor(($width-$column['width'])/2), $fitting['height']+$crown['height'], 0, 0, $column['width'], $column['height']);
 
@@ -414,9 +427,9 @@ class EmailsTemplate extends CI_Controller {
 			//jesli korona dla opraw stojących
 			if ($crown['mode'] == 'stand') {
 				/* dodanie lewej kolumny */	
-				$this->UI->imagecopy($img, $imgFitting, 0, 0, 0, 0, $fitting['width'], $fitting['height']);
+				$this->UI->imagecopy($img, $imgFitting, 0, 30, 0, 0, $fitting['width'], $fitting['height']);
 				/* dodanie prawej kolumny */	
-				$this->UI->imagecopy($img, $imgFitting, $width-$fitting['width'], 0, 0, 0, $fitting['width'], $fitting['height']);
+				$this->UI->imagecopy($img, $imgFitting, $width-$fitting['width'], 30, 0, 0, $fitting['width'], $fitting['height']);
 			}
 			//w przeciwnym przypadku - wiszące oprawy
 			else {

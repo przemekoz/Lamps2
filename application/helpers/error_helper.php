@@ -9,13 +9,13 @@
 if ( ! function_exists('errorlog'))
 {
 	function errorlog($message, $dir='') {
-
+		
 		//jesli zostala podana sciezka
 		if (!strlen($dir)) {
 			$dir = '__debug';
 		}
 
-		//jesli nie mozna pisac do katalogu - proba zapisu do katalogu g³ownego
+		//jesli nie mozna pisac do katalogu - proba zapisu do katalogu gï¿½ownego
 		if (!is_writable($dir)) {
 			$dir = $_SERVER['DOCUMENT_ROOT'].'/'.$dir;
 		}

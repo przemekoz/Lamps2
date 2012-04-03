@@ -129,7 +129,7 @@
 			//@todo - dodac zabezpiecznie jakby odczytany rozmiar byl null
 		?>
 
-		<div id="canvas" style="margin: 0 auto; z-index: 100;position: relative; width:<?php echo $bgWidth?>px; height: <?php echo $bgHeight?>px; background: url('<?php echo $bg ?>') no-repeat red;"></div>
+		<div id="canvas" style="margin: 0 auto; z-index: 100;position: relative; width:<?php echo $bgWidth?>px; height: <?php echo $bgHeight?>px; background: url('<?php echo $bg ?>') no-repeat;"></div>
 		
 			<?php 
 				$content = ob_get_clean();
@@ -156,7 +156,7 @@
 							
 							echo '
 							<div class="draggable" title="Złap lampę i przesuń na tło" id="parent-prod'.str_replace('.png', '', $filename).'" style="margin-bottom: 10px">
-								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'" style="max-height:570px">
+								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'"  style="max-height:570px; max-width: 150px">
 							</div>
 							';
 						}//foreach

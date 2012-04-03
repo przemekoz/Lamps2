@@ -61,14 +61,9 @@
 		</p>
 			
 		<div style="clear:both"></div>
-		<div style="float:left;">
 		
-			<?php 
-				echo divShadow(700, 600, showItemsInColumns($list, 2),0) ?>
-		</div>
 		<div style="float:left;">
-		
-		<?php ob_start(); ?>
+			<?php ob_start(); ?>
 				<div id="preview_fitting1" style="color:#aaa;background: url('/uploads/fitting_<?php echo $fittingId; ?>.png') #ddd no-repeat; width: 250px; height: 110px;margin-bottom: 10px; border:1px solid #ccc"><div style="text-align: center; padding: 40px 0 0 0;"> - tutaj opuść oprawę - </div></div>
 	  		<div id="preview_crown1" style="color:#aaa;background: url('/uploads/crown_<?php echo $crownId; ?>.png') #ddd no-repeat; width: 250px; height: 100px;margin-bottom: 10px; border:1px solid #ccc"><div style="text-align: center; padding: 35px 0 0 0;"> - tutaj opuść koronę - </div></div>
 	  		<div id="preview_column1" style="color:#aaa;background: url('/uploads/column_<?php echo $columnId; ?>.png') #ddd no-repeat; width: 250px; height: 320px; margin-bottom: 0px; border:1px solid #ccc"><div style="text-align: center; padding: 140px 0 0 0;"> - tutaj opuść podstawę - </div></div>
@@ -79,6 +74,10 @@
 				$content = ob_get_clean();
 				echo divShadow(300, 600, $content);
 			?>
+		
+		</div>
+		<div style="float:left;">
+			<?php echo divShadow(700, 600, showItemsInColumns($list, 2),0) ?>
 				
 		</div>
 		<div style="clear:both"></div>

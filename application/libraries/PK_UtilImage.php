@@ -30,20 +30,24 @@ class PK_UtilImage {
 
 		//zwraca obrazek bez przezroczystego tla
 		if (!$isTransparentBg) {
+			die('hshshs');
 			return $img;
 		}
 			
 		@imagealphablending($img, false)
 			or errorlog('Cannot run imagealphablending() in '.__CLASS__);
+
+		var_dump($img);
 			
-		@imagesavealpha($img,true)
-			or errorlog('Cannot run imagesavealpha() in '.__CLASS__);
+		//@imagesavealpha($img,true)
+			//or errorlog('Cannot run imagesavealpha() in '.__CLASS__);
 			
-		if( $transparent = @imagecolorallocatealpha($img, 255, 255, 255, 127) === FALSE ) {
-			errorlog('Cannot run imagecolorallocatealpha() in '.__CLASS__);
-		}
+		//if( $transparent = @imagecolorallocatealpha($img, 255, 255, 255, 127) === FALSE ) {
+			//errorlog('Cannot run imagecolorallocatealpha() in '.__CLASS__);
+		//}
 			
-		@imagefilledrectangle($img, 0, 0, $width, $height, $transparent)
+		 $red = @imagecolorallocatealpha($img, 255, 255, 255, 127);
+		@imagefilledrectangle($img, 0, 0, $width, $height, $red)
 			or errorlog('Cannot run imagefilledrectangle() in '.__CLASS__);
 			
 			
