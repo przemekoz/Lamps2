@@ -204,7 +204,7 @@ class PK_UtilImage {
 	public function add_product_label($bg,$img, $x, $y, $text) {
 		
 		//jesli dlugosc tekstu do wstawienia wieksza niz 2 lub gdy nie ma tekstu --> wylot
-		if (!strlen($text) || strlen($text) > 3) {
+		if (!strlen($text) || strlen($text) > 2) {
 			return false;
 		}
 		
