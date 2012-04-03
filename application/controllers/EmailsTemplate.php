@@ -198,9 +198,9 @@ class EmailsTemplate extends CI_Controller {
 		//@todo - trzeba sprawdzic czy obrazek zostal zapisany , jak nie to zapisa�
 
 		$pdf = new FPDF();
-		$pdf->AddPage();
+		$pdf->AddPage('L');
 		$pdf->SetFont('Arial','B',16);
-		$pdf->Cell(40,10,'Hello World!');
+		$pdf->Cell(40,10,'Zapytanie ...');
 		$pdf->Ln(10);
 		$pdf->Image('uploads/u'.$this->userId.'_saved.jpg');
 		//$pdf->Output();
@@ -364,6 +364,7 @@ class EmailsTemplate extends CI_Controller {
 
 	 |
 	 */
+	
 
 	public function save_item() {
 
@@ -594,6 +595,9 @@ class EmailsTemplate extends CI_Controller {
 		//wczytaj obrazek tla
 		$bg = $this->UI->getimage($file);
 
+		//iterator produktów
+		$i = 1;
+		
 		foreach ($aProducts as $key => $row) {
 			/*
 			 * $filename - plik obrazka
@@ -622,6 +626,10 @@ class EmailsTemplate extends CI_Controller {
 
 			//naloz na tło
 			$this->UI->imagecopy($bg, $product, $x, $y, 0, 0, imagesx($product), imagesy($product));
+			
+			/* dodaj opis z numerem obrazka - kwadracik z numerem */
+			$this->UI->add_product_label($bg, $product,$x, $y, $i++);
+
 			$this->UI->imagedestroy($product);
 		}
 
@@ -659,29 +667,36 @@ class EmailsTemplate extends CI_Controller {
 		$this->download('u'.$this->userId.'_saved.jpg', 'jpg');
 	}
 
-	public function send() {
-
-
-		$data = array('title'=>'Wysyłam email, z załącznikiem...', 'userid'=>$this->userId);
+	
+	
+	
+	public function send_form() {
+		
+		$data = array('userid'=>$this->userId, 'url'=>$this->module_url);
 		$this->load->view('main_template', $data);
-		return;
-
+	}
+	
+	public function send() {
 
 		//zapisanie pdf-a
 		$filename = $this->pdf('F');
 
-
 		$my_file = $filename;
 		$my_path = $_SERVER['DOCUMENT_ROOT']."/uploads/";
-		$my_name = "Promar";
-		$my_mail = "Promar@mail.com";
+		
+		$my_name = $this->input->post('my_name');
+		$my_mail = $this->input->post('my_email');
+		$my_message = $this->input->post('my_text');
+
 		$my_replyto = "my_reply_to@mail.net";
 		$my_subject = "Zapytanie z aplikacji.";
-		$my_message = "Test...";
+		
 		mail_attachment($my_file, $my_path, "biuro@promar-sj.com.pl", $my_mail, $my_name, $my_replyto, $my_subject, $my_message);
-
+		redirect($this->module_url.'/send_ok');
 	}
 
-
+	public function send_ok() {
+		$this->load->view('send_email_ok', array('userid'=>$this->userId));
+	}
 
 }

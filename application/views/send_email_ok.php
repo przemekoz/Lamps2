@@ -113,20 +113,9 @@
 
 
 <div style="text-align: center;width:100%;margin-top:15px">
-	<div style="width:600px; height:100px; background: #fff; margin:0 auto;text-align: center">
-		<h3 style="line-height: 1.3em">Wyślij zapytanie do firmy PROMAR.</h3>	
-		<h4 style="line-height: 1.3em">W załączniku automatycznie zostanie dodany Twój układ tła oraz lamp.</h4>
-		<h5 style="line-height: 1.3em">Podaj swoje dane kontaktowe (imie, email). Możesz wpisać dodatkowe pytania</h5>
-	</div>
 	<div style="width:300px; height:610px; background: #fff; margin:0 auto;text-align: left">
 		
-		
-	<form name="form" action="/index.php/<?php echo $url?>/send" method="post">
-	<?php echo inputText('Imię:', 'my_name', '', 'small'); ?><br>	
-	<?php echo inputText('Mój email:', 'my_email', '', 'small'); ?><br>	
-	<?php echo inputTextarea('Treść:', 'my_text', '', 'small'); ?>	<br>
-	<?php echo getButton('Wyślij', 'document.form.submit()') ?>
-	</form>	
+	<h3 style="color:green">Email został wysłany...<br><b>Dziękujemy.</b></h3>
 
 				
 	</div>

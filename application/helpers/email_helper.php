@@ -30,10 +30,10 @@ if ( ! function_exists('mail_attachment'))
 		$header .= "Content-Disposition: attachment; filename=\"".$filename."\"\r\n\r\n";
 		$header .= $content."\r\n\r\n";
 		$header .= "--".$uid."--";
-		if (mail($mailto, $subject, "", $header)) {
-			echo "mail send ... OK"; // or use booleans here
+		if (@mail($mailto, $subject, "", $header)) {
+			//echo "mail send ... OK"; // or use booleans here
 		} else {
-			echo "mail send ... ERROR!";
+			//echo "mail send ... ERROR!";
 		}
 	}
 }

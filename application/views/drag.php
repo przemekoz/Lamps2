@@ -101,7 +101,7 @@
 		<div onclick="window.open('/index.php/EmailsTemplate/downloadpdf', '_blank')" class="btn_out" title="Pobierz PDF">
 			<div class="btn_in">Pobierz PDF</div>
 		</div>
-		<div onclick="window.open('/index.php/EmailsTemplate/send', '_blank')" class="btn_out" title="Wyślij email">
+		<div onclick="window.open('/index.php/EmailsTemplate/send_form', '_blank')" class="btn_out" title="Wyślij email">
 			<div class="btn_in" style="font-size:10px">Wyślij Zapytanie</div>
 		</div>
 
