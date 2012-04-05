@@ -35,26 +35,16 @@ if ( ! function_exists('mail_attachment'))
 			$header .= "Content-Disposition: attachment; filename=\"".$filename."\"\r\n\r\n";
 			$header .= $content."\r\n\r\n";
 			$header .= "--".$uid."--";
-			$res = @mail($mailto, $subject, $message, $header);
+			$res = @mail($mailto, '=?UTF-8?B?'.base64_encode($subject).'?=', $message, $header);
 			$is_file=1;
 		}
 		//w przeciwnym przypadku
 		else {
 			$header = "From: Konfigurator <biuro@promar-sj.com.pl>\r\n";
 			$header .= "Content-type:text/plain; charset=UTF-8\r\n";
-			$res = @mail($mailto, $subject, $message, $header);
+			$res = @mail($mailto, '=?UTF-8?B?'.base64_encode($subject).'?=', $message, $header);
 			$is_file=0;
 		}
-		
-		if (!$res) {
-			var_dump($mailto);
-			var_dump($subject);
-			var_dump($message);
-			var_dump($header);
-			var_dump($is_file);
-			die('Nie wysłano.');
-		}
-		
-	}
+	}	
 }
 

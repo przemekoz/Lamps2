@@ -87,6 +87,9 @@ class Controller_Abstract extends CI_Controller {
 			,'garden' => $_POST['garden']
 			);
 */
+			$_POST['street'] = empty($_POST['street']) ? 0 : 1;
+			$_POST['garden'] = empty($_POST['garden']) ? 0 : 1;
+			
 			$this->db->where('id', $id);
 			$this->db->update($this->tablename, $_POST);
 			$msg = 'edit_success';
