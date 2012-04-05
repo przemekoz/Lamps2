@@ -15,6 +15,7 @@ class Controller_Abstract extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('buttons');
 		$this->load->helper('input');
+		$this->load->helper('notify');
 		$this->load->helper('form');
 		$this->load->helper('panel_utils');
 		$this->load->library('session');
@@ -39,8 +40,12 @@ class Controller_Abstract extends CI_Controller {
 		$this->db->order_by('title');
 		$data['list'] = $this->db->get($this->tablename);
 
-		$data['msg'] = $this->input->get('msg') ? $this->msg[$this->input->get('msg')] : ''; // isset($_GET['msg']) ? $this->msg[$_GET['msg']] : '';
-		$data['msg_css'] = strlen($this->input->get('msg')) ? $this->input->get('css') : ''; //(isset($_GET['msg']) && strlen($_GET['msg'])) ? $_GET['css'] : '';
+		/* jesli jest jakas informacja - wyswietlenie */
+		$flashDataId = $this->session->flashdata('notify');
+		if (!empty($this->msg[$flashDataId])) {
+			notify($this->msg[$flashDataId]);		
+		}
+		
 		$data['url'] = $this->module_url;
 
 		$data['dir'] = $this->uploadDir;
@@ -101,14 +106,21 @@ class Controller_Abstract extends CI_Controller {
 			$this->db->update($this->tablename, array('width'=>$width, 'height'=>$height), array('id' => $id));
 		}
 		
-		redirect($this->module_url.'/?msg='.$msg.'&css=ms');
+		/* ustawienie informacji do wyświetlenia */
+		$this->session->set_flashdata('notify', $msg);
+		
+		redirect($this->module_url);
 	}//save()
 
 	public function usun($id) {
 		$this->db->delete($this->tablename, array('id' => $id));
 
 		@unlink($this->uploadDir.$this->tablename.'_'.$id.'.png');
-		redirect($this->module_url.'/?msg=delete_success&css=ms');
+		
+		/* ustawienie informacji do wyświetlenia */
+		$this->session->set_flashdata('notify', 'delete_success');
+		
+		redirect($this->module_url);
 	}//usun()
 
 

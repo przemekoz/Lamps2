@@ -11,6 +11,7 @@ class Tlo extends CI_Controller {
 		$this->load->helper('buttons');
 		$this->load->helper('input');
 		$this->load->helper('form');
+		$this->load->helper('notify');
 		$this->load->helper('panel_utils');
 		$this->load->library('session');
 
@@ -35,12 +36,17 @@ class Tlo extends CI_Controller {
 		$this->db->select('id');
 		$this->db->order_by('id', 'desc');
 		$data['list'] = $this->db->get('background');
-		
+
 		$data['url'] = $this->module_url;
 
 		$data['dir'] = $this->uploadDir;
 		$data['dir_relative'] = $this->uploadDirRelative;
 
+		/* jesli jest jakas informacja - wyswietlenie */
+		$flashData = $this->session->flashdata('notify');
+		if (!empty($flashData)) {
+			notify($flashData);
+		}
 
 		$data['templateContent'] = $this->load->view($this->module_url.'/list', $data, true);
 		$this->load->view('main_panel', $data);
@@ -51,6 +57,10 @@ class Tlo extends CI_Controller {
 		$id = $this->db->insert_id();
 
 		$this->upload('background_'.$id.'.jpg');
+		
+		/* ustawienie informacji do wyświetlenia */
+		$this->session->set_flashdata('notify', 'Tło zostało dodane');
+		
 		redirect($this->module_url);
 	}//save()
 
@@ -58,6 +68,10 @@ class Tlo extends CI_Controller {
 		$this->db->delete('background', array('id' => $id));
 
 		@unlink($this->uploadDir.'background_'.$id.'.jpg');
+		
+		/* ustawienie informacji do wyświetlenia */
+		$this->session->set_flashdata('notify', 'Tło zostało usunięte');
+		
 		redirect($this->module_url);
 	}//usun()
 

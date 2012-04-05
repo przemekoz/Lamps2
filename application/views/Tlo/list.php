@@ -1,6 +1,3 @@
-
-
-
 <?php panelshowTop('Tło'); ?>
 
 <form enctype="multipart/form-data" name="form" method="post" action="/index.php/<?php echo $url ?>/save">

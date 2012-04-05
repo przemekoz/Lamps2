@@ -12,9 +12,9 @@ class Slupy extends Controller_Abstract {
 		/* url do modułu */
 		$this->module_url = 'Slupy';
 		/* komunikaty */
-		$this->msg['edit_success'] 		= 'Słup został zmieniony';
-		$this->msg['insert_success'] 	= 'Słup został dodany';
-		$this->msg['delete_success'] 	= 'Słup został usunięty';
+		$this->msg['edit_success'] 		= 'Kolumna została zmieniona';
+		$this->msg['insert_success'] 	= 'Kolumna została dodana';
+		$this->msg['delete_success'] 	= 'Kolumna została usunięta';
 		
 	}
 
