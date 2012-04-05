@@ -12,8 +12,8 @@ class Korony extends Controller_Abstract {
 		/* url do modułu */
 		$this->module_url = 'Korony';
 		/* komunikaty */
-		$this->msg['edit_success'] 		= 'Korona została dodana';
-		$this->msg['insert_success'] 	= 'Korona została zmieniona';
+		$this->msg['edit_success'] 		= 'Korona została zmieniona';
+		$this->msg['insert_success'] 	= 'Korona została dodana';
 		$this->msg['delete_success'] 	= 'Korona została usunięta';
 		
 	}
