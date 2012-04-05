@@ -12,3 +12,7 @@
  [2012-04-03 00:24:18] Cannot destroy image
  [2012-04-03 00:25:54] Cannot run imagecolorallocatealpha() in PK_UtilImage
  [2012-04-03 00:25:54] Cannot run imagecolorallocatealpha() in PK_UtilImage
+ [2012-04-04 00:29:35] Cannot read image file:D:/Projekty/lamps/uploads/crown_0.png
+ [2012-04-04 00:29:35] Cannot read image file:D:/Projekty/lamps/uploads/fitting_0.png
+ [2012-04-04 00:29:35] Cannot run imagecopy() PK_UtilImage
+ [2012-04-04 00:34:10] Cannot read image file:D:/Projekty/lamps/uploads/crown_0.png

@@ -200,11 +200,11 @@ class EmailsTemplate extends CI_Controller {
 		$pdf = new FPDF();
 		$pdf->AddPage('L');
 		$pdf->SetFont('Arial','B',16);
-		//$pdf->Cell(40,10,'Hello World!');
+		$pdf->Cell(40,10,'Zapytanie ...');
 		$pdf->Ln(10);
 		$pdf->Image('uploads/u'.$this->userId.'_saved.jpg');
 		//$pdf->Output();
-		return $pdf->Output($_SERVER['DOCUMENT_ROOT'].'uploads/u'.$this->userId.'.pdf',$type);
+		return $pdf->Output($_SERVER['DOCUMENT_ROOT'].'/uploads/u'.$this->userId.'.pdf',$type);
 	}
 
 
@@ -259,7 +259,7 @@ class EmailsTemplate extends CI_Controller {
 		/* nie zostala wybrana korona */
 		elseif ($step == 2 && empty($crownId)) {
 			/* wyswieltelenie tylko takich opraw, jakie zostaly polaczone ze slupami w panelu */
-			$res = $this->db->query("SELECT f.id, f.title, 'fitting' as type FROM fitting f, merge_column_fitting m WHERE f.id=m.id_fitting AND m.id_column=".$crownId." ".$addWhere." ORDER BY f.title");
+			$res = $this->db->query("SELECT f.id, f.title, 'fitting' as type FROM fitting f, merge_column_fitting m WHERE f.id=m.id_fitting AND m.id_column=".$columnId." ".$addWhere." ORDER BY f.title");
 		}
 		/* zostala wybrana korona */
 		elseif ($step == 2 && $crownId) {
@@ -378,6 +378,7 @@ class EmailsTemplate extends CI_Controller {
 
 	 |
 	 */
+	
 
 	public function save_item() {
 
@@ -607,6 +608,9 @@ class EmailsTemplate extends CI_Controller {
 		//wczytaj obrazek tla
 		$bg = $this->UI->getimage($file);
 
+		//iterator produktów
+		$i = 1;
+		
 		foreach ($aProducts as $key => $row) {
 			/*
 			 * $filename - plik obrazka
@@ -635,6 +639,10 @@ class EmailsTemplate extends CI_Controller {
 
 			//naloz na tło
 			$this->UI->imagecopy($bg, $product, $x, $y, 0, 0, imagesx($product), imagesy($product));
+			
+			/* dodaj opis z numerem obrazka - kwadracik z numerem */
+			$this->UI->add_product_label($bg, $product,$x, $y, $i++);
+
 			$this->UI->imagedestroy($product);
 		}
 
@@ -672,29 +680,39 @@ class EmailsTemplate extends CI_Controller {
 		$this->download('u'.$this->userId.'_saved.jpg', 'jpg');
 	}
 
+	
+	
+	
+	public function send_form() {
+		
+		$data = array('userid'=>$this->userId, 'url'=>$this->module_url);
+		$this->load->view('main_template', $data);
+	}
+	
 	public function send() {
 
-
-		$data = array('title'=>'Wysyłam email, z załącznikiem...', 'userid'=>$this->userId);
-		$this->load->view('main_template', $data);
-		return;
-
-
+		
 		//zapisanie pdf-a
 		$filename = $this->pdf('F');
 
-
-		$my_file = $filename;
+		$my_file = 'u'.$this->userId.'.pdf';
 		$my_path = $_SERVER['DOCUMENT_ROOT']."/uploads/";
-		$my_name = "Promar";
-		$my_mail = "Promar@mail.com";
+		//$my_path = "http://44soft.vipserv.org/uploads/";
+		
+		$my_name = $this->input->post('my_name');
+		$my_mail = $this->input->post('my_email');
+		$my_message = $this->input->post('my_text')."\r\n\r\nPozdrawiam\r\n".$my_name." - ".$my_mail;
+
 		$my_replyto = "my_reply_to@mail.net";
 		$my_subject = "Zapytanie z aplikacji.";
-		$my_message = "Test...";
+		//biuro@promar-sj.com.pl
 		mail_attachment($my_file, $my_path, "biuro@promar-sj.com.pl", $my_mail, $my_name, $my_replyto, $my_subject, $my_message);
-
+		mail_attachment($my_file, $my_path, "przemekoz@o2.pl", $my_mail, $my_name, $my_replyto, $my_subject, $my_message);
+		redirect($this->module_url.'/send_ok');
 	}
 
-
+	public function send_ok() {
+		$this->load->view('send_email_ok', array('userid'=>$this->userId));
+	}
 
 }

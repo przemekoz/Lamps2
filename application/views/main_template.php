@@ -1,6 +1,7 @@
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <style type="text/css">
 
 * {
@@ -8,13 +9,17 @@
 	padding:0;
 }
 
+.product-resize {
+	border: 1px solid black;
+}
 .draggable {
 	z-index: 200;
 }
 .draggable img {
-	border: 1px dotted #eee;
+	/* border: 1px dotted #000; */
 	z-index: 200;
 }
+
 
 #resizable {
 	width: 200px;
@@ -25,6 +30,10 @@
 
 .canvas-active {
 	opacity: 0.8;
+}
+
+.product-active {
+	border: 1px solid black;
 }
 
 .draggable:hover {
@@ -38,11 +47,32 @@
     	color: black;
     	padding: 0 0 0 0;
     	width: 100%;
+    	height: 134px;
     	font-family: arial;
     	margin: 3px 0 15px 0;
     }
 
+.btn_in{
+	padding:8px 4px 0 0; 
+	text-align:center; 
+	color:#67806E;
+	font-weight:bold; 
+	font-family:tahoma,sans-serif;
+	font-size:11px
+}	
+
+.btn_out {
+	cursor:pointer; 
+	float:left; 
+	margin:44px 0 0 38px; 
+	width: 94px; 
+	height: 34px; 
+	background: url('/img/btn.png') top left no-repeat;
+}	
+
+
 </style>
+
 </head>
 <body onContextMenu="return false;">
 
@@ -51,26 +81,28 @@
 
 	<div style="width: 956px; height: 126px; background: url('/img/toolbar2.png') top left no-repeat; margin: 0 auto; text-align: left">
 
-		<div onclick="show_prods()" style="cursor:pointer; float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Zapisz">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold; font-family:tahoma,sans-serif;font-size:11px">Zapisz</div>
+<!-- 
+		<div onclick="save_all()" class="btn_out" title="Zapisz">
+			<div class="btn_in">Zapisz</div>
 		</div>
-		<div onclick="window.open('/uploads/tmp/u<?php echo $userid ?>_saved.jpg', '_blank')" style="cursor:pointer; float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Podgląd">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold; font-family:tahoma,sans-serif;font-size:11px">Podgląd</div>
+ -->
+		<div style="margin-left: 95px" onclick="window.open('/uploads/u<?php echo $userid ?>_saved.jpg?r=<?php echo rand(0,99)?>', '_blank')" class="btn_out" title="Podgląd">
+			<div class="btn_in">Podgląd</div>
 		</div>
-		<div onclick="clear_canvas()" style="cursor:pointer; float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Wyczyść">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold;font-family:tahoma,sans-serif;font-size:11px">Wyczyść</div>
+		<div onclick="clear_canvas()" class="btn_out" title="Wyczyść">
+			<div class="btn_in">Wyczyść</div>
 		</div>
-		<div onclick="window.open('/index.php/emailstemplate/pdf', '_blank')" style="cursor:pointer;float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Wydrukuj">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold;font-family:tahoma,sans-serif;font-size:11px">Wydrukuj</div>
+		<div onclick="window.open('/index.php/EmailsTemplate/pdf', '_blank')" class="btn_out" title="Wydrukuj">
+			<div class="btn_in">Wydrukuj</div>
 		</div>
-		<div onclick="window.open('/index.php/emailstemplate/downloadjpg', '_blank')" style="cursor:pointer;float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Pobierz JPG">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold;font-family:tahoma,sans-serif;font-size:11px">Pobierz JPG</div>
+		<div onclick="window.open('/index.php/EmailsTemplate/downloadjpg', '_blank')" class="btn_out" title="Pobierz JPG">
+			<div class="btn_in">Pobierz JPG</div>
 		</div>
-		<div onclick="window.open('/index.php/emailstemplate/downloadpdf', '_blank')" style="cursor:pointer;float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Pobierz PDF">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold;font-family:tahoma,sans-serif;font-size:11px">Pobierz PDF</div>
+		<div onclick="window.open('/index.php/EmailsTemplate/downloadpdf', '_blank')" class="btn_out" title="Pobierz PDF">
+			<div class="btn_in">Pobierz PDF</div>
 		</div>
-		<div onclick="window.open('/index.php/emailstemplate/send', '_blank')" style="cursor:pointer;float:left; margin:44px 0 0 38px; width: 94px; height: 34px; background: url('/img/btn.png') top left no-repeat; " title="Wyślij email">
-			<div style="padding:8px 4px 0 0; text-align:center; color:#67806E;font-weight:bold;font-family:tahoma,sans-serif;font-size:11px">Wyślij email</div>
+		<div onclick="window.open('/index.php/EmailsTemplate/send_form', '_blank')" class="btn_out" title="Wyślij email">
+			<div class="btn_in" style="font-size:10px">Wyślij Zapytanie</div>
 		</div>
 
 		
@@ -81,22 +113,35 @@
 
 
 <div style="text-align: center;width:100%;margin-top:15px">
-	<div style="width:1000px; height:600px; background: #fff; margin:0 auto;text-align: left">
-		<h1><?php echo $title; ?></h1>
-		<br><a href="/index.php/emailstemplate/drag" title="powrót">powrót</a>
+	<div style="width:600px; height:100px; background: #fff; margin:0 auto;text-align: center">
+		<h3 style="line-height: 1.3em">Wyślij zapytanie do firmy PROMAR.</h3>	
+		<h4 style="line-height: 1.3em">W załączniku automatycznie zostanie dodany Twój układ tła oraz lamp.</h4>
+		<h5 style="line-height: 1.3em">Podaj swoje dane kontaktowe (imie, email). Możesz wpisać dodatkowe pytania</h5>
+	</div>
+	<div style="width:300px;  background: #fff; margin:0 auto;text-align: left">
 		
 		
-		
+	<form name="form" action="/index.php/<?php echo $url?>/send" method="post">
+	<?php echo inputText('Imię:', 'my_name', '', 'small'); ?><br>	
+	<?php echo inputText('Mój email:', 'my_email', '', 'small'); ?><br>	
+	<?php echo inputTextarea('Treść:', 'my_text', '', 'small'); ?>	<br>
+	<?php echo getButton('Wyślij', 'document.form.submit()') ?>
+	</form>	
+
+				
 	</div>
 </div>
+<textarea id="elements_msg" style="border:none; width:100%; height:100px"></textarea>
 
 <!-- FOOTER -->
 <br clear="all">
-<div style="background: #67806E; width:100%;height:150px;border-top:2px solid #674A3E;margin-top:20px">
+<div style="background: #67806E; width:100%;height:150px;border-top:2px solid #674A3E;margin-top:40px">
 <div style="padding:60px 40px 0 40px">
 	<a href="#" title="" style="font-size:15px;font-family:tahoma,sans-serif; color:#fff;text-decoration: none; margin-right: 15px" onmouseover="this.style.borderBottom='1px dotted #fff'" onmouseout="this.style.borderBottom='none'">link1</a>
 </div>
 </div>
+
+
 
 </body>
 </html>

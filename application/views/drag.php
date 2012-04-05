@@ -101,7 +101,7 @@
 		<div onclick="window.open('/index.php/EmailsTemplate/downloadpdf', '_blank')" class="btn_out" title="Pobierz PDF">
 			<div class="btn_in">Pobierz PDF</div>
 		</div>
-		<div onclick="window.open('/index.php/EmailsTemplate/send', '_blank')" class="btn_out" title="Wyślij email">
+		<div onclick="window.open('/index.php/EmailsTemplate/send_form', '_blank')" class="btn_out" title="Wyślij email">
 			<div class="btn_in" style="font-size:10px">Wyślij Zapytanie</div>
 		</div>
 
@@ -306,6 +306,7 @@
             clone.css('top', lastXY+'px');
             clone.css('left', lastXY+'px');
             clone.children().css('border', '1px dotted black');
+            clone.children().css('max-height', '600px');
             
             clone.appendTo($("#canvas"));
             
@@ -363,7 +364,7 @@
            
            /*
             */
-           clone.children().resizable({containment: '#canvas', aspectRatio: true,animateDuration: 500, autoHide: true, handles: "ne, se, sw, nw",
+           clone.children().resizable({containment: '#canvas', aspectRatio: true, autoHide: true,
                stop: function(event, ui){ 
 
                	   	 var id = clone.attr('id');

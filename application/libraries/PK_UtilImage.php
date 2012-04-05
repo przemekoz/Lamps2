@@ -26,31 +26,28 @@ class PK_UtilImage {
 	 */
 	public function createimage($width, $height, $isTransparentBg=false) {
 		$img = @imagecreatetruecolor($width, $height)
-			or errorlog('Cannot run imagecreatetruecolor() in '.__CLASS__);
+		or errorlog('Cannot run imagecreatetruecolor() in '.__CLASS__);
 
 		//zwraca obrazek bez przezroczystego tla
 		if (!$isTransparentBg) {
-			die('hshshs');
 			return $img;
 		}
-			
+
 		@imagealphablending($img, false)
 			or errorlog('Cannot run imagealphablending() in '.__CLASS__);
-
-		var_dump($img);
 			
-		//@imagesavealpha($img,true)
-			//or errorlog('Cannot run imagesavealpha() in '.__CLASS__);
+		$transparent = @imagecolorallocatealpha($img, 255, 255, 255, 127);
 			
-		//if( $transparent = @imagecolorallocatealpha($img, 255, 255, 255, 127) === FALSE ) {
-			//errorlog('Cannot run imagecolorallocatealpha() in '.__CLASS__);
-		//}
-			
-		 $red = @imagecolorallocatealpha($img, 255, 255, 255, 127);
-		@imagefilledrectangle($img, 0, 0, $width, $height, $red)
+		@imagefilledrectangle($img, 0, 0, $width, $height, $transparent)
 			or errorlog('Cannot run imagefilledrectangle() in '.__CLASS__);
 			
-			
+		//@imagealphablending($img,true)
+			//or errorlog('Cannot run imagesavealpha() in '.__CLASS__);
+
+		/* to nie wiem czy musi byc */
+		@imagealphablending($img,false);
+		@imagesavealpha($img,true);
+
 		return $img;
 	}
 
@@ -114,13 +111,13 @@ class PK_UtilImage {
 		if (strtoupper($type) == 'JPG') {
 			$res = @imagejpeg($img_resource, $filename.'.jpg', 85);
 		}
-		
+
 		if (!$res) {
 			errorlog('Cannot write image: '.$filename);
 		}
 
 	}
-	
+
 	/**
 	 * Zapisuje obrazek na dysku - łacznie z lustrzanym odbiciem
 	 *
@@ -128,7 +125,7 @@ class PK_UtilImage {
 	public function imagesaveflip($img_resource, $filename, $type='PNG') {
 
 		$dir = 'uploads/';
-		
+
 		//zapsanie obrazka normalnego
 		$this->imagesave($img_resource, $dir.$filename, $type);
 
@@ -138,7 +135,7 @@ class PK_UtilImage {
 		$this->imagesave($flipImg, $dir. 'inv_'.$filename, $type);
 		$this->imagedestroy($flipImg);
 	}
-	
+
 
 	/**
 	 * Usuwa obrazek z pami�ci
@@ -157,7 +154,7 @@ class PK_UtilImage {
 	}
 
 	/**
-	 * 
+	 *
 	 * odwraca obrazek
 	 * @param resource $imgsrc
 	 * @param int $mode
@@ -195,10 +192,48 @@ class PK_UtilImage {
 		}
 
 		$imgdest = $this->createimage($width, $height, true);
-		
+
 		$this->imageresize($imgdest, $imgsrc, 0, 0, $src_x, $src_y, $width, $height, $src_width, $src_height);
 		return $imgdest;
 	}
+
+
+
+	public function add_product_label($bg,$img, $x, $y, $text) {
+		
+		//jesli dlugosc tekstu do wstawienia wieksza niz 2 lub gdy nie ma tekstu --> wylot
+		if (!strlen($text) || strlen($text) > 2) {
+			return false;
+		}
+		
+		$black 	= imagecolorallocate($bg, 0, 0, 0);
+		$grey 	= imagecolorallocate($bg, 128, 128, 128);
+		$white 	= imagecolorallocate($bg, 255, 255, 255);
+
+		$x = $x+imagesx($img)-10;
+		$y = $y+imagesy($img)-10;
+		
+		$text = strval($text);
+		
+		//ramka
+		imagefilledrectangle($bg, $x-2, $y-2, $x+22, $y+22, $grey);
+		//ramka
+		imagefilledrectangle($bg, $x-1, $y-1, $x+21, $y+21, $black);
+		//białe tło
+		imagefilledrectangle($bg, $x, $y, $x+20, $y+20, $white);
+
+		// Replace path by your own font path
+		$font = $_SERVER['DOCUMENT_ROOT'].'/fpdf/arialbd.ttf';
+
+		
+		// Add the text
+		$strlen = array(1=>6, 2=>1);
+		imagettftext($bg, 12, 0, $x+$strlen[strlen($text)], $y+15, $black, $font, $text);
+		 
+		return $bg;
+	}
+
+
 }
 
 ?>
