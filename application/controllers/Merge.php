@@ -131,10 +131,10 @@ class Merge extends CI_Controller {
     		$link = '';
     		/* jeśli łączenie korona oprawa -> wyświetl link dodatkowych pcji */
     		if ($src == 'crown' && $dst == 'fitting') {
-	    		$link = '<a href="/index.php/'.$this->module_url.'/set_params_crown_fitting?cid='.$mainId.'&fid='.$row['id'].'">ustaw parametry dodatkowe</a>';
+	    		$link = ' <a href="/index.php/'.$this->module_url.'/set_params_crown_fitting?cid='.$mainId.'&fid='.$row['id'].'">ustaw parametry dodatkowe</a>';
     		}
     		
-    		$elements[ $row['street'].$row['garden'] ][] = '<td>'.form_checkbox('element['.$row['id'].']', 1, $checked). '</td><td><b>'. $row['title'].'</b></td><td>'.$row['width'].'x'.$row['height'].'</td>';
+    		$elements[ $row['street'].$row['garden'] ][] = '<td>'.form_checkbox('element['.$row['id'].']', 1, $checked). '</td><td><b>'. $row['title'].'</b></td><td>'.$row['width'].'x'.$row['height'].$link.'</td>';
     	}
     	$data['list'] = $elements;
 
@@ -198,29 +198,46 @@ class Merge extends CI_Controller {
 		| konieczne do ustalenie prawidłowego łączenia lampy
     */
     public function set_params_crown_fitting() {
-    	/* odczytanie aktualnych ustawien */
-    	
-			/* jesli nie ma ustawien insert do bazy */
-    	
-    	/* odczytanie i wyswietleni obrazkow w defaultowych pozycjach */
     	$data = array();
+    	$crownId = $this->input->get('cid');
+    	$fittingId = $this->input->get('fid');
+    	
+    	/* odczytanie aktualnych ustawien */
+    	$this->db->select('width, height');
+    	$query = $this->db->get_where('crown', array('id'=>$crownId));
+    	$row = $query->result_array();
     	/* szerokosc korony */
-    	$data['X'] = 120;
+    	$data['X'] = $row[0]['width'];
     	/* wysokosc korony */
-    	$data['Y'] = 50;
+    	$data['Y'] = $row[0]['height'];
+
+    	
+    	$this->db->select('width, height');
+    	$query = $this->db->get_where('fitting', array('id'=>$fittingId));
+    	$row = $query->result_array();
     	/* szerokosc oprawy */
-    	$data['A'] = 20;
+    	$data['A'] = $row[0]['width'];
     	/* wysokosc oprawy */
-    	$data['B'] = 40;
+    	$data['B'] = $row[0]['height'];
+
     	/* wartosc x od ktorej ustawiana jest oprawa lewa */
     	$data['K'] = 0;
     	/* wartosc x od ktorej ustawiana jest oprawa prawa */
     	$data['N'] = $data['X'] - $data['A'];
 
+    	/* odczytanie i wyswietleni obrazkow w defaultowych pozycjach */
+    	$this->db->select('lambda_x, lambda_y');
+    	$query = $this->db->get_where('merge_crown_fitting', array('id_crown'=>$crownId, 'id_fitting'=>$fittingId));
+    	$row = $query->result_array();
     	/* przesuniecie wzgledem osi X */
-    	$data['LAMBDA_X'] = 0;
+    	$data['LAMBDA_X'] = $row[0]['lambda_x'];
     	/* przesuniecie wzgledem osi Y */
-    	$data['LAMBDA_Y'] = 0;
+    	$data['LAMBDA_Y'] = $row[0]['lambda_y'];
+    	
+    	$data['cid'] = $this->input->get('cid');
+    	$data['fid'] = $this->input->get('fid');
+    	$data['url'] = $this->module_url;
+    	$data['dir_relative'] = '/uploads/';
     	
     	$data['templateContent'] = $this->load->view($this->module_url.'/set_params_crown_fitting', $data, true);
 			$this->load->view('main_panel', $data);
@@ -231,11 +248,20 @@ class Merge extends CI_Controller {
 		| konieczne do ustalenie prawidłowego łączenia lampy
     */
     public function save_params() {
-    	/* usuniecie starego */
+    	$crownId = $this->input->post('id_crown');
+    	$fittingId = $this->input->post('id_fitting');
+    	
+			/* usuniecie starego */
+    	$this->db->where(array('id_crown'=>$crownId, 'id_fitting'=>$fittingId));
+    	$this->db->delete('merge_crown_fitting');
+    	//echo $this->db->last_query();
+    	//die;
     	
 			/* insert nowego */
+    	$this->db->insert('merge_crown_fitting', $_POST);
     	
-    	/* przekierownaie do ekranu wyboru */
+			/* przekierownaie do ekranu wyboru */
+    	redirect($this->module_url.'/merge?src=crown&dst=fitting&id='.$crownId);
     }
     
     

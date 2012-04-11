@@ -48,7 +48,7 @@ Wiązanie z <?php echo $text_dst?>:
 
 </table>
 
-<?php panelShowSubmitCancel($url); ?>
+<?php panelShowSubmitCancel(); ?>
 </form>		
 		
 

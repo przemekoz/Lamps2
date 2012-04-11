@@ -124,10 +124,14 @@ if ( ! function_exists('panelShowSubmitCancel'))
 	/**
 	 * wyswietla top
 	 */
-	function panelShowSubmitCancel($cancelUrl) {
+	function panelShowSubmitCancel($cancelUrl='') {
+		$link = 'javascript:history.back()';
+		if (strlen($cancelUrl)) {
+			$link = '/index.php/'.$cancelUrl;
+		}
 		$html = '
 			<table cellpadding="5" style="margin:10px 0 10px 0;">
-				<tr><td>'.getLink('Anuluj', "/index.php/$cancelUrl", '', true).'</td><td>'.getButton('Zapisz', 'document.form.submit()').'</td></tr>
+				<tr><td>'.getLink('Anuluj', $link, '', true).'</td><td>'.getButton('Zapisz', 'document.form.submit()').'</td></tr>
 			</table> 
 			';
 		
