@@ -704,7 +704,7 @@ class EmailsTemplate extends CI_Controller {
 		$my_message = $this->input->post('my_text')."\r\n\r\nPozdrawiam\r\n".$my_name." - ".$my_mail;
 
 		$my_replyto = "my_reply_to@mail.net";
-		$my_subject = "Zapytanie z aplikacji.";
+		$my_subject = "Zapytanie z aplikacji WWW";
 		//biuro@promar-sj.com.pl
 		mail_attachment($my_file, $my_path, "biuro@promar-sj.com.pl", $my_mail, $my_name, $my_replyto, $my_subject, $my_message);
 		mail_attachment($my_file, $my_path, "przemekoz@o2.pl", $my_mail, $my_name, $my_replyto, $my_subject, $my_message);
