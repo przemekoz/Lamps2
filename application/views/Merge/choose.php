@@ -1,16 +1,4 @@
 <style>
-    .ms {
-        border: 1px solid green;
-        visibility: visible !important;
-    }
-    .mf {
-        border: 1px solid red;
-        visibility: visible !important;
-    }
-    .mn {
-        visibility: hidden;
-        margin: 10px 0;
-    }
     input[type="button"] {
         border:2px solid;
         border-radius:5px;

@@ -127,6 +127,13 @@ class Merge extends CI_Controller {
     		$checked = in_array($row['id'], $merge) ? true : false;
     		
     		//dodanie elementu : elements[11][] = '<input checkbox> text'
+    		
+    		$link = '';
+    		/* jeśli łączenie korona oprawa -> wyświetl link dodatkowych pcji */
+    		if ($src == 'crown' && $dst == 'fitting') {
+	    		$link = '<a href="/index.php/'.$this->module_url.'/set_params_crown_fitting?cid='.$mainId.'&fid='.$row['id'].'">ustaw parametry dodatkowe</a>';
+    		}
+    		
     		$elements[ $row['street'].$row['garden'] ][] = '<td>'.form_checkbox('element['.$row['id'].']', 1, $checked). '</td><td><b>'. $row['title'].'</b></td><td>'.$row['width'].'x'.$row['height'].'</td>';
     	}
     	$data['list'] = $elements;
@@ -167,7 +174,15 @@ class Merge extends CI_Controller {
     	/* utworzene nazwy tabeli merge_column_crown, merge_column_fitting, merge_crown_fitting */
     	$tablename = 'merge_'.$src.'_'.$dst;
     	/* usuniecie starych powiazań */
+
+    	
+    	
+    	// !!!!!!!!!!!!!!!!! //
+    	//@todo - zmienic usuwanie tak, zeby usuwal tylko takie ktorych nie am w aId
     	$this->db->delete($tablename, array('id_'.$src=>$id));
+    	// !!!!!!!!!!!!!!!!! //
+    	
+    	
     	
     	/* dla kazdego zaznaczonego elementu dodanie wpisu */
     	foreach ($aId as $value => $one) {
@@ -175,6 +190,52 @@ class Merge extends CI_Controller {
     	}
     	
     	redirect($this->module_url.'/choose/'.$src.'/'.$dst);
+    }
+
+    
+    /*
+    | wyswietla parametry dodatkoe -- przesuniecie oprawy X i Y względem korony
+		| konieczne do ustalenie prawidłowego łączenia lampy
+    */
+    public function set_params_crown_fitting() {
+    	/* odczytanie aktualnych ustawien */
+    	
+			/* jesli nie ma ustawien insert do bazy */
+    	
+    	/* odczytanie i wyswietleni obrazkow w defaultowych pozycjach */
+    	$data = array();
+    	/* szerokosc korony */
+    	$data['X'] = 120;
+    	/* wysokosc korony */
+    	$data['Y'] = 50;
+    	/* szerokosc oprawy */
+    	$data['A'] = 20;
+    	/* wysokosc oprawy */
+    	$data['B'] = 40;
+    	/* wartosc x od ktorej ustawiana jest oprawa lewa */
+    	$data['K'] = 0;
+    	/* wartosc x od ktorej ustawiana jest oprawa prawa */
+    	$data['N'] = $data['X'] - $data['A'];
+
+    	/* przesuniecie wzgledem osi X */
+    	$data['LAMBDA_X'] = 0;
+    	/* przesuniecie wzgledem osi Y */
+    	$data['LAMBDA_Y'] = 0;
+    	
+    	$data['templateContent'] = $this->load->view($this->module_url.'/set_params_crown_fitting', $data, true);
+			$this->load->view('main_panel', $data);
+    }
+
+    /*
+    | wyswietla parametry dodatkoe -- przesuniecie oprawy X i Y względem korony
+		| konieczne do ustalenie prawidłowego łączenia lampy
+    */
+    public function save_params() {
+    	/* usuniecie starego */
+    	
+			/* insert nowego */
+    	
+    	/* przekierownaie do ekranu wyboru */
     }
     
     
