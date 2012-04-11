@@ -131,7 +131,7 @@ class Merge extends CI_Controller {
     		$link = '';
     		/* jeśli łączenie korona oprawa -> wyświetl link dodatkowych pcji */
     		if ($src == 'crown' && $dst == 'fitting') {
-	    		$link = ' <a href="/index.php/'.$this->module_url.'/set_params_crown_fitting?cid='.$mainId.'&fid='.$row['id'].'">ustaw parametry dodatkowe</a>';
+	    		$link = ' <a href="/index.php/'.$this->module_url.'/set_params_crown_fitting?cid='.$mainId.'&fid='.$row['id'].'">ustaw łączenie</a>';
     		}
     		
     		$elements[ $row['street'].$row['garden'] ][] = '<td>'.form_checkbox('element['.$row['id'].']', 1, $checked). '</td><td><b>'. $row['title'].'</b></td><td>'.$row['width'].'x'.$row['height'].$link.'</td>';
@@ -203,22 +203,27 @@ class Merge extends CI_Controller {
     	$fittingId = $this->input->get('fid');
     	
     	/* odczytanie aktualnych ustawien */
-    	$this->db->select('width, height');
+    	$this->db->select('width, height, number, title, mode');
     	$query = $this->db->get_where('crown', array('id'=>$crownId));
     	$row = $query->result_array();
     	/* szerokosc korony */
     	$data['X'] = $row[0]['width'];
     	/* wysokosc korony */
     	$data['Y'] = $row[0]['height'];
-
+    	/*jesli dla korony jest jedna oprawa nie wysiwetlaj prawej */
+    	$data['show_right_fitting'] = $row[0]['number'] == 1 ? 'display:none' : '';
+    	$data['crown_title'] = $row[0]['title'];
+    	$data['mode'] = $row[0]['mode'];
     	
-    	$this->db->select('width, height');
+    	
+    	$this->db->select('width, height, title');
     	$query = $this->db->get_where('fitting', array('id'=>$fittingId));
     	$row = $query->result_array();
     	/* szerokosc oprawy */
     	$data['A'] = $row[0]['width'];
     	/* wysokosc oprawy */
     	$data['B'] = $row[0]['height'];
+    	$data['fitting_title'] = $row[0]['title'];
 
     	/* wartosc x od ktorej ustawiana jest oprawa lewa */
     	$data['K'] = 0;
@@ -233,6 +238,15 @@ class Merge extends CI_Controller {
     	$data['LAMBDA_X'] = $row[0]['lambda_x'];
     	/* przesuniecie wzgledem osi Y */
     	$data['LAMBDA_Y'] = $row[0]['lambda_y'];
+
+    	/* ulożenie dla opraw stojących - oprawy na górze, korona na dole */
+    	$data['top_crown'] = $data['B'];
+    	$data['top_fitting'] = 0;
+    	/* ulożenie dla opraw wiszących - oprawy na dole, korona na górze */
+    	if ($data['mode'] == 'hang') {
+	    	$data['top_crown'] = 0;
+	    	$data['top_fitting'] = $data['Y'];
+    	}
     	
     	$data['cid'] = $this->input->get('cid');
     	$data['fid'] = $this->input->get('fid');
