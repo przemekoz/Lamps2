@@ -37,7 +37,7 @@ class EmailsTemplate extends CI_Controller {
 		////////////////////////////////////////
 		// @TODO - zmienic na id sesji        //
 		////////////////////////////////////////
-		$this->userId = '123456789';
+		$this->userId = '12345678910';
 		////////////////////////////////////////
 		// @TODO - zmienic na id sesji        //
 		////////////////////////////////////////
@@ -265,7 +265,6 @@ class EmailsTemplate extends CI_Controller {
 		elseif ($step == 2 && $crownId) {
 			/* wysiwetlenie opraw polaczonych z koronami */
 			$res = $this->db->query("SELECT f.id, f.title, 'fitting' as type FROM fitting f, merge_crown_fitting m WHERE f.id=m.id_fitting AND m.id_crown=".$crownId." ".$addWhere." ORDER BY f.title");
-			echo $this->db->last_query();
 		}
 
 
@@ -388,9 +387,6 @@ class EmailsTemplate extends CI_Controller {
 		}
 		
 		$height = $column['height'] + $crown['height'];
-		if ($opt->lambda_y > 0) {
-			$height = $height - $opt->lambda_y;
-		}
 		
 		/* -------------------------- */
 		/* utworzenie pustego obrazka */
@@ -586,6 +582,25 @@ class EmailsTemplate extends CI_Controller {
 		//zapisz obrazek oraz jego lustrzane odbicie
 		$this->UI->imagesaveflip($img, $filename, 'PNG');
 
+		//przeskalowanie wygenerowanych lamp
+		$this->load->library('image_lib');
+		
+		$config['image_library'] = 'GD2';
+		$config['width'] = 170;
+		$config['height'] = 500;
+		$config['quality'] = '100%';
+		$config['master_dim'] = 'width';
+		$config['maintain_ratio'] = TRUE;
+
+		$config['source_image'] = $_SERVER['DOCUMENT_ROOT'].'/uploads/'.$filename.'.png';
+		$this->image_lib->initialize($config);
+		$this->image_lib->resize();
+		$this->image_lib->clear();
+		
+		$config['source_image'] = $_SERVER['DOCUMENT_ROOT'].'/uploads/inv_'.$filename.'.png';
+		$this->image_lib->initialize($config);
+		$this->image_lib->resize();
+		
 		redirect($this->module_url.'/drag?bg='.$bgid);
 	}
 
@@ -743,7 +758,7 @@ class EmailsTemplate extends CI_Controller {
 			$this->UI->imagecopy($bg, $product, $x, $y, 0, 0, imagesx($product), imagesy($product));
 			
 			/* dodaj opis z numerem obrazka - kwadracik z numerem */
-			$this->UI->add_product_label($bg, $product,$x, $y, $i++);
+			$this->UI->add_product_label($bg, $product, $x, $y, $i++);
 
 			$this->UI->imagedestroy($product);
 		}

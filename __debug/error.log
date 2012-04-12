@@ -33,3 +33,9 @@
  [2012-04-12 07:55:42] Cannot read image file:D:/Projekty/lamps//uploads/user_background_123456789.jpg
  [2012-04-12 07:55:42] Cannot write image: uploads/u123456789_saved
  [2012-04-12 07:55:42] Cannot destroy image
+ [2012-04-12 23:03:57] Cannot read image file:D:/Projekty/lamps//uploads/user_background_12345678910.jpg
+ [2012-04-12 23:03:57] Cannot write image: uploads/u12345678910_saved
+ [2012-04-12 23:03:57] Cannot destroy image
+ [2012-04-12 23:05:46] Cannot read image file:D:/Projekty/lamps//uploads/user_background_12345678910.jpg
+ [2012-04-12 23:05:46] Cannot write image: uploads/u12345678910_saved
+ [2012-04-12 23:05:46] Cannot destroy image

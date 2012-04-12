@@ -122,7 +122,11 @@
 		<?php
 
 			/* odczytanie rozmiaru pliku tła - potrzebne do dynamicznego skalowania warstwy #canvas */
-			list($bgWidth, $bgHeight) = getimagesize($_SERVER['DOCUMENT_ROOT'].$bg);
+			$bgWidth = 0; 
+			$bgHeight = 0;
+			if (is_file($_SERVER['DOCUMENT_ROOT'].$bg)) {
+				list($bgWidth, $bgHeight) = getimagesize($_SERVER['DOCUMENT_ROOT'].$bg);
+			}
 			
 			//@todo - dodac zabezpieczneie na wypadek za duzego rozmiaru
 			
@@ -156,7 +160,7 @@
 							
 							echo '
 							<div class="draggable" title="Złap lampę i przesuń na tło" id="parent-prod'.str_replace('.png', '', $filename).'" style="margin-bottom: 10px">
-								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'"  style="max-height:570px; max-width: 150px">
+								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'">
 							</div>
 							';
 						}//foreach
@@ -400,6 +404,7 @@
               //products[currCanvasId][0] = '';
               
               //zminijszenie liczby dodanych elementow
+              alert(ELEMENTS_DATA[products[currCanvasId][6]+'.png']['count']);
               ELEMENTS_DATA[products[currCanvasId][6]+'.png']['count'] -= 1;
 
               products = unset(products, currCanvasId);

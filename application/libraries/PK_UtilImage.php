@@ -210,8 +210,10 @@ class PK_UtilImage {
 		$grey 	= imagecolorallocate($bg, 128, 128, 128);
 		$white 	= imagecolorallocate($bg, 255, 255, 255);
 
-		$x = $x+imagesx($img)-10;
-		$y = $y+imagesy($img)-10;
+		//$x = $x+imagesx($img)-10;                                                                                                                 
+		//$y = $y+imagesy($img)-10;
+		$x = $x + floor(imagesx($img)/2) - 10;                                                                                                                 
+		$y = $y - 25;
 		
 		$text = strval($text);
 		
