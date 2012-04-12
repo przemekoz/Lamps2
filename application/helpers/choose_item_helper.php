@@ -18,7 +18,15 @@ if ( ! function_exists('showItem'))
 	function showItem($id, $title, $type) {
 
 		$item  = '<div class="draggable '.$type.'" style="cursor: pointer;border:1px dotted #ddd;margin-bottom:10px" id="'.$id.'" onclick="setElement(\''.$type.'\', \''.$id.'\')"><div style=\"padding:5px 10px\">';
-		$item .= '<table width="100%" ><tr><td width="50%" align="right"><img src="/uploads/'.$type.'_'.$id.'.png" style="max-width:150px;max-height:250px;"></td><td width="50%" valign="top">'.$title.'</td></table>';
+		
+		if ($type == 'column') {
+			$item .= '<table width="100%" ><tr><td width="50%" align="right"><img src="/uploads/'.$type.'_'.$id.'.png" style="max-height:315px;"></td><td width="50%" valign="top">'.$title.'</td></table>';
+		}
+		else {
+			$item .= '<table width="100%" ><tr><td width="50%" align="right"><img src="/uploads/'.$type.'_'.$id.'.png" style="max-height:100px;"></td><td width="50%" valign="top">'.$title.'</td></table>';
+		}
+		
+		
 		$item .= '</div></div>';
 
 		return $item;

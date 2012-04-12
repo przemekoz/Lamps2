@@ -58,6 +58,21 @@ class Tlo extends CI_Controller {
 
 		$this->upload('background_'.$id.'.jpg');
 		
+		//przeskalowanie obrazka
+		$this->load->library('image_lib');
+		
+		$config['image_library'] = 'GD2';
+		$config['width'] = 800;
+		$config['height'] = 600;
+		$config['quality'] = '100%';
+		$config['master_dim'] = 'width';
+		$config['maintain_ratio'] = TRUE;
+
+		$config['source_image'] = $_SERVER['DOCUMENT_ROOT'].'/uploads/background_'.$id.'.jpg';
+		$this->image_lib->initialize($config);
+		$this->image_lib->resize();
+		
+		
 		/* ustawienie informacji do wyświetlenia */
 		$this->session->set_flashdata('notify', 'Tło zostało dodane');
 		
@@ -82,8 +97,8 @@ class Tlo extends CI_Controller {
 		$config['upload_path'] = $this->uploadDir;
 		$config['allowed_types'] = 'jpg';
 		$config['max_size']	= '2048'; //KB
-		$config['max_width']  = '1000';
-		$config['max_height']  = '1000';
+		$config['max_width']  = '3000';
+		$config['max_height']  = '3000';
 		$config['overwrite']  = TRUE;
 		if (strlen($filename)) {
 			$config['file_name']  = $filename;

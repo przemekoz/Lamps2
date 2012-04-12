@@ -64,9 +64,37 @@
 		
 		<div style="float:left;">
 			<?php ob_start(); ?>
+
+<!-- 
 				<div id="preview_fitting1" style="color:#aaa;background: url('/uploads/fitting_<?php echo $fittingId; ?>.png') #ddd no-repeat; width: 250px; height: 110px;margin-bottom: 10px; border:1px solid #ccc"><div style="text-align: center; padding: 40px 0 0 0;"> - tutaj opuść oprawę - </div></div>
 	  		<div id="preview_crown1" style="color:#aaa;background: url('/uploads/crown_<?php echo $crownId; ?>.png') #ddd no-repeat; width: 250px; height: 100px;margin-bottom: 10px; border:1px solid #ccc"><div style="text-align: center; padding: 35px 0 0 0;"> - tutaj opuść koronę - </div></div>
 	  		<div id="preview_column1" style="color:#aaa;background: url('/uploads/column_<?php echo $columnId; ?>.png') #ddd no-repeat; width: 250px; height: 320px; margin-bottom: 0px; border:1px solid #ccc"><div style="text-align: center; padding: 140px 0 0 0;"> - tutaj opuść podstawę - </div></div>
+ -->				
+
+				<div id="preview_fitting1" style="color:#aaa; width: 250px; height: 110px;margin-bottom: 10px; border:1px solid #ccc; text-align:center">
+					<?php if (is_file($_SERVER['DOCUMENT_ROOT'].'/uploads/fitting_'.$fittingId.'.png')) {  ?>
+						<img src="/uploads/fitting_<?php echo $fittingId?>.png" style="max-height: 100px; margin: 0 auto">
+					<?php } else { ?>
+						<div style="text-align: center; padding: 40px 0 0 0;">- tutaj opuść oprawę -</div>
+					<?php } ?>						
+				</div>
+	  		<div id="preview_crown1" style="color:#aaa; width: 250px; height: 100px;margin-bottom: 10px; border:1px solid #ccc;text-align:center">
+					<?php if (is_file($_SERVER['DOCUMENT_ROOT'].'/uploads/crown_'.$crownId.'.png')) {  ?>
+						<img src="/uploads/crown_<?php echo $crownId?>.png" style="max-height: 100px; margin: 0 auto">
+					<?php } else { ?>
+	  				<div style="text-align: center; padding: 35px 0 0 0;"> - tutaj opuść koronę - </div>
+					<?php } ?>						
+	  		
+	  			
+	  		</div>
+	  		<div id="preview_column1" style="color:#aaa; width: 250px; height: 320px; margin-bottom: 0px; border:1px solid #ccc;text-align:center">
+					<?php if (is_file($_SERVER['DOCUMENT_ROOT'].'/uploads/column_'.$columnId.'.png')) {  ?>
+						<img src="/uploads/column_<?php echo $columnId?>.png" style="max-height: 315px; margin: 0 auto">
+					<?php } else { ?>
+	  				<div style="text-align: center; padding: 140px 0 0 0;"> - tutaj opuść podstawę - </div>
+					<?php } ?>						
+	  		
+	  		</div>
 		
 		
 		
@@ -203,13 +231,13 @@ function back() {
 							var fitid = <?php echo $fittingId; ?>;
 							function hide_text() {
 								if (colid > 0) {
-									$('#preview_column1').text('');
+									//$('#preview_column1').text('');
 								}
 								if (croid > 0) {
-									$('#preview_crown1').text('');
+									//$('#preview_crown1').text('');
 								}
 								if (fitid > 0) {
-									$('#preview_fitting1').text('');
+									//$('#preview_fitting1').text('');
 								}
 							}
 							hide_text();

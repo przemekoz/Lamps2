@@ -125,6 +125,21 @@ class EmailsTemplate extends CI_Controller {
 		$this->upload->initialize($config);
 
 		$this->upload->do_upload('file');
+		
+		//przeskalowanie obrazka
+		$this->load->library('image_lib');
+		
+		$config['image_library'] = 'GD2';
+		$config['width'] = 800;
+		$config['height'] = 600;
+		$config['quality'] = '100%';
+		$config['master_dim'] = 'width';
+		$config['maintain_ratio'] = TRUE;
+
+		$config['source_image'] = $_SERVER['DOCUMENT_ROOT'].'/uploads/'.$this->userBackgroundFile;
+		$this->image_lib->initialize($config);
+		$this->image_lib->resize();
+		
 		redirect($this->module_url.'/drag');
 	}
 

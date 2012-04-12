@@ -246,10 +246,7 @@
 
 
 
-					//tablica przechowuje dane na temat wygenerowanych przez usera lamp 
-        	var ELEMENTS_DATA = [];
-					<?php echo $JS_ELEMENTS_DATA?>
-        	
+
             
             $(".draggable").draggable({ hoverClass: "product-active", revert: "invalid", cursor: 'move', opacity: 0.35, addClasses: false, helper: 'clone', containment: "document" /*, containment: 'window', helper: 'clone',  stack: "#canvas" */ });
             
@@ -296,6 +293,11 @@
          var currZIndex = 200;
          var lastXY = 0;
          var prodId = 1;
+
+					//tablica przechowuje dane na temat wygenerowanych przez usera lamp 
+        	var ELEMENTS_DATA = [];
+					<?php echo $JS_ELEMENTS_DATA?>
+         
          
          function drop_item( item ) {
 
@@ -404,9 +406,8 @@
               //products[currCanvasId][0] = '';
               
               //zminijszenie liczby dodanych elementow
-              alert(ELEMENTS_DATA[products[currCanvasId][6]+'.png']['count']);
               ELEMENTS_DATA[products[currCanvasId][6]+'.png']['count'] -= 1;
-
+							
               products = unset(products, currCanvasId);
               
               /* zapisanie automatyczne */
