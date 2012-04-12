@@ -37,7 +37,7 @@ class EmailsTemplate extends CI_Controller {
 		////////////////////////////////////////
 		// @TODO - zmienic na id sesji        //
 		////////////////////////////////////////
-		$this->userId = '123456789';
+		$this->userId = '1234567';
 		////////////////////////////////////////
 		// @TODO - zmienic na id sesji        //
 		////////////////////////////////////////
@@ -335,12 +335,12 @@ class EmailsTemplate extends CI_Controller {
 		//odczytanie parametrów z bazy
 		for ($i=0; $i<count($a); $i++) {
 			if ($a[$i] == 'crown') {
-				$q = $this->db->select('id, width, height, mode, number')->get_where($a[$i], array('id'=>$p[$i]));
+				$q = $this->db->select('width, height, mode, number')->get_where($a[$i], array('id'=>$p[$i]));
 			} else {
-				$q = $this->db->select('id, width, height, mode')->get_where($a[$i], array('id'=>$p[$i]));
+				$q = $this->db->select('width, height, mode')->get_where($a[$i], array('id'=>$p[$i]));
 			}
 			$r = $q->result_array();
-			$v[$i] = !empty($r[0]) ? $r[0] : array('id'=>0, 'width'=>0, 'height'=>0, 'mode'=>'');
+			$v[$i] = !empty($r[0]) ? $r[0] : array('width'=>0, 'height'=>0, 'mode'=>'');
 		}
 		
 		//odczytanie obrzków z dysku	
@@ -367,145 +367,25 @@ class EmailsTemplate extends CI_Controller {
 	}
 	
 
-	/* funkcja pomocnicza zapisanie wygenerowanej lampy */
-	/* korona dla opraw wiszących */
-	/* KORONA :: OPRAWA */
-	private function save_item_crown_fitting_hang($column, $crown, $fitting, $imgColumn, $imgCrown, $imgFitting) {
-		/* odczytanie parametrów łączenia korony z oprawą */
-		$this->db->select('lambda_x, lambda_y');
-		$query = $this->db->get_where('merge_crown_fitting', array('id_crown'=>$crown['id'],'id_fitting'=>$fitting['id']));
-		$opt = $query->result();
-		$opt = $opt[0];
-		
-		/* szerokosc obrazka zalezny od szerszego elementu */
-		$tmpWidth = $column['width'] > $crown['width'] ? $column['width'] : $crown['width'];
-		if ($opt->lambda_x >= 0) {
-			$width = $tmpWidth;
-		}
-		elseif ($opt->lambda_x < 0) {
-			$width = $crown['width'] - (2 * $opt->lambda_x); //szerokosc korony + 2*lambda
-			$width = $width > $tmpWidth ? $width : $tmpWidth; //sprawdzenie czy nowa szerokosc nie jest mniejsza niz szerokosc kolumny
-		}
-		
-		$height = $column['height'] + $crown['height'];
-		if ($opt->lambda_y > 0) {
-			$height = $height - $opt->lambda_y;
-		}
-		
-		/* -------------------------- */
-		/* utworzenie pustego obrazka */
-		/* -------------------------- */
-		$img = $this->UI->createimage($width, $height, true);
-		
-
-		
-		
-		
-		/* umieszczenie na obrazku korony  - umieszczenie na środku (x) */
-		$this->UI->imagecopy($img, $imgCrown, floor(($width-$crown['width'])/2), 0, 0, 0, $crown['width'], $crown['height']);
-			
-		/* dodanie opraw */
-		$top = $crown['height'] - $opt->lambda_y;
-		$leftFitingX = 0;
-		$rightFitingX = $width-$fitting['width'];
-		
-		if ($opt->lambda_x > 0) {
-			$leftFitingX = $opt->lambda_x;
-			$rightFitingX = $rightFitingX - $opt->lambda_x;
-		}
-		
-		/* dodanie lewej kolumny */	
-		$this->UI->imagecopy($img, $imgFitting, $leftFitingX, $top, 0, 0, $fitting['width'], $fitting['height']);
-		if ($crown['number'] == 2) {
-			/* dodanie prawej kolumny */	
-			$this->UI->imagecopy($img, $imgFitting, $rightFitingX, $top, 0, 0, $fitting['width'], $fitting['height']);
-		}
-		
-		//dodaj do nowego obrazka kolumne - umieszczenie na środku (x)
-		$this->UI->imagecopy($img, $imgColumn, floor(($width-$column['width'])/2), $crown['height'], 0, 0, $column['width'], $column['height']);
-		
-		return $img;
-	}
-
 	
 	/* funkcja pomocnicza zapisanie wygenerowanej lampy */
 	/* KOLUMNA :: OPRAWA */
-	private function save_item_column_fitting($column, $fitting, $imgColumn, $imgFitting) {
-		/* szerokosc obrazka zalezny od szerszego elementu */
-		$width = $column['width'] > $fitting['width'] ? $column['width'] : $fitting['width'];
-		$height = $column['height'] + $fitting['height'];
+	private function save_item_column_fitting() {
 		
-		/* -------------------------- */
-		/* utworzenie pustego obrazka */
-		/* -------------------------- */
-		$img = $this->UI->createimage($width, $height, true);
-		
-		//dodaj do nowego obrazka kolumne - umieszczenie na środku (x)
-		$this->UI->imagecopy($img, $imgColumn, floor(($width-$column['width'])/2), $fitting['height'], 0, 0, $column['width'], $column['height']);
-		
-		//dodaj oprawę na środku
-		$this->UI->imagecopy($img, $imgFitting, floor(($width-$fitting['width'])/2), 0, 0, 0, $fitting['width'], $fitting['height']);
-		
-		return $img;
 	}
 
 	/* funkcja pomocnicza zapisanie wygenerowanej lampy */
 	/* korona dla opraw stojących */
 	/* KORONA :: OPRAWA */
-	private function save_item_crown_fitting_stand($column, $crown, $fitting, $imgColumn, $imgCrown, $imgFitting) {
+	private function save_item_crown_fitting_stand() {
 		
-		/* odczytanie parametrów łączenia korony z oprawą */
-		$this->db->select('lambda_x, lambda_y');
-		$query = $this->db->get_where('merge_crown_fitting', array('id_crown'=>$crown['id'],'id_fitting'=>$fitting['id']));
-		$opt = $query->result();
-		$opt = $opt[0];
-		
-		/* szerokosc obrazka zalezny od szerszego elementu */
-		$tmpWidth = $column['width'] > $crown['width'] ? $column['width'] : $crown['width'];
-		if ($opt->lambda_x >= 0) {
-			$width = $tmpWidth;
-		}
-		elseif ($opt->lambda_x < 0) {
-			$width = $crown['width'] - (2 * $opt->lambda_x); //szerokosc korony + 2*lambda
-			$width = $width > $tmpWidth ? $width : $tmpWidth; //sprawdzenie czy nowa szerokosc nie jest mniejsza niz szerokosc kolumny
-		}
-		
-		$height = $column['height'] + $fitting['height'] + $crown['height'];
-		if ($opt->lambda_y > 0) {
-			$height = $height - $opt->lambda_y;
-		}
-		
-		/* -------------------------- */
-		/* utworzenie pustego obrazka */
-		/* -------------------------- */
-		$img = $this->UI->createimage($width, $height, true);
-		
+	}
 
-		//dodaj do nowego obrazka kolumne - umieszczenie na środku (x)
-		$top = $fitting['height'] + $crown['height'] - $opt->lambda_y;
-		$this->UI->imagecopy($img, $imgColumn, floor(($width-$column['width'])/2), $top, 0, 0, $column['width'], $column['height']);
+	/* funkcja pomocnicza zapisanie wygenerowanej lampy */
+	/* korona dla opraw wiszących */
+	/* KORONA :: OPRAWA */
+	private function save_item_crown_fitting_hang() {
 		
-		/* umieszczenie na obrazku korony  - umieszczenie na środku (x) */
-		/* odejmowane tylko jak lambda > 0 (lambda_y nie moze byc ujemna) */
-		$top = $fitting['height'] - $opt->lambda_y;
-		$this->UI->imagecopy($img, $imgCrown, floor(($width-$crown['width'])/2), $top, 0, 0, $crown['width'], $crown['height']);
-			
-		/* dodanie opraw */
-		$leftFitingX = 0;
-		$rightFitingX = $width-$fitting['width'];
-		
-		if ($opt->lambda_x > 0) {
-			$leftFitingX = $opt->lambda_x;
-			$rightFitingX = $rightFitingX - $opt->lambda_x;
-		}
-		
-		/* dodanie lewej kolumny */	
-		$this->UI->imagecopy($img, $imgFitting, $leftFitingX, 0, 0, 0, $fitting['width'], $fitting['height']);
-		if ($crown['number'] == 2) {
-			/* dodanie prawej kolumny */	
-			$this->UI->imagecopy($img, $imgFitting, $rightFitingX, 0, 0, 0, $fitting['width'], $fitting['height']);
-		}
-		return $img;
 	}
 	
 	/*
@@ -529,22 +409,67 @@ class EmailsTemplate extends CI_Controller {
 		$idCrown = 		isset($_GET['crown'])  ? intval($_GET['crown'])  : 0;
 		$idFitting = 	isset($_GET['fitting'])? intval($_GET['fitting']): 0;
 		$bgid = 			isset($_GET['bgid'])	 ? intval($_GET['bgid']): 0;
+
+		/* odczytanie wymiarów wybranych obrazków */
+		$height = 0;
+		$width = 0;
 		
 		/* pobranie danych kolumny, oprawy, korony oraz zapisanie do zmiennych tablicowych. Tablica: np. $column['width'], $column['height'], $column['mode'] */
 		list($column, $crown, $fitting, $imgColumn, $imgCrown, $imgFitting) = $this->get_data_elelemnts(array($idColumn, $idCrown, $idFitting));
 		
 		/* jezeli nie ma korony -> kolumna :: oprawa */
 		if (empty($idCrown)) {
-			$img = $this->save_item_column_fitting($column, $fitting, $imgColumn, $imgFitting);
+			$this->save_item_column_fitting();
 		}
-		/* jezeli jest korona dla stojacych opraw */
-		elseif (!empty($idCrown) && $crown['mode'] == 'stand') {
-			$img = $this->save_item_crown_fitting_stand($column, $crown, $fitting, $imgColumn, $imgCrown, $imgFitting);
+		
+		/* dane kolumny */
+		$width = $column['width'];
+		$height += $column['height'];
+
+		//jesli wybrano korone
+		if ($idCrown) {
+			/* zwiekszamy wysokosc o wysokosc korony */
+			$height += $crown['height'];
+			/* jesli jest korona - zmieniamy szerokosc generowanej lampy  - korona jest najszerszym elementem */
+			$width = $crown['width']+80;
 		}
-		/* jezeli jest korona dla wiszących opraw */
-		elseif (!empty($idCrown) && $crown['mode'] == 'hang') {
-			$img = $this->save_item_crown_fitting_hang($column, $crown, $fitting, $imgColumn, $imgCrown, $imgFitting);
+
+		/* zwiększamy wysokość obrazka o wysokość oprawy - przypadek gdy oprawa stojąca */
+		$height += $fitting['height'];
+
+		/* -------------------------- */
+		/* utworzenie pustego obrazka */
+		/* -------------------------- */
+		$img = $this->UI->createimage($width, $height, true);
+		
+		//dodaj do nowego obrazka kolumne - umieszczenie na środku (x)
+		$this->UI->imagecopy($img, $imgColumn, floor(($width-$column['width'])/2), $fitting['height']+$crown['height'], 0, 0, $column['width'], $column['height']);
+
+
+		//jest korona
+		if ($idCrown) {
+			
+			/* umieszczenie na obrazku korony  - umieszczenie na środku (x) */
+			$this->UI->imagecopy($img, $imgCrown, floor(($width-$crown['width'])/2), $fitting['height'], 0, 0, $crown['width'], $crown['height']);
+			
+			//jesli korona dla opraw stojących
+			if ($crown['mode'] == 'stand') {
+				/* dodanie lewej kolumny */	
+				$this->UI->imagecopy($img, $imgFitting, 0, 30, 0, 0, $fitting['width'], $fitting['height']);
+				/* dodanie prawej kolumny */	
+				$this->UI->imagecopy($img, $imgFitting, $width-$fitting['width'], 30, 0, 0, $fitting['width'], $fitting['height']);
+			}
+			//w przeciwnym przypadku - wiszące oprawy
+			else {
+
+			}
 		}
+		//nie ma korony
+		else {
+			/* dodaj oprawę na środku - oprawa bezpośrednio na kolumnie */
+			$this->UI->imagecopy($img, $imgFitting, 0, 0, 0, 0, $fitting['width'], $fitting['height']);
+		}
+
 
 		//zapisz do bazy id_usera, wybrane elementy, kody, tych elementów + nazwę wygenerowanego pliku
 

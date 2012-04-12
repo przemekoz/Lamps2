@@ -173,20 +173,29 @@ class Merge extends CI_Controller {
     	
     	/* utworzene nazwy tabeli merge_column_crown, merge_column_fitting, merge_crown_fitting */
     	$tablename = 'merge_'.$src.'_'.$dst;
-    	/* usuniecie starych powiazań */
 
-    	
-    	
-    	// !!!!!!!!!!!!!!!!! //
+    	/* usuniecie starych powiazań */
     	//@todo - zmienic usuwanie tak, zeby usuwal tylko takie ktorych nie am w aId
-    	$this->db->delete($tablename, array('id_'.$src=>$id));
-    	// !!!!!!!!!!!!!!!!! //
     	
+    	if (is_array($aId)) {
+	    	$aW = array();
+	    	foreach ($aId as $value => $one) {
+	    		$aW[] = $value;
+	    	}
+	    	$this->db->where('id_'.$dst.' NOT IN ('.implode(',',$aW).')');
+	    	$this->db->delete($tablename, array('id_'.$src=>$id));
+    	}
+    	else {
+	    	$this->db->delete($tablename, array('id_'.$src=>$id));
+    	}
     	
     	
     	/* dla kazdego zaznaczonego elementu dodanie wpisu */
     	foreach ($aId as $value => $one) {
-    		$this->db->insert($tablename, array('id_'.$src=>$id, 'id_'.$dst=>$value));
+    		
+    		$this->db->query("INSERT INTO `".$tablename."` (".'id_'.$src.",`".'id_'.$dst."`) VALUES (".$id.",".$value.") ON DUPLICATE KEY UPDATE ".'id_'.$dst.'='.$value);
+    		
+    		//$this->db->insert($tablename, array('id_'.$src=>$id, 'id_'.$dst=>$value));
     	}
     	
     	redirect($this->module_url.'/choose/'.$src.'/'.$dst);

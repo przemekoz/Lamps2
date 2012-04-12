@@ -43,6 +43,8 @@
 	
 		Typ: <?php echo form_dropdown('mode', array('stand'=>' Do opraw stojących', 'hang'=>' Do opraw wiszących'), $mode); ?>
 		<hr class="break">	
+		Liczba opraw: <?php echo form_dropdown('number', array('2'=>' Dwie', '1'=>' Jedna'), $number); ?>
+		<hr class="break">	
 	
 		<?php echo form_checkbox('street', 1, $street); ?> Miasto - Ulica<br>
 		<?php echo form_checkbox('garden', 1, $garden); ?> Dom - Ogród<br>

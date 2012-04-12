@@ -60,13 +60,21 @@ class Controller_Abstract extends CI_Controller {
 	
 	
 	public function edycja($id) {
-		$this->db->select('title, description, street, garden, width, height, mode');
+		
+		//dla koron zczytaj takze liczbe opraw
+		if ($this->tablename == 'crown') {
+			$this->db->select('title, description, street, garden, width, height, mode, number');
+		}
+		//w przeciwnym przypadku
+		else {
+			$this->db->select('title, description, street, garden, width, height, mode');
+		}
 		$query = $this->db->get_where($this->tablename, array('id' => $id));
 
 		$row = $query->result_array();
 
 		if (!count($row)) {
-			$row = array(0=>array('title'=>'', 'description'=>'', 'garden'=>0, 'street'=>0, 'width'=>0, 'height'=>0, 'mode'=>'stand'));
+			$row = array(0=>array('title'=>'', 'description'=>'', 'garden'=>0, 'street'=>0, 'width'=>0, 'height'=>0, 'mode'=>'stand', 'number'=>'2'));
 		}
 
 

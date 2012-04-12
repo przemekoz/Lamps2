@@ -16,3 +16,20 @@
  [2012-04-04 00:29:35] Cannot read image file:D:/Projekty/lamps/uploads/fitting_0.png
  [2012-04-04 00:29:35] Cannot run imagecopy() PK_UtilImage
  [2012-04-04 00:34:10] Cannot read image file:D:/Projekty/lamps/uploads/crown_0.png
+ [2012-04-12 07:45:48] Cannot read image file:D:/Projekty/lamps//uploads/user_background_12345678.jpg
+ [2012-04-12 07:45:48] Cannot write image: uploads/u12345678_saved
+ [2012-04-12 07:45:48] Cannot destroy image
+ [2012-04-12 07:46:50] Cannot read image file:D:/Projekty/lamps/uploads/crown_0.png
+ [2012-04-12 07:47:11] Cannot read image file:D:/Projekty/lamps/uploads/crown_0.png
+ [2012-04-12 07:47:32] Cannot read image file:D:/Projekty/lamps/uploads/crown_0.png
+ [2012-04-12 07:47:49] Cannot read image file:D:/Projekty/lamps/uploads/crown_0.png
+ [2012-04-12 07:50:34] Cannot write image: uploads/u123456789_i9
+ [2012-04-12 07:50:34] Cannot run imagecreatetruecolor() in PK_UtilImage
+ [2012-04-12 07:50:34] Cannot run imagealphablending() in PK_UtilImage
+ [2012-04-12 07:50:34] Cannot run imagefilledrectangle() in PK_UtilImage
+ [2012-04-12 07:50:34] Cannot resize image
+ [2012-04-12 07:50:34] Cannot write image: uploads/inv_u123456789_i9
+ [2012-04-12 07:50:34] Cannot destroy image
+ [2012-04-12 07:55:42] Cannot read image file:D:/Projekty/lamps//uploads/user_background_123456789.jpg
+ [2012-04-12 07:55:42] Cannot write image: uploads/u123456789_saved
+ [2012-04-12 07:55:42] Cannot destroy image
