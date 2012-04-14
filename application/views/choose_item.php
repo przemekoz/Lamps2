@@ -57,7 +57,7 @@
 			<?php if (empty($garden) && empty($street)) echo ' "Wszystkie" ';?>
 			</b>
 		
-			<?php if (!empty($extra_info)) echo '<br><b>INFO:</b> Wybrana kolumna może być łączona bezpośrednio z oprawą (z pominięciem korony).<br>Kliknij przycisk "<b>Dalej</b>" jeśli chcesz wybrać od razu oprawę .' ?>
+			<?php if (!empty($extra_info)) echo '<br><b>INFO:</b> Wybrana kolumna może być łączona bezpośrednio z oprawą (z pominięciem korony).' ?>
 		</p>
 			
 		<div style="clear:both"></div>
@@ -71,27 +71,30 @@
 	  		<div id="preview_column1" style="color:#aaa;background: url('/uploads/column_<?php echo $columnId; ?>.png') #ddd no-repeat; width: 250px; height: 320px; margin-bottom: 0px; border:1px solid #ccc"><div style="text-align: center; padding: 140px 0 0 0;"> - tutaj opuść podstawę - </div></div>
  -->				
 
-				<div id="preview_fitting1" style="color:#aaa; width: 250px; height: 110px;margin-bottom: 10px; border:1px solid #ccc; text-align:center">
+				<div title="Lista opraw" onclick="document.getElementById('step').value=2;document.form.submit()" id="preview_fitting1" style="color:#333; width: 250px; height: 110px;margin-bottom: 10px; border:1px solid #ccc; text-align:center; cursor: pointer">
 					<?php if (is_file($_SERVER['DOCUMENT_ROOT'].'/uploads/fitting_'.$fittingId.'.png')) {  ?>
-						<img src="/uploads/fitting_<?php echo $fittingId?>.png" style="max-height: 100px; margin: 0 auto">
+						<img id="preview_fitting" src="/uploads/fitting_<?php echo $fittingId?>.png" style="max-height: 100px; margin: 0 auto">
 					<?php } else { ?>
-						<div style="text-align: center; padding: 40px 0 0 0;">- tutaj opuść oprawę -</div>
+						<img id="preview_fitting" src="/uploads/dummy.png" style="max-height: 100px; margin: 0 auto">
+						<div id="preview_fitting_text" style="text-align: center; padding: 40px 0 0 0;"> - 3. wybierz oprawę - </div>
 					<?php } ?>						
 				</div>
-	  		<div id="preview_crown1" style="color:#aaa; width: 250px; height: 100px;margin-bottom: 10px; border:1px solid #ccc;text-align:center">
+	  		<div title="Lista koron" onclick="document.getElementById('step').value=1;document.form.submit()" id="preview_crown1" style="color:#333; width: 250px; height: 100px;margin-bottom: 10px; border:1px solid #ccc;text-align:center; cursor: pointer">
 					<?php if (is_file($_SERVER['DOCUMENT_ROOT'].'/uploads/crown_'.$crownId.'.png')) {  ?>
-						<img src="/uploads/crown_<?php echo $crownId?>.png" style="max-height: 100px; margin: 0 auto">
+						<img id="preview_crown" src="/uploads/crown_<?php echo $crownId?>.png" style="max-height: 100px; margin: 0 auto">
 					<?php } else { ?>
-	  				<div style="text-align: center; padding: 35px 0 0 0;"> - tutaj opuść koronę - </div>
+						<img id="preview_crown" src="/uploads/dummy.png" style="max-height: 100px; margin: 0 auto">
+	  				<div id="preview_crown_text" style="text-align: center; padding: 35px 0 0 0;"> - 2. wybierz koronę - </div>
 					<?php } ?>						
 	  		
 	  			
 	  		</div>
-	  		<div id="preview_column1" style="color:#aaa; width: 250px; height: 320px; margin-bottom: 0px; border:1px solid #ccc;text-align:center">
+	  		<div title="Lista słupów" onclick="document.getElementById('step').value=0;document.form.submit()" id="preview_column1" style="color:#333; width: 250px; height: 320px; margin-bottom: 0px; border:1px solid #ccc;text-align:center; cursor: pointer">
 					<?php if (is_file($_SERVER['DOCUMENT_ROOT'].'/uploads/column_'.$columnId.'.png')) {  ?>
-						<img src="/uploads/column_<?php echo $columnId?>.png" style="max-height: 315px; margin: 0 auto">
+						<img id="preview_column" src="/uploads/column_<?php echo $columnId?>.png" style="max-height: 315px; margin: 0 auto">
 					<?php } else { ?>
-	  				<div style="text-align: center; padding: 140px 0 0 0;"> - tutaj opuść podstawę - </div>
+						<img id="preview_column" src="/uploads/dummy.png" style="max-height: 315px; margin: 0 auto">
+	  				<div id="preview_column_text" style="text-align: center; padding: 140px 0 0 0;"> - 1. wybierz słup - </div>
 					<?php } ?>						
 	  		
 	  		</div>
@@ -115,17 +118,22 @@
 		<input type="hidden" value="<?php echo $columnId; ?>" name="column" id="column"> 
 			<input type="hidden" value="<?php echo $crownId; ?>" name="crown" id="crown"> 
 			<input type="hidden" value="<?php echo $fittingId; ?>" name="fitting" id="fitting"> 
-			<input type="hidden" value="<?php echo $step; ?>" name="step">
+			<input type="hidden" value="<?php echo $step; ?>" name="step" id="step">
 			<?php echo form_hidden('street', $street);?> 
 			<?php echo form_hidden('garden', $garden);?> 
 			<?php echo form_hidden('bgid', $bgid);?> 
+			<!-- 
 			<table width="100%"><tr><td width="50%"><?php showButton('Wstecz', 'back()', 'grey') ?></td><td width="50%"><?php showSubmit('Dalej') ?></td></tr></table>
+			 -->
+			
+			<?php showButton('Zapisz', "document.getElementById('step').value=3;document.form.submit()"); ?>
 	</form>
 </div>
 
 
 
 
+<a href="javascript:void(0)" onclick="wnd.location.href=location.href">REFRESH</a>
 
 	<!-- FOOTER -->
 <br clear="all">
@@ -138,14 +146,14 @@
 
 
 
-
 				
 				
 
 	<script type="text/javascript">
 
 function setElement(type, imgFile) {
-	$('#preview_'+type).attr('src', '/uploads/<?php echo $type; ?>/'+imgFile+'.jpg');
+	$('#preview_'+type).attr('src', '/uploads/<?php echo $type; ?>_'+imgFile+'.png');
+	$('#preview_'+type+'_text').css('display', 'none');
 	$('#'+type).attr('value', imgFile);
 }
 

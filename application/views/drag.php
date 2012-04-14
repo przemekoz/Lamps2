@@ -85,8 +85,9 @@
 		<div onclick="save_all()" class="btn_out" title="Zapisz">
 			<div class="btn_in">Zapisz</div>
 		</div>
- -->
 		<div style="margin-left: 95px" onclick="window.open('/uploads/u<?php echo $userid ?>_saved.jpg?r=<?php echo rand(0,99)?>', '_blank')" class="btn_out" title="Podgląd">
+ -->
+		<div style="margin-left: 95px" onclick="window.open('/index.php/EmailsTemplate/preview', '_blank')" class="btn_out" title="Podgląd">
 			<div class="btn_in">Podgląd</div>
 		</div>
 		<div onclick="clear_canvas()" class="btn_out" title="Wyczyść">
@@ -133,7 +134,7 @@
 			//@todo - dodac zabezpiecznie jakby odczytany rozmiar byl null
 		?>
 
-		<div id="canvas" style="margin: 0 auto; z-index: 100;position: relative; width:<?php echo $bgWidth?>px; height: <?php echo $bgHeight?>px; background: url('<?php echo $bg ?>') no-repeat;"></div>
+		<div id="canvas" onclick="hideContextMenu()" style="margin: 0 auto; z-index: 100;position: relative; width:<?php echo $bgWidth?>px; height: <?php echo $bgHeight?>px; background: url('<?php echo $bg ?>') no-repeat;"></div>
 		
 			<?php 
 				$content = ob_get_clean();
@@ -175,14 +176,16 @@
 				$content = ob_get_clean();
 				echo divShadow(200, 610, $content,0);
 				echo '<br>';		
-				showButton('Dodaj element', "location.href='/index.php/EmailsTemplate/choose_item?bg=".$bgid."'", 'grey')
+				showButton('Dodaj element', "wnd=window.open('/index.php/EmailsTemplate/choose_item?bg=".$bgid."')", 'grey')
 			?>
 				
 		</div>
 		<div style="clear:both"></div>
 	</div>
 </div>
+<!-- 
 <textarea id="elements_msg" style="border:none; width:100%; height:100px"></textarea>
+ -->
 
 <!-- FOOTER -->
 <br clear="all">
@@ -274,7 +277,7 @@
             		save_all();
                  
                  //zapisanie informacji o dodanym elemencie
-                 document.getElementById('elements_msg').value += ' ' + ELEMENTS_DATA[products[id][6]+'.png']['text'] + "\r\n";
+                 //document.getElementById('elements_msg').value += ' ' + ELEMENTS_DATA[products[id][6]+'.png']['text'] + "\r\n";
 
                  //zwiekszenie liczby dodanych elementow
                  ELEMENTS_DATA[products[id][6]+'.png']['count'] += 1;
@@ -316,7 +319,8 @@
             
             clone.appendTo($("#canvas"));
             
-            clone.attr('title', "Złap lampę i przesuń. Złap lampę za róg i przeskaluj");
+            var text = ELEMENTS_DATA[item.children().attr('class')+'.png']['text']; 
+            clone.attr('title', text+". - Kliknij prawym -");
                 
             //zmiana id clonowanego obiektu
             clone.attr('id', prodId+'canvas-'+clone.attr('id'));

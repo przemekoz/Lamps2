@@ -122,10 +122,11 @@
 		
 		
 	<form name="form" action="/index.php/<?php echo $url?>/send" method="post">
-	<?php echo inputText('Imię:', 'my_name', '', 'small'); ?><br>	
-	<?php echo inputText('Mój email:', 'my_email', '', 'small'); ?><br>	
+	<?php echo inputText('Imię nazwisko:', 'my_name', '', 'small'); ?><br>	
+	<?php echo inputText('Nazwa firmy:', 'my_company', '', 'small'); ?><br>	
+	<?php echo inputText('Email:<font color=red>*</font>', 'my_email', '', 'small'); ?><br>	
 	<?php echo inputTextarea('Treść:', 'my_text', '', 'small'); ?>	<br>
-	<?php echo getButton('Wyślij', 'document.form.submit()') ?>
+	<?php echo getButton('Wyślij', 'check_submit()') ?>
 	</form>	
 
 				
@@ -142,6 +143,20 @@
 </div>
 
 
+<script type="text/javascript">
+function check_submit() {
+
+	var email = document.form.my_email.value; 
+	if ( email.length > 3) {
+		document.form.submit();
+		return true;
+	}
+	
+	alert('Wypełnj pole Email');
+	return false;
+
+}
+</script>
 
 </body>
 </html>

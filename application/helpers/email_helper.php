@@ -22,6 +22,7 @@ if ( ! function_exists('mail_attachment'))
 			$name = basename($file);
 			$header = "From: Konfigurator <biuro@promar-sj.com.pl>\r\n";
 			//$header = "Reply-To: ".$from_name." <".$from_mail.">\r\n";
+			$header .= "Reply-To: ".$from_mail."\r\n";
 			$header .= "MIME-Version: 1.0\r\n";
 			$header .= "Content-Type: multipart/mixed; boundary=\"".$uid."\"\r\n\r\n";
 			$header .= "This is a multi-part message in MIME format.\r\n";
@@ -41,6 +42,7 @@ if ( ! function_exists('mail_attachment'))
 		//w przeciwnym przypadku
 		else {
 			$header = "From: Konfigurator <biuro@promar-sj.com.pl>\r\n";
+			$header .= "Reply-To: ".$from_mail."\r\n";
 			$header .= "Content-type:text/plain; charset=UTF-8\r\n";
 			$res = @mail($mailto, '=?UTF-8?B?'.base64_encode($subject).'?=', $message, $header);
 			$is_file=0;

@@ -37,7 +37,7 @@ class EmailsTemplate extends CI_Controller {
 		////////////////////////////////////////
 		// @TODO - zmienic na id sesji        //
 		////////////////////////////////////////
-		$this->userId = '12345678910';
+		$this->userId = '1234567';
 		////////////////////////////////////////
 		// @TODO - zmienic na id sesji        //
 		////////////////////////////////////////
@@ -125,10 +125,10 @@ class EmailsTemplate extends CI_Controller {
 		$this->upload->initialize($config);
 
 		$this->upload->do_upload('file');
-		
+
 		//przeskalowanie obrazka
 		$this->load->library('image_lib');
-		
+
 		$config['image_library'] = 'GD2';
 		$config['width'] = 800;
 		$config['height'] = 600;
@@ -139,7 +139,7 @@ class EmailsTemplate extends CI_Controller {
 		$config['source_image'] = $_SERVER['DOCUMENT_ROOT'].'/uploads/'.$this->userBackgroundFile;
 		$this->image_lib->initialize($config);
 		$this->image_lib->resize();
-		
+
 		redirect($this->module_url.'/drag');
 	}
 
@@ -300,12 +300,12 @@ class EmailsTemplate extends CI_Controller {
 
 		if ($step == 1) {
 			$query = $this->db->select('id_fitting')->get_where('merge_column_fitting', array('id_column'=>$columnId));
-				
+
 			/* jezeli istnoieja powiazania wybranej kolumny z oprawami wyswietlenie info */
 			if ($query->num_rows()) {
 				$data['extra_info'] = 1;
 			}
-				
+
 		}
 
 
@@ -336,10 +336,10 @@ class EmailsTemplate extends CI_Controller {
 	}
 
 
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * Funckcja pobiera dane o elementacg z bazy, width, height, mode
 	 * @return array - zwraza tablice 2 wymiarową
 	 */
@@ -356,17 +356,17 @@ class EmailsTemplate extends CI_Controller {
 			$r = $q->result_array();
 			$v[$i] = !empty($r[0]) ? $r[0] : array('id'=>0, 'width'=>0, 'height'=>0, 'mode'=>'');
 		}
-		
-		//odczytanie obrzków z dysku	
+
+		//odczytanie obrzków z dysku
 		for ($i=0; $i<count($a); $i++) {
-			//wczytaj obrazek 
+			//wczytaj obrazek
 			$img = $this->UI->getimage('uploads/'.$a[$i].'_'.$p[$i].'.png');
 			$v[$i+3] = !empty($img) ? $img : null;
 		}
-		
+
 		return $v;
 	}
-	
+
 
 	public function test() {
 		/* -------------------------- */
@@ -377,9 +377,9 @@ class EmailsTemplate extends CI_Controller {
 
 		//zapisz obrazek oraz jego lustrzane odbicie
 		$this->UI->imagesaveflip($img, 'test', 'PNG');
-		
+
 	}
-	
+
 
 	/* funkcja pomocnicza zapisanie wygenerowanej lampy */
 	/* korona dla opraw wiszących */
@@ -390,7 +390,7 @@ class EmailsTemplate extends CI_Controller {
 		$query = $this->db->get_where('merge_crown_fitting', array('id_crown'=>$crown['id'],'id_fitting'=>$fitting['id']));
 		$opt = $query->result();
 		$opt = $opt[0];
-		
+
 		/* szerokosc obrazka zalezny od szerszego elementu */
 		$tmpWidth = $column['width'] > $crown['width'] ? $column['width'] : $crown['width'];
 		if ($opt->lambda_x >= 0) {
@@ -400,18 +400,18 @@ class EmailsTemplate extends CI_Controller {
 			$width = $crown['width'] - (2 * $opt->lambda_x); //szerokosc korony + 2*lambda
 			$width = $width > $tmpWidth ? $width : $tmpWidth; //sprawdzenie czy nowa szerokosc nie jest mniejsza niz szerokosc kolumny
 		}
-		
+
 		$height = $column['height'] + $crown['height'];
-		
+
 		/* -------------------------- */
 		/* utworzenie pustego obrazka */
 		/* -------------------------- */
 		$img = $this->UI->createimage($width, $height, true);
-		
 
-		
-		
-		
+
+
+
+
 		/* umieszczenie na obrazku korony  - umieszczenie na środku (x) */
 		$this->UI->imagecopy($img, $imgCrown, floor(($width-$crown['width'])/2), 0, 0, 0, $crown['width'], $crown['height']);
 			
@@ -419,44 +419,44 @@ class EmailsTemplate extends CI_Controller {
 		$top = $crown['height'] - $opt->lambda_y;
 		$leftFitingX = 0;
 		$rightFitingX = $width-$fitting['width'];
-		
+
 		if ($opt->lambda_x > 0) {
 			$leftFitingX = $opt->lambda_x;
 			$rightFitingX = $rightFitingX - $opt->lambda_x;
 		}
-		
-		/* dodanie lewej kolumny */	
+
+		/* dodanie lewej kolumny */
 		$this->UI->imagecopy($img, $imgFitting, $leftFitingX, $top, 0, 0, $fitting['width'], $fitting['height']);
 		if ($crown['number'] == 2) {
-			/* dodanie prawej kolumny */	
+			/* dodanie prawej kolumny */
 			$this->UI->imagecopy($img, $imgFitting, $rightFitingX, $top, 0, 0, $fitting['width'], $fitting['height']);
 		}
-		
+
 		//dodaj do nowego obrazka kolumne - umieszczenie na środku (x)
 		$this->UI->imagecopy($img, $imgColumn, floor(($width-$column['width'])/2), $crown['height'], 0, 0, $column['width'], $column['height']);
-		
+
 		return $img;
 	}
 
-	
+
 	/* funkcja pomocnicza zapisanie wygenerowanej lampy */
 	/* KOLUMNA :: OPRAWA */
 	private function save_item_column_fitting($column, $fitting, $imgColumn, $imgFitting) {
 		/* szerokosc obrazka zalezny od szerszego elementu */
 		$width = $column['width'] > $fitting['width'] ? $column['width'] : $fitting['width'];
 		$height = $column['height'] + $fitting['height'];
-		
+
 		/* -------------------------- */
 		/* utworzenie pustego obrazka */
 		/* -------------------------- */
 		$img = $this->UI->createimage($width, $height, true);
-		
+
 		//dodaj do nowego obrazka kolumne - umieszczenie na środku (x)
 		$this->UI->imagecopy($img, $imgColumn, floor(($width-$column['width'])/2), $fitting['height'], 0, 0, $column['width'], $column['height']);
-		
+
 		//dodaj oprawę na środku
 		$this->UI->imagecopy($img, $imgFitting, floor(($width-$fitting['width'])/2), 0, 0, 0, $fitting['width'], $fitting['height']);
-		
+
 		return $img;
 	}
 
@@ -464,13 +464,13 @@ class EmailsTemplate extends CI_Controller {
 	/* korona dla opraw stojących */
 	/* KORONA :: OPRAWA */
 	private function save_item_crown_fitting_stand($column, $crown, $fitting, $imgColumn, $imgCrown, $imgFitting) {
-		
+
 		/* odczytanie parametrów łączenia korony z oprawą */
 		$this->db->select('lambda_x, lambda_y');
 		$query = $this->db->get_where('merge_crown_fitting', array('id_crown'=>$crown['id'],'id_fitting'=>$fitting['id']));
 		$opt = $query->result();
 		$opt = $opt[0];
-		
+
 		/* szerokosc obrazka zalezny od szerszego elementu */
 		$tmpWidth = $column['width'] > $crown['width'] ? $column['width'] : $crown['width'];
 		if ($opt->lambda_x >= 0) {
@@ -480,22 +480,22 @@ class EmailsTemplate extends CI_Controller {
 			$width = $crown['width'] - (2 * $opt->lambda_x); //szerokosc korony + 2*lambda
 			$width = $width > $tmpWidth ? $width : $tmpWidth; //sprawdzenie czy nowa szerokosc nie jest mniejsza niz szerokosc kolumny
 		}
-		
+
 		$height = $column['height'] + $fitting['height'] + $crown['height'];
 		if ($opt->lambda_y > 0) {
 			$height = $height - $opt->lambda_y;
 		}
-		
+
 		/* -------------------------- */
 		/* utworzenie pustego obrazka */
 		/* -------------------------- */
 		$img = $this->UI->createimage($width, $height, true);
-		
+
 
 		//dodaj do nowego obrazka kolumne - umieszczenie na środku (x)
 		$top = $fitting['height'] + $crown['height'] - $opt->lambda_y;
 		$this->UI->imagecopy($img, $imgColumn, floor(($width-$column['width'])/2), $top, 0, 0, $column['width'], $column['height']);
-		
+
 		/* umieszczenie na obrazku korony  - umieszczenie na środku (x) */
 		/* odejmowane tylko jak lambda > 0 (lambda_y nie moze byc ujemna) */
 		$top = $fitting['height'] - $opt->lambda_y;
@@ -504,21 +504,21 @@ class EmailsTemplate extends CI_Controller {
 		/* dodanie opraw */
 		$leftFitingX = 0;
 		$rightFitingX = $width-$fitting['width'];
-		
+
 		if ($opt->lambda_x > 0) {
 			$leftFitingX = $opt->lambda_x;
 			$rightFitingX = $rightFitingX - $opt->lambda_x;
 		}
-		
-		/* dodanie lewej kolumny */	
+
+		/* dodanie lewej kolumny */
 		$this->UI->imagecopy($img, $imgFitting, $leftFitingX, 0, 0, 0, $fitting['width'], $fitting['height']);
 		if ($crown['number'] == 2) {
-			/* dodanie prawej kolumny */	
+			/* dodanie prawej kolumny */
 			$this->UI->imagecopy($img, $imgFitting, $rightFitingX, 0, 0, 0, $fitting['width'], $fitting['height']);
 		}
 		return $img;
 	}
-	
+
 	/*
 	 |
 	 CREATE TABLE IF NOT EXISTS saved_element (
@@ -540,10 +540,10 @@ class EmailsTemplate extends CI_Controller {
 		$idCrown = 		isset($_GET['crown'])  ? intval($_GET['crown'])  : 0;
 		$idFitting = 	isset($_GET['fitting'])? intval($_GET['fitting']): 0;
 		$bgid = 			isset($_GET['bgid'])	 ? intval($_GET['bgid']): 0;
-		
+
 		/* pobranie danych kolumny, oprawy, korony oraz zapisanie do zmiennych tablicowych. Tablica: np. $column['width'], $column['height'], $column['mode'] */
 		list($column, $crown, $fitting, $imgColumn, $imgCrown, $imgFitting) = $this->get_data_elelemnts(array($idColumn, $idCrown, $idFitting));
-		
+
 		/* jezeli nie ma korony -> kolumna :: oprawa */
 		if (empty($idCrown)) {
 			$img = $this->save_item_column_fitting($column, $fitting, $imgColumn, $imgFitting);
@@ -584,7 +584,8 @@ class EmailsTemplate extends CI_Controller {
 			'id_crown'	=>$this->input->get('crown'),
 			'text_crown'=>$t['crown'],
 			'id_fitting'=>$this->input->get('fitting'),
-			'text_fitting'=>$t['fitting']
+			'text_fitting'=>$t['fitting'],
+			'add_date'=>date('Y-m-d')
 		);
 		$this->db->insert('saved_element',$insert);
 
@@ -599,24 +600,69 @@ class EmailsTemplate extends CI_Controller {
 
 		//przeskalowanie wygenerowanych lamp
 		$this->load->library('image_lib');
-		
+
 		$config['image_library'] = 'GD2';
 		$config['width'] = 170;
 		$config['height'] = 500;
 		$config['quality'] = '100%';
-		$config['master_dim'] = 'width';
+		//$config['master_dim'] = 'width';
 		$config['maintain_ratio'] = TRUE;
 
 		$config['source_image'] = $_SERVER['DOCUMENT_ROOT'].'/uploads/'.$filename.'.png';
 		$this->image_lib->initialize($config);
 		$this->image_lib->resize();
 		$this->image_lib->clear();
-		
+
 		$config['source_image'] = $_SERVER['DOCUMENT_ROOT'].'/uploads/inv_'.$filename.'.png';
 		$this->image_lib->initialize($config);
 		$this->image_lib->resize();
-		
-		redirect($this->module_url.'/drag?bg='.$bgid);
+
+		//czyszczene starych plików
+		$this->clear_old_files();
+
+		redirect($this->module_url.'/choose_item');
+	}
+
+	/* czyści pliki starsze niż tydzień */
+	public function clear_old_files() {
+		/* odczytanie plików do usuniecia */
+		$this->db->select('id_user');
+		$this->db->where('add_date < NOW() + INTERVAL - 2 WEEK');
+		$this->db->group_by('id_user');
+		$query = $this->db->get('saved_element');
+		$row = $query->result();
+
+		foreach ($row as $row) {
+				
+		/* usunięcie plików */
+			if ($handle = opendir($_SERVER['DOCUMENT_ROOT'].'/uploads/')) {
+				while (false !== ($file = readdir($handle))) {
+					if (preg_match('/^u'.$row->id_user.'_i[0-9]+\./', $file)) {
+						@unlink($_SERVER['DOCUMENT_ROOT'].'/uploads/'.$file);
+					}
+					if (preg_match('/^inv_u'.$row->id_user.'_i[0-9]+\./', $file)) {
+						@unlink($_SERVER['DOCUMENT_ROOT'].'/uploads/'.$file);
+					}
+					if (preg_match('/^u'.$row->id_user.'_saved\./', $file)) {
+						@unlink($_SERVER['DOCUMENT_ROOT'].'/uploads/'.$file);
+					}
+					if (preg_match('/^user_background_'.$row->id_user.'\./', $file)) {
+						@unlink($_SERVER['DOCUMENT_ROOT'].'/uploads/'.$file);
+					}
+					if (preg_match('/^u'.$row->id_user.'\.pdf/', $file)) {
+						@unlink($_SERVER['DOCUMENT_ROOT'].'/uploads/'.$file);
+					}
+					
+				}
+				closedir($handle);
+			}
+				
+			/* usunięcie rekordów w bazeie saved_element */
+			$this->db->delete('saved_element', array('id_user'=>$row->id_user));	
+				
+		}
+
+
 	}
 
 	public function save_item__OLD() {
@@ -742,7 +788,7 @@ class EmailsTemplate extends CI_Controller {
 
 		//iterator produktów
 		$i = 1;
-		
+
 		foreach ($aProducts as $key => $row) {
 			/*
 			 * $filename - plik obrazka
@@ -771,13 +817,12 @@ class EmailsTemplate extends CI_Controller {
 
 			//naloz na tło
 			$this->UI->imagecopy($bg, $product, $x, $y, 0, 0, imagesx($product), imagesy($product));
-			
+				
 			/* dodaj opis z numerem obrazka - kwadracik z numerem */
-			$this->UI->add_product_label($bg, $product, $x, $y, $i++);
+			//$this->UI->add_product_label($bg, $product, $x, $y, $i++);
 
 			$this->UI->imagedestroy($product);
 		}
-
 
 		$this->UI->imagesave($bg, 'uploads/u'.$this->userId.'_saved', 'JPG');
 		$this->UI->imagedestroy($bg);
@@ -812,30 +857,32 @@ class EmailsTemplate extends CI_Controller {
 		$this->download('u'.$this->userId.'_saved.jpg', 'jpg');
 	}
 
-	
-	
-	
+
+
+
 	public function send_form() {
-		
+
 		$data = array('userid'=>$this->userId, 'url'=>$this->module_url);
 		$this->load->view('main_template', $data);
 	}
-	
+
 	public function send() {
 
-		
+		//die('odblokuj :: wysylka maila...');
+
 		//zapisanie pdf-a
 		$filename = $this->pdf('F');
 
 		$my_file = 'u'.$this->userId.'.pdf';
 		$my_path = $_SERVER['DOCUMENT_ROOT']."/uploads/";
 		//$my_path = "http://44soft.vipserv.org/uploads/";
-		
+
 		$my_name = $this->input->post('my_name');
 		$my_mail = $this->input->post('my_email');
-		$my_message = $this->input->post('my_text')."\r\n\r\nPozdrawiam\r\n".$my_name." - ".$my_mail;
+		$my_company = $this->input->post('my_company');
+		$my_message = $this->input->post('my_text')."\r\n\r\nPozdrawiam\r\n".$my_name." - ".$my_company." - ".$my_mail;
 
-		$my_replyto = "my_reply_to@mail.net";
+		$my_replyto = $my_mail;
 		$my_subject = "Zapytanie z aplikacji WWW";
 		//biuro@promar-sj.com.pl
 		mail_attachment($my_file, $my_path, "biuro@promar-sj.com.pl", $my_mail, $my_name, $my_replyto, $my_subject, $my_message);
@@ -845,6 +892,10 @@ class EmailsTemplate extends CI_Controller {
 
 	public function send_ok() {
 		$this->load->view('send_email_ok', array('userid'=>$this->userId));
+	}
+
+	public function preview() {
+		echo '<html><body><img src="/uploads/u'.$this->userId.'_saved.jpg?r='.md5(microtime()).'"></body></html>';
 	}
 
 }
