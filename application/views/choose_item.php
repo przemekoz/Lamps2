@@ -133,7 +133,7 @@
 
 
 
-<a href="javascript:void(0)" onclick="wnd.location.href=location.href">REFRESH</a>
+<a href="javascript:void(0)" onclick="window.opener.location.reload();">REFRESH</a>
 
 	<!-- FOOTER -->
 <br clear="all">
