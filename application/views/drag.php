@@ -632,6 +632,26 @@ $(document).bind('mousedown',function(e){
 	/* zapisanie układu po uruchomieuniu strony - np. wybranie tla przez usera */
 	save_all();
 		
+		
+		function add_element(id_elem,id_user) {
+			
+			var newChild = document.createElement('div');
+			newChild.setAttribute('id', 'parent-produ'+id_user+'_i'+id_elem);
+			newChild.setAttribute('class', 'draggable');
+			newChild.setAttribute('style', 'margin-bottom: 10px');
+			newChild.setAttribute('title', 'Złap lampę i przesuń na tło');
+
+			var newImg = document.createElement('img');
+			newImg.setAttribute('id', 'produ'+id_user+'_i'+id_elem);
+			newImg.setAttribute('class', 'u'+id_user+'_i'+id_elem);
+			newImg.setAttribute('src', '/uploads/u'+id_user+'_i'+id_elem+'.png');
+ 
+	newChild.appendChild(newImg);
+	
+	document.getElementById('list-items').appendChild(newChild);
+			alert('Nowa lampa została dodana...');			
+		}
+		
     </script>
 </body>
 </html>

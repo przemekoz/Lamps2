@@ -57,6 +57,19 @@
 </div>
 </div>			
 
+<script type="text/javascript">
+function add_new_element(id, id_user) {
+	window.opener.add_element(id, id_user);
+}
+
+<?php 
+
+if (!empty($inserted_element_id)) {
+	echo 'add_new_element('.$inserted_element_id.',"'.$iduser.'")';
+}
+?>
+
+</script>
 
 </body>
 </html>

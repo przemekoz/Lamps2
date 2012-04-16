@@ -159,7 +159,7 @@ class EmailsTemplate extends CI_Controller {
 		 */
 		$this->db->select('id, id_column, id_crown, id_fitting, text_column, text_crown, text_fitting');
 		$this->db->where('id_user', $this->userId);
-		$this->db->order_by('id', 'desc');
+		$this->db->order_by('id', 'asc');
 		$query = $this->db->get('saved_element');
 
 
@@ -226,7 +226,8 @@ class EmailsTemplate extends CI_Controller {
 	public function choose_item() {
 		$data['url'] = $this->module_url;
 		$data['bgid'] = $this->input->get('bg');
-			
+		$data['inserted_element_id'] = $this->input->get('id');	
+		$data['iduser'] = $this->userId;	
 		$this->load->view('choose_item_pre', $data);
 	}
 
@@ -620,7 +621,7 @@ class EmailsTemplate extends CI_Controller {
 		//czyszczene starych plików
 		$this->clear_old_files();
 
-		redirect($this->module_url.'/choose_item');
+		redirect($this->module_url.'/choose_item?id='.$lastId);
 	}
 
 	/* czyści pliki starsze niż tydzień */
