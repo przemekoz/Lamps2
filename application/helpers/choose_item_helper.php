@@ -20,10 +20,10 @@ if ( ! function_exists('showItem'))
 		$item  = '<div class="'.$type.'" style="cursor: pointer;border:1px dotted #ddd;margin-bottom:10px" id="'.$id.'" onclick="setElement(\''.$type.'\', \''.$id.'\')"><div style=\"padding:5px 10px\">';
 		
 		if ($type == 'column') {
-			$item .= '<table width="100%" ><tr><td width="50%" align="right"><img src="/uploads/'.$type.'_'.$id.'.png" style="max-height:315px;"></td><td width="50%" valign="top">'.$title.'</td></table>';
+			$item .= '<table width="300" ><tr><td width="50%" align="right"><img src="/uploads/'.$type.'_'.$id.'.png" class="columns" style="max-height:315px;"></td><td width="50%" valign="top">'.$title.'</td></table>';
 		}
 		else {
-			$item .= '<table width="100%" ><tr><td width="50%" align="right"><img src="/uploads/'.$type.'_'.$id.'.png" style="max-height:100px;"></td><td width="50%" valign="top">'.$title.'</td></table>';
+			$item .= '<table width="300" ><tr><td width="50%" align="right"><img src="/uploads/'.$type.'_'.$id.'.png" class="others" style="max-height:100px;"></td><td width="50%" valign="top">'.$title.'</td></table>';
 		}
 		
 		
@@ -65,7 +65,7 @@ if ( ! function_exists('showItemsInColumns'))
 		
 			
 		
-		$html  = '<div style="width: 100%; height:588px; position: relative; overflow: auto;">';
+		$html  = '<div style="width: 685px; height:588px; position: relative; overflow: auto;">';
 
 		$divColumnWidth = floor(100 / $columnsCount);
 		foreach ($column as $key => $col) {

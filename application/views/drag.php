@@ -114,7 +114,7 @@
 
 
 <div style="text-align: center;width:100%;margin-top:15px">
-	<div style="width:1010px; height:610px; background: #fff; margin:0 auto;text-align: left">
+	<div style="width:1012px; height:612px; background: #fff; margin:0 auto;text-align: left">
 		<div style="float:left;text-align: center">
 		
 		<?php ob_start(); ?>
@@ -129,16 +129,17 @@
 				list($bgWidth, $bgHeight) = getimagesize($_SERVER['DOCUMENT_ROOT'].$bg);
 			}
 			
+			
 			//@todo - dodac zabezpieczneie na wypadek za duzego rozmiaru
 			
 			//@todo - dodac zabezpiecznie jakby odczytany rozmiar byl null
 		?>
 
-		<div id="canvas" onclick="hideContextMenu()" style="margin: 0 auto; z-index: 100;position: relative; width:<?php echo $bgWidth?>px; height: <?php echo $bgHeight?>px; background: url('<?php echo $bg ?>') no-repeat;"></div>
+		<div id="canvas" onclick="hideContextMenu()" style="margin: 0 auto; z-index: 100;position: relative; width:<?php echo $bgWidth?>px; height: <?php echo $bgHeight?>px; background: url('<?php echo $bg ?>') no-repeat;padding:0;font-size:1px;line-height:1px"></div>
 		
 			<?php 
 				$content = ob_get_clean();
-				echo divShadow(810, 610, $content,0) 
+				echo divShadow(812, 612, $content,0) 
 			?>
 				
 				<br>
@@ -645,10 +646,13 @@ $(document).bind('mousedown',function(e){
 			newImg.setAttribute('id', 'produ'+id_user+'_i'+id_elem);
 			newImg.setAttribute('class', 'u'+id_user+'_i'+id_elem);
 			newImg.setAttribute('src', '/uploads/u'+id_user+'_i'+id_elem+'.png');
- 
-	newChild.appendChild(newImg);
+
+			
+			 
+			newChild.appendChild(newImg);
 	
-	document.getElementById('list-items').appendChild(newChild);
+			document.getElementById('list-items').appendChild(newChild);
+			$('#parent-produ'+id_user+'_i'+id_elem).draggable({ hoverClass: "product-active", revert: "invalid", cursor: 'move', opacity: 0.35, addClasses: false, helper: 'clone', containment: "document" });
 			alert('Nowa lampa została dodana...');			
 		}
 		

@@ -90,3 +90,104 @@
  [2012-04-16 23:14:27] Cannot read image file:D:/Projekty/lamps//uploads/user_background_1234567.jpg
  [2012-04-16 23:14:27] Cannot write image: uploads/u1234567_saved
  [2012-04-16 23:14:27] Cannot destroy image
+ [2012-04-17 06:05:35] Cannot read image file:C:/workspace/lamps//uploads/crown_0.png
+ [2012-04-17 06:06:39] Cannot read image file:C:/workspace/lamps//uploads/crown_0.png
+ [2012-04-17 06:06:59] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:06:59] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:06:59] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:06:59] Cannot destroy image
+loads/u1234567_saved
+ [2012-04-17 06:06:59] Cannot destroy image
+ [2012-04-17 06:07:00] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:07:00] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:07:00] Cannot destroy image
+ [2012-04-17 06:07:03] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:07:03] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:07:03] Cannot destroy image
+ [2012-04-17 06:07:06] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:07:06] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:07:06] Cannot destroy image
+ [2012-04-17 06:30:23] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:30:23] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:30:23] Cannot destroy image
+ [2012-04-17 06:31:14] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:31:14] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:31:14] Cannot destroy image
+ [2012-04-17 06:31:40] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:31:40] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:31:40] Cannot destroy image
+ [2012-04-17 06:32:08] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:32:08] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:32:08] Cannot destroy image
+ [2012-04-17 06:32:42] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:32:42] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:32:42] Cannot destroy image
+ [2012-04-17 06:32:44] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:32:44] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:32:44] Cannot destroy image
+ [2012-04-17 06:35:34] Cannot read image file:C:/workspace/lamps//uploads/crown_0.png
+ [2012-04-17 06:39:37] Cannot read image file:C:/workspace/lamps//uploads/crown_0.png
+ [2012-04-17 06:40:20] Cannot read image file:C:/workspace/lamps//uploads/crown_0.png
+ [2012-04-17 06:40:48] Cannot read image file:C:/workspace/lamps//uploads/column_0.png
+ [2012-04-17 06:40:48] Cannot read image file:C:/workspace/lamps//uploads/crown_0.png
+ [2012-04-17 06:40:48] Cannot read image file:C:/workspace/lamps//uploads/fitting_0.png
+ [2012-04-17 06:40:48] Cannot run imagecreatetruecolor() in PK_UtilImage
+ [2012-04-17 06:40:48] Cannot run imagealphablending() in PK_UtilImage
+ [2012-04-17 06:40:48] Cannot run imagefilledrectangle() in PK_UtilImage
+ [2012-04-17 06:40:48] Cannot run imagecopy() PK_UtilImage
+ [2012-04-17 06:40:48] Cannot run imagecopy() PK_UtilImage
+ [2012-04-17 06:40:48] Cannot write image: uploads/u1234567_i7
+ [2012-04-17 06:40:48] Cannot run imagecreatetruecolor() in PK_UtilImage
+ [2012-04-17 06:40:48] Cannot run imagealphablending() in PK_UtilImage
+ [2012-04-17 06:40:48] Cannot run imagefilledrectangle() in PK_UtilImage
+ [2012-04-17 06:40:48] Cannot resize image
+ [2012-04-17 06:40:48] Cannot write image: uploads/inv_u1234567_i7
+ [2012-04-17 06:40:48] Cannot destroy image
+ [2012-04-17 06:47:33] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:47:34] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:47:34] Cannot destroy image
+ [2012-04-17 06:55:18] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:55:18] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:55:18] Cannot destroy image
+ [2012-04-17 06:55:56] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:55:56] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:55:56] Cannot destroy image
+ [2012-04-17 06:57:47] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 06:57:47] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 06:57:47] Cannot destroy image
+ [2012-04-17 07:14:50] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 07:14:50] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 07:14:50] Cannot destroy image
+ [2012-04-17 07:16:31] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 07:16:31] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 07:16:31] Cannot destroy image
+ [2012-04-17 07:20:39] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 07:20:39] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 07:20:39] Cannot destroy image
+ [2012-04-17 07:22:03] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 07:22:03] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 07:22:03] Cannot destroy image
+ [2012-04-17 07:24:25] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 07:24:25] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 07:24:25] Cannot destroy image
+ [2012-04-17 07:33:02] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 07:33:02] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 07:33:02] Cannot destroy image
+ [2012-04-17 11:30:40] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 11:30:40] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 11:30:40] Cannot destroy image
+ [2012-04-17 11:39:09] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 11:39:09] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 11:39:09] Cannot destroy image
+ [2012-04-17 11:42:26] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 11:42:26] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 11:42:26] Cannot destroy image
+ [2012-04-17 11:44:22] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 11:44:22] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 11:44:22] Cannot destroy image
+ [2012-04-17 12:01:05] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-17 12:01:05] Cannot write image: uploads/u1234567_saved
+ [2012-04-17 12:01:05] Cannot destroy image
+ [2012-04-17 12:01:14] Cannot read image file:C:/workspace/lamps//uploads/crown_0.png
+ [2012-04-17 12:01:14] Cannot read image file:C:/workspace/lamps//uploads/fitting_0.png
+ [2012-04-17 12:01:14] Cannot run imagecopy() PK_UtilImage

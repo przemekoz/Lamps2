@@ -373,12 +373,13 @@ class EmailsTemplate extends CI_Controller {
 		/* -------------------------- */
 		/* utworzenie pustego obrazka */
 		/* -------------------------- */
-		$img = $this->UI->createimage(100, 100, true);
+		//$img = $this->UI->createimage(100, 100, true);
 
 
 		//zapisz obrazek oraz jego lustrzane odbicie
-		$this->UI->imagesaveflip($img, 'test', 'PNG');
+		//$this->UI->imagesaveflip($img, 'test', 'PNG');
 
+		$this->load->view('test');
 	}
 
 

@@ -2,8 +2,12 @@
 <head>
 <script src="/javascript/jquery-1.6.1.min.js" type="text/javascript"></script>
 <script src="/javascript/ui.core.min.js" type="text/javascript"></script>
-
-
+<script src="/javascript/ui.draggable.min.js" type="text/javascript"></script>
+<script src="/javascript/ui.droppable.min.js" type="text/javascript"></script>
+<script src="/javascript/ui.resizable.min.js" type="text/javascript"></script>
+<!-- 
+<script src="/javascript/json.js" type="text/javascript"></script>
+ -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <style type="text/css">
 * {
@@ -103,7 +107,7 @@
 			?>
 		
 		</div>
-		<div style="float:left;" id="items-list">
+		<div style="float:left;">
 			<?php echo divShadow(700, 600, showItemsInColumns($list, 2),0) ?>
 				
 		</div>
@@ -118,15 +122,18 @@
 			<?php echo form_hidden('street', $street);?> 
 			<?php echo form_hidden('garden', $garden);?> 
 			<?php echo form_hidden('bgid', $bgid);?> 
+			<!-- 
+			<table width="100%"><tr><td width="50%"><?php showButton('Wstecz', 'back()', 'grey') ?></td><td width="50%"><?php showSubmit('Dalej') ?></td></tr></table>
+			 -->
 			
-			<table cellpadding="5" style="margin:10px 0 10px 0;">
-				<tr><td><?php echo getLink('Anuluj', '/index.php/EmailsTemplate/choose_item', '', true) ?></td><td><?php showButton('Zapisz', "save()"); ?></td></tr>
-			</table> 
-			
+			<?php showButton('Zapisz', "document.getElementById('step').value=3;document.form.submit()"); ?>
 	</form>
 </div>
 
 
+
+
+<a href="javascript:void(0)" onclick="window.opener.location.reload();">REFRESH</a>
 
 	<!-- FOOTER -->
 <br clear="all">
@@ -145,36 +152,15 @@
 	<script type="text/javascript">
 
 
-	function save() {
-		
-		var column = document.getElementById('column').value;
-		var crown = document.getElementById('crown').value;
-		var fitting = document.getElementById('fitting').value;
 
-		if ((column == 'undefined' || column == 0) && (crown == 'undefined' || crown == 0) && (fitting == 'undefined' || fitting == 0)) {
-			alert('Musisz wybrać przynajmniej jeden element...');
-			return false;
-		}
-		
-		document.getElementById('step').value=3;
-		document.form.submit();
+	function save() {
 	}
 	
 
 function setElement(type, imgFile) {
 	$('#preview_'+type).attr('src', '/uploads/<?php echo $type; ?>_'+imgFile+'.png');
-
-	var height = $('#preview_'+type).height();
-  if (height > 100 && type != 'column') {
-  	 $("#preview_"+type).css("height", "100px");
-  }
-  else if (type == 'column' && height > 315 ) {
-  	 $("#preview_column").css("height", "315px");
-	}
-    
 	$('#preview_'+type+'_text').css('display', 'none');
-	//$('#'+type).attr('value', imgFile);
-	document.getElementById(type).value = imgFile;
+	$('#'+type).attr('value', imgFile);
 }
 
 function back() {
@@ -189,54 +175,91 @@ function back() {
 
 </script>
 
-<script type="text/javascript">
 
-       $(document).ready(function(){
-
-          $("div#items-list img.columns").each(function() {
-
-           var height = $(this).height();
-
-           //Max-height substitution (works for all browsers)
-           if (height > 315) {
-             $(this).css("height", "315px");
-           }
-
-         });
-          
-          $("div#items-list img.others").each(function() {
-
-           var height = $(this).height();
-
-           //Max-height substitution (works for all browsers)
-           if (height > 100) {
-             $(this).css("height", "100px");
-           }
-
-         });
+	<script type="text/javascript">
+        $(document).ready(function() {
+            $(".draggable").draggable({ hoverClass: "productactive", revert: "invalid", cursor: 'move', opacity: 0.35, addClasses: false, helper: 'clone', containment: "document" });
 
 
+            
+            $("#preview_column1").droppable({
+                 accept: ".column", 
+                 hoverClass: 'drophover',
+                 drop: function(event, ui){
 
-          init();
-       });
+									//za kazdym razem czysci podglad - tylko jeden element wybrany
+									$("#preview_column1").text('');
+									$("#preview_column1").css('background', 'none');
+									
+                	 var dragObject = ui.draggable;
+                	 var clone = dragObject.clone();
+                	 
+                	 clone.appendTo($("#preview_column1"));
+                	 $('#column').attr('value', clone.attr('id'));
+						
+                  }  
+              });
 
-          function init() {
-	          var height = $("#preview_crown").height();
-	          if (height > 100) {
-	        	  $("#preview_crown").css("height", "100px");
-	          }
-	          
-	          var height = $("#preview_fitting").height();
-	          if (height > 100) {
-	        	  $("#preview_fitting").css("height", "100px");
-	          }
-	          
-	          var height = $("#preview_column").height();
-	          if (height > 315) {
-	        	  $("#preview_column").css("height", "315px");
-	          }
-          }
-      </script>
-	
+            $("#preview_crown1").droppable({
+                 accept: ".crown", 
+                 hoverClass: 'drophover',
+                 drop: function(event, ui){
+
+									//za kazdym razem czysci podglad - tylko jeden element wybrany
+									$("#preview_crown1").text('');
+									$("#preview_crown1").css('background', 'none');
+									
+                	 var dragObject = ui.draggable;
+                	 var clone = dragObject.clone();
+                	 
+                	 clone.appendTo($("#preview_crown1"));
+                	 $('#crown').attr('value', clone.attr('id'));
+						
+                  }  
+              });
+            
+            $("#preview_fitting1").droppable({
+                 accept: ".fitting", 
+                 hoverClass: 'drophover',
+                 drop: function(event, ui){
+
+									//za kazdym razem czysci podglad - tylko jeden element wybrany
+									$("#preview_fitting1").text('');
+									$("#preview_fitting1").css('background', 'none');
+									
+                	 var dragObject = ui.draggable;
+                	 var clone = dragObject.clone();
+                	 
+                	 clone.appendTo($("#preview_fitting1"));
+                	 $('#fitting').attr('value', clone.attr('id'));
+						
+                  }  
+              });
+
+
+            	/*
+            	 * jak zostal wybrany jakis element skasowanie tekstu z opuszczanych pól
+            	 */
+							var colid = <?php echo $columnId; ?>;
+							var croid = <?php echo $crownId; ?>;
+							var fitid = <?php echo $fittingId; ?>;
+							function hide_text() {
+								if (colid > 0) {
+									//$('#preview_column1').text('');
+								}
+								if (croid > 0) {
+									//$('#preview_crown1').text('');
+								}
+								if (fitid > 0) {
+									//$('#preview_fitting1').text('');
+								}
+							}
+							hide_text();
+           });//ready document
+
+            
+
+    </script>
+
 </body>
 </html>

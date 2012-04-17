@@ -81,7 +81,8 @@
 			<?php echo inputFile('Obrazek (JPG):', 'file') ?>
 		</div>
 		<div style="float:left;">
-			<?php echo getButton('Dodaj', 'document.form.submit()') ?>
+			
+			<?php echo getButton('Dodaj', 'if(document.form.file.value == \'\'){alert(\'Musisz wybrać plik z dysku...\')}else{document.form.submit()}') ?>
 		</div>
 		<div style="clear:both"></div>
 	
@@ -89,14 +90,18 @@
 						
 		<br>				
 		<h4 style="padding: 0 0 0 15px">lub wybierz dostępne tło</h4>
+		
+		<div id="items-list" style=" height:450px; overflow: auto">
 				<?php
 						foreach ($list as $row) {
+							//echo '<a href="/index.php/'.$url.'/drag?bg='.$row->id.'" title="Wybierz tło"><img src="/uploads/background_'.$row->id.'.jpg" style="max-width:200px; max-height:200px;padding: 2px; border: 1px solid #ddd"></a>';
 							echo '<div style="float:left; margin: 15px"><a href="/index.php/'.$url.'/drag?bg='.$row->id.'" title="Wybierz tło"><img src="/uploads/background_'.$row->id.'.jpg" style="max-width:200px; max-height:200px;padding: 2px; border: 1px solid #ddd"></a></div>';
 						}//foreach
 						
 				?>
 		
 			<div style="clear:both"></div>
+		</div>
 		
 			<?php 
 				$content = ob_get_clean();
@@ -114,5 +119,32 @@
 	<a href="#" title="" style="font-size:15px;font-family:tahoma,sans-serif; color:#fff;text-decoration: none; margin-right: 15px" onmouseover="this.style.borderBottom='1px dotted #fff'" onmouseout="this.style.borderBottom='none'">link1</a>
 </div>
 </div>
+
+<script src="/javascript/jquery-1.6.1.min.js" type="text/javascript"></script>
+<script src="/javascript/ui.core.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+       $(document).ready(function(){
+
+          $("div#items-list img").each(function() {
+
+           //Get the width of the image
+           var width = $(this).width();
+           var height = $(this).height();
+
+           //Max-width substitution (works for all browsers)
+           if (width > 200) {
+             $(this).css("width", "200px");
+           }
+           //Max-height substitution (works for all browsers)
+           if (height > 200) {
+             $(this).css("height", "200px");
+           }
+
+         });
+
+       });
+
+      </script>
 </body>
 </html>
