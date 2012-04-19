@@ -191,3 +191,37 @@ loads/u1234567_saved
  [2012-04-17 12:01:14] Cannot read image file:C:/workspace/lamps//uploads/crown_0.png
  [2012-04-17 12:01:14] Cannot read image file:C:/workspace/lamps//uploads/fitting_0.png
  [2012-04-17 12:01:14] Cannot run imagecopy() PK_UtilImage
+ [2012-04-19 05:37:42] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 05:37:43] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 05:37:43] Cannot destroy image
+ [2012-04-19 05:38:05] Cannot read image file:C:/workspace/lamps//uploads/crown_0.png
+ [2012-04-19 05:38:12] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 05:38:12] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 05:38:12] Cannot destroy image
+ [2012-04-19 09:19:41] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 09:19:41] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 09:19:41] Cannot destroy image
+ [2012-04-19 09:20:07] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 09:20:07] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 09:20:07] Cannot destroy image
+ [2012-04-19 09:24:22] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 09:24:22] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 09:24:22] Cannot destroy image
+ [2012-04-19 09:25:02] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 09:25:02] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 09:25:02] Cannot destroy image
+ [2012-04-19 09:25:09] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 09:25:09] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 09:25:09] Cannot destroy image
+ [2012-04-19 09:25:18] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 09:25:18] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 09:25:18] Cannot destroy image
+ [2012-04-19 09:25:41] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 09:25:41] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 09:25:41] Cannot destroy image
+ [2012-04-19 09:27:40] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 09:27:40] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 09:27:40] Cannot destroy image
+ [2012-04-19 09:28:27] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 09:28:27] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 09:28:27] Cannot destroy image

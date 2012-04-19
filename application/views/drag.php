@@ -162,7 +162,7 @@
 							
 							echo '
 							<div class="draggable" title="Złap lampę i przesuń na tło" id="parent-prod'.str_replace('.png', '', $filename).'" style="margin-bottom: 10px">
-								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'">
+								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'" style="max-width:170px">
 							</div>
 							';
 						}//foreach
@@ -189,13 +189,7 @@
  -->
 
 <!-- FOOTER -->
-<br clear="all">
-<div style="background: #67806E; width:100%;height:150px;border-top:2px solid #674A3E;margin-top:40px">
-<div style="padding:60px 40px 0 40px">
-	<a href="#" title="" style="font-size:15px;font-family:tahoma,sans-serif; color:#fff;text-decoration: none; margin-right: 15px" onmouseover="this.style.borderBottom='1px dotted #fff'" onmouseout="this.style.borderBottom='none'">link1</a>
-</div>
-</div>
-
+<?php echo footer_html() ?>
 
 
 
@@ -251,6 +245,25 @@
 
 
 
+
+                  $("div#list-items img").each(function() {
+
+                   var width = $(this).width();
+
+                   //Max-width substitution (works for all browsers)
+                   if (width > 170) {
+                     $(this).css("width", "170px");
+                   }
+
+                 });
+                  
+
+
+
+
+
+
+        	
             
             $(".draggable").draggable({ hoverClass: "product-active", revert: "invalid", cursor: 'move', opacity: 0.35, addClasses: false, helper: 'clone', containment: "document" /*, containment: 'window', helper: 'clone',  stack: "#canvas" */ });
             
@@ -647,7 +660,6 @@ $(document).bind('mousedown',function(e){
 			newImg.setAttribute('class', 'u'+id_user+'_i'+id_elem);
 			newImg.setAttribute('src', '/uploads/u'+id_user+'_i'+id_elem+'.png');
 
-			
 			 
 			newChild.appendChild(newImg);
 	
@@ -655,6 +667,10 @@ $(document).bind('mousedown',function(e){
 			$('#parent-produ'+id_user+'_i'+id_elem).draggable({ hoverClass: "product-active", revert: "invalid", cursor: 'move', opacity: 0.35, addClasses: false, helper: 'clone', containment: "document" });
 			alert('Nowa lampa została dodana...');			
 		}
+
+
+
+
 		
     </script>
 </body>

@@ -604,8 +604,8 @@ class EmailsTemplate extends CI_Controller {
 		$this->load->library('image_lib');
 
 		$config['image_library'] = 'GD2';
-		$config['width'] = 170;
-		$config['height'] = 500;
+		$config['width'] = 800;//170
+		$config['height'] = 600;//500
 		$config['quality'] = '100%';
 		//$config['master_dim'] = 'width';
 		$config['maintain_ratio'] = TRUE;

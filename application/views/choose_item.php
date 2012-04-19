@@ -128,13 +128,8 @@
 
 
 
-	<!-- FOOTER -->
-<br clear="all">
-<div style="background: #67806E; width:100%;height:150px;border-top:2px solid #674A3E;margin-top:0px">
-<div style="padding:60px 40px 0 40px">
-	<a href="#" title="" style="font-size:15px;font-family:tahoma,sans-serif; color:#fff;text-decoration: none; margin-right: 15px" onmouseover="this.style.borderBottom='1px dotted #fff'" onmouseout="this.style.borderBottom='none'">link1</a>
-</div>
-</div>			
+<!-- FOOTER -->
+<?php echo footer_html() ?>			
 
 
 

@@ -46,3 +46,117 @@ if ( ! function_exists('divShadow'))
 		return $html;
 	}
 }
+
+if ( ! function_exists('footer_html'))
+{
+	/**
+	 * @return string - kod html 
+	 */
+	function footer_html() {
+		
+		$html = "
+		<br clear=\"all\">
+		<div style=\"background: #67806E; width:100%;height:50px;border-top:2px solid #674A3E;margin-top:40px;text-align:center\">
+		<div style=\"margin:0 auto; width:1000px;text-align:left;\">
+		<div style=\"width:500px;float:left;padding:21px 0 0 0\"><span style=\"color:white; font-family:arial, sans-serif; font-size:12px\">&copy; ".date('Y')."</span></div>
+		<div style=\"width:500px;float:left;padding:21px 0 0 0;text-align:right\"><a href=\"https://twitter.com/#!/przemekoz\" target=\"_blank\" title=\"created by Przemek Koziński\" onmouseover=\"init()\" onfocus=\"blur()\" style=\"text-decoration: none;font-size:10px; font-family:arial, sans-serif;color:#3E4D42\">
+@uthor<span id=\"line\" style=\"visibility:hidden\">:</span><span id=\"line2\"></span>
+</a></div>
+		<div style=\"clear:both\"></div>
+		
+		 
+		</div>
+		</div>
+		<script type=\"text/javascript\">
+	var string = ['p', '.', 'k', 'o', 'z', 'i', 'ń', 's', 'k', 'i'];
+
+	var iter = 0;
+	var iter2 = 0;
+
+	var str = '';
+
+	var interval = null;
+	var interval2 = null;
+	var interval3 = null;
+	var timeout = null;
+	
+function show() {
+
+
+	if (iter == string.length) {
+		
+		clearInterval(interval);
+		interval = null;
+		timeout = setTimeout('hide_pre()', 2000);
+		return true;
+	}	
+	
+
+	str += string[iter];
+	document.getElementById('line2').innerHTML = str;
+	iter++;
+}
+
+function hide_pre() {
+	iter--;
+	interval3 = setInterval('hide()', 30);
+	clearTimeout(timeout);
+	timeout = null;
+}
+
+
+function hide() {
+	if (iter < 0) {
+		iter = 0;
+		iter2 = 0;
+		clearInterval(interval3);
+		interval3 = null;
+		return true;
+	}	
+
+	
+	str = '';
+	for(var i=0; i<iter; i++) {
+		str += string[i];
+	}
+
+	document.getElementById('line2').innerHTML = str;
+	iter--;
+	
+	document.getElementById('line').style.visibility = 'hidden';
+}
+
+function blink() {
+
+	if (iter2 == 5) {
+		clearInterval(interval2);
+		interval2 = null;
+		interval = setInterval('show()', 40);
+		return true;
+	}
+	
+	if (iter2 % 2 == 0) {
+		document.getElementById('line').style.visibility = 'visible';
+	} else {
+		document.getElementById('line').style.visibility = 'hidden';
+	}
+	
+	iter2++;
+}
+
+
+function init() {
+
+	if (interval3 != null || interval2 != null || interval != null || timeout != null) {
+		return false;
+	}
+	
+	interval2 = setInterval('blink()', 200);
+}
+</script>
+		
+		";
+		
+		return $html;
+	}
+}
