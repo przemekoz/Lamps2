@@ -213,11 +213,11 @@ class EmailsTemplate extends CI_Controller {
 		//@todo - trzeba sprawdzic czy obrazek zostal zapisany , jak nie to zapisa�
 
 		$pdf = new FPDF();
-		$pdf->AddPage('L');
+		$pdf->AddPage('L', 'A4');
 		$pdf->SetFont('Arial','B',16);
-		$pdf->Cell(40,10,'Zapytanie ...');
-		$pdf->Ln(10);
 		$pdf->Image('uploads/u'.$this->userId.'_saved.jpg');
+		$pdf->Cell(40,10,'Zapytanie z konfiguratora...');
+		$pdf->Ln(10);
 		//$pdf->Output();
 		return $pdf->Output($_SERVER['DOCUMENT_ROOT'].'/uploads/u'.$this->userId.'.pdf',$type);
 	}
@@ -780,7 +780,8 @@ class EmailsTemplate extends CI_Controller {
 	{
 		$aProducts = json_decode($_POST['products']);
 		$file = $_POST['bg'];
-
+		
+		
 		if (!strlen($file)) {
 			return false;
 		}
@@ -790,7 +791,7 @@ class EmailsTemplate extends CI_Controller {
 
 		//iterator produktów
 		$i = 1;
-
+		$aInfo = array();
 		foreach ($aProducts as $key => $row) {
 			/*
 			 * $filename - plik obrazka
@@ -800,12 +801,14 @@ class EmailsTemplate extends CI_Controller {
 			 * $height - wysokosc obrazka jak > 0 to trzeba skalowac
 			 * $type - norm, invert - normalne czy lustrane odbicie
 			 */
-			list($filename, $x, $y, $width, $height, $type) = $row;
+			list($filename, $x, $y, $width, $height, $type, $param, $text) = $row;
 
 			if (!is_file($_SERVER['DOCUMENT_ROOT'].$filename)) {
 				continue;
 			}
 
+			$aInfo[] = $text;
+			
 			//dodaj nowy pobrazek
 			$product = $this->UI->getimage($filename);
 
@@ -825,8 +828,9 @@ class EmailsTemplate extends CI_Controller {
 
 			$this->UI->imagedestroy($product);
 		}
-
-		$this->UI->imagesave($bg, 'uploads/u'.$this->userId.'_saved', 'JPG');
+		
+		$this->UI->add_header('uploads/logo.png');
+		$this->UI->imagesave($bg, 'uploads/u'.$this->userId.'_saved', 'JPG', $aInfo);
 		$this->UI->imagedestroy($bg);
 	}
 

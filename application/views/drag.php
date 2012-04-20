@@ -286,6 +286,7 @@
                  products[id][4] = 0; //image height - 0 = oryginal
                  products[id][5] = 'norm'; //czy obrazek jest normalny czy odbicie lustrzane 
                  products[id][6] = dragObject.children().attr('class'); //w class trzymana jest nazwa pliku 
+                 products[id][7] = ELEMENTS_DATA[products[id][6]+'.png']['text']; 
                  
                  /* zapisanie automatyczne */
             		save_all();

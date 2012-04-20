@@ -10,11 +10,16 @@
 class PK_UtilImage {
 
 
+	private $header;
 
 	public function __construct() {
 		if (!extension_loaded('gd') && !extension_loaded('gd2')) {
 			errorlog('Cannot initialize GD');
 		}
+	}
+
+	public function add_header($filename) {
+		$this->header = $this->getimage($filename);
 	}
 
 	/**
@@ -30,19 +35,21 @@ class PK_UtilImage {
 
 		//zwraca obrazek bez przezroczystego tla
 		if (!$isTransparentBg) {
+			$white 	= imagecolorallocate($img, 255, 255, 255);
+			imagefilledrectangle($img, 0, 0, $width, $height, $white);
 			return $img;
 		}
 
 		@imagealphablending($img, false)
-			or errorlog('Cannot run imagealphablending() in '.__CLASS__);
+		or errorlog('Cannot run imagealphablending() in '.__CLASS__);
 			
 		$transparent = @imagecolorallocatealpha($img, 255, 255, 255, 127);
 			
 		@imagefilledrectangle($img, 0, 0, $width, $height, $transparent)
-			or errorlog('Cannot run imagefilledrectangle() in '.__CLASS__);
+		or errorlog('Cannot run imagefilledrectangle() in '.__CLASS__);
 			
 		//@imagealphablending($img,true)
-			//or errorlog('Cannot run imagesavealpha() in '.__CLASS__);
+		//or errorlog('Cannot run imagesavealpha() in '.__CLASS__);
 
 		/* to nie wiem czy musi byc */
 		@imagealphablending($img,false);
@@ -102,7 +109,47 @@ class PK_UtilImage {
 	 * Zapisuje obrazek na dysku
 	 * @param string $mode - gdy ustawione na 'flip' zapisuje sie rowniez lustrzane odbicie
 	 */
-	public function imagesave($img_resource, $filename, $type='PNG') {
+	public function imagesave($img_resource, $filename, $type='PNG', $tInfo=array()) {
+
+
+		/* jesli jest ustwaiony obrazek nagłówka */
+		if (!empty($this->header)) {
+			$wh = imagesx($this->header);
+			$hh = imagesy($this->header);
+
+			$w = imagesx($img_resource);
+			$h = imagesy($img_resource);
+
+			$width = $w > $wh ? $w : $wh;
+			$height = $h + $hh;
+				
+			$img = $this->createimage($width, $height);
+			$this->imagecopy($img, $this->header, floor(($width-$wh)/2),  0, 0, 0, $wh, $hh);
+			$this->imagecopy($img, $img_resource, floor(($width-$w)/2), $hh, 0, 0, $w, $h);
+			$img_resource = $img;
+		}
+
+		
+		/* jesli na tle sa jakies produkty */
+		if (!empty($tInfo)) {
+			$font = $_SERVER['DOCUMENT_ROOT'].'/fpdf/arial.ttf';
+
+			$h = imagesy($img_resource);
+			$width = imagesx($img_resource);
+
+			$height = $h + count($tInfo)*16+100;
+				
+			$img = $this->createimage($width, $height);
+			$black 	= imagecolorallocate($img, 0, 0, 0);
+			$this->imagecopy($img, $img_resource, 0, 0, 0, 0, $w, $h);
+			
+			$offset = $h+20;
+			for ($i=0; $i<count($tInfo); $i++) {
+				imagettftext($img, 11, 0, 0, $offset+($i*16), $black, $font, ($i+1).'. '.$tInfo[$i]);
+			}
+
+			$img_resource = $img;
+		}
 
 		$res = TRUE;
 		if (strtoupper($type) == 'PNG') {
@@ -200,23 +247,23 @@ class PK_UtilImage {
 
 
 	public function add_product_label($bg,$img, $x, $y, $text) {
-		
+
 		//jesli dlugosc tekstu do wstawienia wieksza niz 2 lub gdy nie ma tekstu --> wylot
 		if (!strlen($text) || strlen($text) > 2) {
 			return false;
 		}
-		
+
 		$black 	= imagecolorallocate($bg, 0, 0, 0);
 		$grey 	= imagecolorallocate($bg, 128, 128, 128);
 		$white 	= imagecolorallocate($bg, 255, 255, 255);
 
-		//$x = $x+imagesx($img)-10;                                                                                                                 
+		//$x = $x+imagesx($img)-10;
 		//$y = $y+imagesy($img)-10;
-		$x = $x + floor(imagesx($img)/2) - 10;                                                                                                                 
+		$x = $x + floor(imagesx($img)/2) - 10;
 		$y = $y - 25;
-		
+
 		$text = strval($text);
-		
+
 		//ramka
 		imagefilledrectangle($bg, $x-2, $y-2, $x+22, $y+22, $grey);
 		//ramka
@@ -227,11 +274,11 @@ class PK_UtilImage {
 		// Replace path by your own font path
 		$font = $_SERVER['DOCUMENT_ROOT'].'/fpdf/arialbd.ttf';
 
-		
+
 		// Add the text
 		$strlen = array(1=>6, 2=>1);
 		imagettftext($bg, 12, 0, $x+$strlen[strlen($text)], $y+15, $black, $font, $text);
-		 
+			
 		return $bg;
 	}
 

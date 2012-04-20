@@ -225,3 +225,21 @@ loads/u1234567_saved
  [2012-04-19 09:28:27] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
  [2012-04-19 09:28:27] Cannot write image: uploads/u1234567_saved
  [2012-04-19 09:28:27] Cannot destroy image
+ [2012-04-19 12:07:23] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 12:07:23] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 12:07:23] Cannot destroy image
+ [2012-04-19 12:07:48] Cannot read image file:C:/workspace/lamps//uploads/crown_0.png
+ [2012-04-19 12:07:48] Cannot read image file:C:/workspace/lamps//uploads/fitting_0.png
+ [2012-04-19 12:07:48] Cannot run imagecopy() PK_UtilImage
+ [2012-04-19 12:08:23] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 12:08:23] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 12:08:23] Cannot destroy image
+ [2012-04-19 12:41:22] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-19 12:41:22] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 12:41:22] Cannot destroy image
+ [2012-04-20 05:26:50] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-20 05:26:50] Cannot run imagecopy() PK_UtilImage
+ [2012-04-20 05:26:50] Cannot destroy image
+ [2012-04-20 05:31:04] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
+ [2012-04-20 05:31:04] Cannot run imagecopy() PK_UtilImage
+ [2012-04-20 05:31:04] Cannot destroy image
