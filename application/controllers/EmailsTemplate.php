@@ -24,6 +24,7 @@ class EmailsTemplate extends CI_Controller {
 		$this->load->helper('div');
 		$this->load->helper('email');
 		$this->load->library('PK_UtilImage');
+		$this->load->library('session');
 		$this->load->helper('buttons');
 		$this->load->helper('input');
 		$this->load->helper('form');
@@ -33,16 +34,9 @@ class EmailsTemplate extends CI_Controller {
 		$this->module_url = 'EmailsTemplate';
 
 		/* identyfikator sesji */
-
-		////////////////////////////////////////
-		// @TODO - zmienic na id sesji        //
-		////////////////////////////////////////
-		$this->userId = '1234567';
-		////////////////////////////////////////
-		// @TODO - zmienic na id sesji        //
-		////////////////////////////////////////
-
-
+		$aSess = $this->session->all_userdata();
+		$this->userId = $aSess['session_id'];
+		
 		/* jesli user wybral predefiniowane tło */
 		if ($this->input->get('bg') > 0)
 		{
@@ -166,10 +160,15 @@ class EmailsTemplate extends CI_Controller {
 		//zmienna przechwuje nazwy plikow
 		$aItems = array();
 		foreach ($query->result() as $row) {
-			$data['JS_ELEMENTS_DATA'] .= "ELEMENTS_DATA['u{$this->userId}_i{$row->id}.png'] = {'text':'{$row->text_column} {$row->text_crown} {$row->text_fitting}', 'count':0};\r\n";
-			$aItems[] = "u{$this->userId}_i{$row->id}.png";
+			$filename = "u{$this->userId}_i{$row->id}.png";
+			$aItems[] = $filename;
+			list($w,$h) = @getimagesize($_SERVER['DOCUMENT_ROOT'].'/uploads/'.$filename);
+			$data['JS_ELEMENTS_DATA'] .= "ELEMENTS_DATA['u{$this->userId}_i{$row->id}.png'] = {'text':'{$row->text_column} {$row->text_crown} {$row->text_fitting}', 'count':0, 'width':'{$w}', 'height':'{$h}'};\r\n";
 		}
 
+		//var_dump($data['JS_ELEMENTS_DATA']);
+		
+		
 		/*
 		 * odczytanie z katalogu obrazkow usera
 		 * elementy: u{id_usera}_i{id_elementu}.png
@@ -194,9 +193,21 @@ class EmailsTemplate extends CI_Controller {
 		//$data['bg'] = "/uploads/tmp/u{$this->userId}bg.jpg";
 		$data['bg'] = '/uploads/'.$this->userBackgroundFile;
 
+		$bgid = $this->input->get('bg');
+		/* jezeli jest pli uzytkownika */
+		if (is_file($_SERVER['DOCUMENT_ROOT'].$data['bg'])) {
+			$bgid = $this->userBackgroundFile;
+		}
+		/* w przeciwnym przypadku sprawdz czy user wybral predefionowane tlo */
+		elseif(empty($bgid)) {
+			$bgid = 0;
+		}
 
+		//usun z nazwy pliku kropke - > nazwa przekazywane w parametrze get
+		//$bgid = str_replace('.', '_', $bgid);
+		
 		/* przekazanie do szablonu id backgroundu */
-		$data['bgid'] = $this->input->get('bg');
+		$data['bgid'] = $bgid;
 		$data['items'] = $aItems;
 		$data['userid'] = $this->userId;
 
@@ -227,7 +238,21 @@ class EmailsTemplate extends CI_Controller {
 		$data['url'] = $this->module_url;
 		$data['bgid'] = $this->input->get('bg');
 		$data['inserted_element_id'] = $this->input->get('id');	
-		$data['iduser'] = $this->userId;	
+		$data['iduser'] = $this->userId;
+
+		/* jesli zdefiniowano lampe */
+		if (!empty($data['inserted_element_id'])) {
+			$this->db->select('text_column, text_crown, text_fitting');
+			$query = $this->db->get_where('saved_element', array('id'=>$data['inserted_element_id']));
+			$query = $query->result_array();
+			$data['text'] = $query[0]['text_column'].' '.$query[0]['text_crown'].' '.$query[0]['text_fitting'];
+			
+			list($width, $height) = @getimagesize($_SERVER['DOCUMENT_ROOT'].'/uploads/u'.$this->userId.'_i'.$data['inserted_element_id'].'.png');
+			$data['width'] = $width;
+			$data['height'] = $height;
+		}
+
+		
 		$this->load->view('choose_item_pre', $data);
 	}
 
@@ -236,7 +261,7 @@ class EmailsTemplate extends CI_Controller {
 		$this->load->helper('choose_item');
 		$this->load->helper('buttons');
 
-		$bgid 	= 		isset($_GET['bgid']) 	 ? intval($_GET['bgid']) : 0;
+		$bgid 	= 		isset($_GET['bg']) 	 ? $_GET['bg'] : 0;
 		$step = 			isset($_GET['step']) 	 ? intval($_GET['step']) 	 : 0;
 		$columnId = 	isset($_GET['column']) ? intval($_GET['column']) : 0;
 		$crownId = 		isset($_GET['crown'])  ? intval($_GET['crown'])  : 0;
@@ -541,7 +566,7 @@ class EmailsTemplate extends CI_Controller {
 		$idColumn = 	isset($_GET['column']) ? intval($_GET['column']) : 0;
 		$idCrown = 		isset($_GET['crown'])  ? intval($_GET['crown'])  : 0;
 		$idFitting = 	isset($_GET['fitting'])? intval($_GET['fitting']): 0;
-		$bgid = 			isset($_GET['bgid'])	 ? intval($_GET['bgid']): 0;
+		$bgid = 			isset($_GET['bg'])	 	 ? $_GET['bg'] : 0;
 
 		/* pobranie danych kolumny, oprawy, korony oraz zapisanie do zmiennych tablicowych. Tablica: np. $column['width'], $column['height'], $column['mode'] */
 		list($column, $crown, $fitting, $imgColumn, $imgCrown, $imgFitting) = $this->get_data_elelemnts(array($idColumn, $idCrown, $idFitting));
@@ -605,7 +630,12 @@ class EmailsTemplate extends CI_Controller {
 
 		$config['image_library'] = 'GD2';
 		$config['width'] = 800;//170
-		$config['height'] = 600;//500
+		
+		
+		/* odczytanie wysokosci tla */
+		list($bw, $bh) = @getimagesize($_SERVER[DOCUMENT_ROOT].'/uploads/'.$bgid);
+		$config['height'] = empty($bh) ? 600 : $bh;//500
+		
 		$config['quality'] = '100%';
 		//$config['master_dim'] = 'width';
 		$config['maintain_ratio'] = TRUE;
@@ -627,6 +657,13 @@ class EmailsTemplate extends CI_Controller {
 
 	/* czyści pliki starsze niż tydzień */
 	public function clear_old_files() {
+		
+		///////////////////////////////////////////////
+		// @todo - przemyslec usuwanie starych plikow
+		///////////////////////////////////////////////
+		
+		return true;
+		
 		/* odczytanie plików do usuniecia */
 		$this->db->select('id_user');
 		$this->db->where('add_date < NOW() + INTERVAL - 2 WEEK');
@@ -782,7 +819,9 @@ class EmailsTemplate extends CI_Controller {
 		$file = $_POST['bg'];
 		
 		
-		if (!strlen($file)) {
+		if (!strlen($file) || !is_file($_SERVER['DOCUMENT_ROOT'].$file)) {
+			
+			echo $file;
 			return false;
 		}
 

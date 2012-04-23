@@ -177,7 +177,7 @@
 				$content = ob_get_clean();
 				echo divShadow(200, 610, $content,0);
 				echo '<br>';		
-				showButton('Dodaj element', "wnd=window.open('/index.php/EmailsTemplate/choose_item?bg=".$bgid."')", 'grey')
+				showButton('Dodaj element', "if('".$bgid."' == '0'){alert('Proszę najpierw wybrać tło.')}else{wnd=window.open('/index.php/EmailsTemplate/choose_item?bg=".$bgid."')}", 'grey')
 			?>
 				
 		</div>
@@ -330,7 +330,10 @@
             clone.css('top', lastXY+'px');
             clone.css('left', lastXY+'px');
             clone.children().css('border', '1px dotted black');
-            clone.children().css('max-height', '600px');
+            //clone.children().css('max-height', '600px');
+            /* ustawienie oryginalnych rozmiarow */
+            clone.children().css('height', ELEMENTS_DATA[item.children().attr('class')+'.png']['height']+'px');
+            clone.children().css('width', ELEMENTS_DATA[item.children().attr('class')+'.png']['width']+'px');
             
             clone.appendTo($("#canvas"));
             
@@ -648,7 +651,9 @@ $(document).bind('mousedown',function(e){
 	save_all();
 		
 		
-		function add_element(id_elem,id_user) {
+		function add_element(id_elem, id_user, text, width, height) {
+
+			alert(id_elem +' : '+ id_user +' : '+ text +' : '+ width +' : '+ height);
 			
 			var newChild = document.createElement('div');
 			newChild.setAttribute('id', 'parent-produ'+id_user+'_i'+id_elem);
@@ -660,6 +665,9 @@ $(document).bind('mousedown',function(e){
 			newImg.setAttribute('id', 'produ'+id_user+'_i'+id_elem);
 			newImg.setAttribute('class', 'u'+id_user+'_i'+id_elem);
 			newImg.setAttribute('src', '/uploads/u'+id_user+'_i'+id_elem+'.png');
+
+
+			ELEMENTS_DATA['u'+id_user+'_i'+id_elem+'.png'] = {'text':text, 'count':0, 'width':width, 'height':height};
 
 			 
 			newChild.appendChild(newImg);
