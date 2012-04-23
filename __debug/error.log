@@ -225,3 +225,9 @@ loads/u1234567_saved
  [2012-04-19 09:28:27] Cannot read image file:C:/workspace/lamps///uploads/user_background_1234567.jpg
  [2012-04-19 09:28:27] Cannot write image: uploads/u1234567_saved
  [2012-04-19 09:28:27] Cannot destroy image
+ [2012-04-19 23:13:10] Cannot read image file:D:/Projekty/lamps//uploads/user_background_1234567.jpg
+ [2012-04-19 23:13:10] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 23:13:10] Cannot destroy image
+ [2012-04-19 23:16:46] Cannot read image file:D:/Projekty/lamps//uploads/user_background_1234567.jpg
+ [2012-04-19 23:16:46] Cannot write image: uploads/u1234567_saved
+ [2012-04-19 23:16:46] Cannot destroy image

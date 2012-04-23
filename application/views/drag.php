@@ -246,13 +246,13 @@
 
 
 
-                  $("div#list-items img").each(function() {
+                  $("div#list-items div img").each(function() {
 
                    var width = $(this).width();
 
                    //Max-width substitution (works for all browsers)
                    if (width > 170) {
-                     $(this).css("width", "170px");
+                     //$(this).css("width", "170px");
                    }
 
                  });
