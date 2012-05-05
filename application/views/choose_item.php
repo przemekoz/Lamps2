@@ -117,10 +117,10 @@
 			<input type="hidden" value="<?php echo $step; ?>" name="step" id="step">
 			<?php echo form_hidden('street', $street);?> 
 			<?php echo form_hidden('garden', $garden);?> 
-			<?php echo form_hidden('bgid', $bgid);?> 
+			<?php echo form_hidden('bg', $bgid);?> 
 			
 			<table cellpadding="5" style="margin:10px 0 10px 0;">
-				<tr><td><?php echo getLink('Anuluj', '/index.php/EmailsTemplate/choose_item', '', true) ?></td><td><?php showButton('Zapisz', "save()"); ?></td></tr>
+				<tr><td><?php echo getLink('Anuluj', '/index.php/EmailsTemplate/choose_item?bg='.$bgid, '', true) ?></td><td><?php showButton('Zapisz', "save()"); ?></td></tr>
 			</table> 
 			
 	</form>
@@ -176,7 +176,7 @@ function back() {
 	document.form.step.value = parseInt(document.form.step.value - 2);
 	if (document.form.step.value < 0) {
 		document.form.step.value = 0;
-		location.href='/index.php/EmailsTemplate/choose_item';
+		location.href='/index.php/EmailsTemplate/choose_item?bg=<?php echo $bgid?>';
 	} else {
 		document.form.submit(); 
 	}

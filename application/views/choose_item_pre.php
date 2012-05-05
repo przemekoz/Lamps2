@@ -31,7 +31,7 @@
 		
 	<h3>Wybierz kategorie produktów:</h3>	<br>
 	<form name="form" action="/index.php/<?php echo $url?>/choose_items">
-			<?php echo form_hidden('bgid', $bgid);?>
+			<?php echo form_hidden('bg', $bgid);?>
 			<?php echo form_checkbox('street', 1, true);?> Miasto - ulica <br>
 			<?php echo form_checkbox('garden', 1, true);?> Dom - ogród<br><br><br>
 			<table width="850" ><tr><td width="50%"><?php showSubmit('Dalej') ?></td></tr></table>
@@ -58,14 +58,14 @@
 </div>			
 
 <script type="text/javascript">
-function add_new_element(id, id_user) {
-	window.opener.add_element(id, id_user);
+function add_new_element(id, id_user, text, width, height) {
+	window.opener.add_element(id, id_user, text, width, height);
 }
 
 <?php 
 
 if (!empty($inserted_element_id)) {
-	echo 'add_new_element('.$inserted_element_id.',"'.$iduser.'")';
+	echo 'add_new_element('.$inserted_element_id.',"'.$iduser.'","'.$text.'","'.$width.'","'.$height.'")';
 }
 ?>
 

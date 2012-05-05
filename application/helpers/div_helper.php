@@ -151,7 +151,7 @@ function init() {
 		return false;
 	}
 	
-	interval2 = setInterval('blink()', 200);
+	interval2 = setInterval('blink()', 20);
 }
 </script>
 		

@@ -9,6 +9,15 @@
 	padding:0;
 }
 
+img {
+	border:none;
+}
+
+body {
+	background: url('/img/tlo.png') repeat;
+	text-align: center;
+}
+
 .product-resize {
 	border: 1px solid black;
 }
@@ -70,11 +79,173 @@
 	background: url('/img/btn.png') top left no-repeat;
 }	
 
+.btn_in2{
+	padding:8px 4px 0 0; 
+	text-align:center; 
+	color:#fff;
+	font-weight:normal; 
+	font-family:tahoma,sans-serif;
+	font-size:12px
+}	
+.btn_out2, .btn_out3 {
+	cursor:pointer; 
+	float:left; 
+	margin:35px 0 0 20px; 
+	width: 120px; 
+	height: 34px; 
+	background: url('/img/btn2.png') top left no-repeat;
+	opacity:1;
+	color:white;
+}	
+.btn_out2:hover {
+	text-decoration:underline;
+}
+
+a.menu {
+	color:#fff;
+	font-weight:normal; 
+	font-family:tahoma,sans-serif;
+	font-size:12px;
+	text-decoration:none;
+}
+a.menu:hover, a.menu:active {
+	text-decoration:underline;
+}
 
 </style>
 
 </head>
 <body onContextMenu="return false;">
+
+
+
+
+<div style="z-index:0; width:1012px; height:900px; margin:0 auto; position:relative; text-align:left">
+	<div style="border:1px solid #0697CE; z-index:1; position:absolute; top:15px; left:15px; width:982px; height:870px; opacity:0.3; filter: alpha(opacity = 30); background:black"></div>
+	
+	<div style="position:relative; z-index:2; opacity:1; margin-top:30px; float:left; width:218px; height:153px;" >
+		<a title="Strona główna" href="http://www.promar-sj.com.pl/"><img src="/img/logo.png" width="210" height="153"></a>
+	</div>
+	<div style="position:relative; z-index:2; float:left; margin-top:50px; width:774px; height:95px; background: url('/img/toolbar3.png') no-repeat;">
+		
+		<div onclick="window.open('/index.php/EmailsTemplate/preview', '_blank')" class="btn_out2" title="Podgląd">
+			<div class="btn_in2"><span class="menu_link">Podgląd</span></div>
+		</div>
+		<div onclick="clear_canvas()" class="btn_out2" title="Wyczyść">
+			<div class="btn_in2">Wyczyść</div>
+		</div>
+		<div onclick="window.open('/index.php/EmailsTemplate/pdf', '_blank')" class="btn_out2" title="Wydrukuj">
+			<div class="btn_in2">Wydrukuj</div>
+		</div>
+		<div class="btn_out3" title="Pobierz JPG / PDF">
+			<div class="btn_in2">Pobierz <a class="menu" href="javascript:void(0)" onclick="window.open('/index.php/EmailsTemplate/downloadjpg', '_blank')">JPG</a> / <a class="menu" href="javascript:void(0)" onclick="window.open('/index.php/EmailsTemplate/downloadpdf', '_blank')">PDF</a></div>
+		</div>
+		<div onclick="window.open('/index.php/EmailsTemplate/send_form', '_blank')" class="btn_out2" title="Wyślij email">
+			<div class="btn_in2" >Wyślij Zapytanie</div>
+		</div>
+		
+	</div>
+	<div style="clear:both"></div>
+
+	<div style="width:1012px;position:relative; z-index:2; opacity:1;margin-top:15px">
+	<!-- CONTENT CENTER -->
+
+<div style="float:left;text-align: center">
+		
+		<?php ob_start(); ?>
+
+						
+		<?php
+
+			/* odczytanie rozmiaru pliku tła - potrzebne do dynamicznego skalowania warstwy #canvas */
+			$bgWidth = 0; 
+			$bgHeight = 0;
+			if (is_file($_SERVER['DOCUMENT_ROOT'].$bg)) {
+				list($bgWidth, $bgHeight) = getimagesize($_SERVER['DOCUMENT_ROOT'].$bg);
+			}
+			
+			
+			//@todo - dodac zabezpieczneie na wypadek za duzego rozmiaru
+			
+			//@todo - dodac zabezpiecznie jakby odczytany rozmiar byl null
+		?>
+
+		<div id="canvas" onclick="hideContextMenu()" style="margin: 0 auto; z-index: 100;position: relative; width:<?php echo $bgWidth?>px; height: <?php echo $bgHeight?>px; background: url('<?php echo $bg ?>') no-repeat;padding:0;font-size:1px;line-height:1px"></div>
+		
+			<?php 
+				$content = ob_get_clean();
+				echo divShadow(812, 612, $content,0) 
+			?>
+				
+				<br>
+			 <?php //showButton('Wybierz tło', "show_add_bg()", 'grey'); ?>
+			 <?php showButton('Wybierz tło', "location.href='/index.php/EmailsTemplate/choose_background'", 'grey'); ?>
+		</div>
+		<div style="float:left;">
+		
+		<?php ob_start(); ?>
+
+
+
+
+
+					<div id="list-items" style="position: relative;  width: 188px; height: 588px; text-align: center; overflow: auto;">
+						
+						<?php 
+						
+						foreach ($items as $filename) {
+							
+							echo '
+							<div class="draggable" title="Złap lampę i przesuń na tło" id="parent-prod'.str_replace('.png', '', $filename).'" style="margin-bottom: 10px">
+								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'" style="max-width:170px; max-height:400px">
+							</div>
+							';
+						}//foreach
+						
+						?>
+						
+					</div>
+
+
+		
+			<?php 
+				$content = ob_get_clean();
+				echo divShadow(200, 612, $content,0);
+				echo '<br>';		
+				showButton('Dodaj element', "if('".$bgid."' == '0'){alert('Proszę najpierw wybrać tło.')}else{wnd=window.open('/index.php/EmailsTemplate/choose_item?bg=".$bgid."')}", 'grey')
+			?>
+				
+		</div>
+		<div style="clear:both"></div>
+
+	
+	<!-- CONTENT CENTER -->
+	</div>
+	
+	<div style="border-bottom:1px solid #0697CE; position:relative; top:25px; left:15px; width:984px; height:30px; background:black; color:white; text-align:left; font-size:11px">
+		<div style="padding: 7px 0 0 14px">&copy; 2012 Promar</div>
+	</div>
+</div>
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
 
 
 <div style="width:100%; height: 126px; text-align:center; background: url('/img/bg.gif') top left; padding: 10px 0 0 0;">
@@ -162,7 +333,7 @@
 							
 							echo '
 							<div class="draggable" title="Złap lampę i przesuń na tło" id="parent-prod'.str_replace('.png', '', $filename).'" style="margin-bottom: 10px">
-								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'" style="max-width:170px">
+								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'" style="max-width:170px; max-height:400px">
 							</div>
 							';
 						}//foreach
@@ -177,7 +348,7 @@
 				$content = ob_get_clean();
 				echo divShadow(200, 610, $content,0);
 				echo '<br>';		
-				showButton('Dodaj element', "wnd=window.open('/index.php/EmailsTemplate/choose_item?bg=".$bgid."')", 'grey')
+				showButton('Dodaj element', "if('".$bgid."' == '0'){alert('Proszę najpierw wybrać tło.')}else{wnd=window.open('/index.php/EmailsTemplate/choose_item?bg=".$bgid."')}", 'grey')
 			?>
 				
 		</div>
@@ -286,6 +457,7 @@
                  products[id][4] = 0; //image height - 0 = oryginal
                  products[id][5] = 'norm'; //czy obrazek jest normalny czy odbicie lustrzane 
                  products[id][6] = dragObject.children().attr('class'); //w class trzymana jest nazwa pliku 
+                 products[id][7] = ELEMENTS_DATA[products[id][6]+'.png']['text']; 
                  
                  /* zapisanie automatyczne */
             		save_all();
@@ -326,10 +498,25 @@
         	  
         	  
             clone.css('position', 'absolute');
-            clone.css('top', lastXY+'px');
+            
+            //clone.css('top', lastXY+'px');
+            //clone.css('left', lastXY+'px');
+            
+            clone.css('top', '0px');
             clone.css('left', lastXY+'px');
+            
             clone.children().css('border', '1px dotted black');
-            clone.children().css('max-height', '600px');
+            //clone.children().css('max-height', '600px');
+            /* ustawienie oryginalnych rozmiarow */
+            //alert(ELEMENTS_DATA[item.children().attr('class')+'.png']['height']);
+            
+            var height = ELEMENTS_DATA[item.children().attr('class')+'.png']['height']+'px';
+            clone.children().css('height', height);
+            clone.children().css('max-height', 'none');
+           
+            var width = ELEMENTS_DATA[item.children().attr('class')+'.png']['width']+'px';
+            clone.children().css('width', width);
+            clone.children().css('max-width', 'none');
             
             clone.appendTo($("#canvas"));
             
@@ -647,18 +834,23 @@ $(document).bind('mousedown',function(e){
 	save_all();
 		
 		
-		function add_element(id_elem,id_user) {
+		function add_element(id_elem, id_user, text, width, height) {
+
+			//alert(id_elem +' : '+ id_user +' : '+ text +' : '+ width +' : '+ height);
 			
 			var newChild = document.createElement('div');
 			newChild.setAttribute('id', 'parent-produ'+id_user+'_i'+id_elem);
 			newChild.setAttribute('class', 'draggable');
-			newChild.setAttribute('style', 'margin-bottom: 10px');
+			newChild.setAttribute('style', 'margin-bottom: 10px; max-height:400px');
 			newChild.setAttribute('title', 'Złap lampę i przesuń na tło');
 
 			var newImg = document.createElement('img');
 			newImg.setAttribute('id', 'produ'+id_user+'_i'+id_elem);
 			newImg.setAttribute('class', 'u'+id_user+'_i'+id_elem);
 			newImg.setAttribute('src', '/uploads/u'+id_user+'_i'+id_elem+'.png');
+
+
+			ELEMENTS_DATA['u'+id_user+'_i'+id_elem+'.png'] = {'text':text, 'count':0, 'width':width, 'height':height};
 
 			 
 			newChild.appendChild(newImg);
