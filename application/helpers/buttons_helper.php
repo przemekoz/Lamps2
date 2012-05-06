@@ -17,7 +17,8 @@ if ( ! function_exists('getButton'))
 	function getButton($text, $onclick, $type='green') {
 		$fontColor = 'white';
 		if ($type == 'grey') {
-			$fontColor = '#889797';
+			//$fontColor = '#889797';
+			$fontColor = '#5f6969';
 		}
 		if ($type == 'green') {
 			$fontColor = '#3C703C';

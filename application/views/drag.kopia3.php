@@ -2,7 +2,6 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
-	<title>Promar &#8226; Konfigurator</title>
 <style type="text/css">
 
 * {
@@ -128,7 +127,7 @@ a.menu:hover, a.menu:active {
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
 
-<div style="z-index:0; width:1012px; height:920px; margin:0 auto; position:relative; text-align:left">
+<div style="z-index:0; width:1012px; height:900px; margin:0 auto; position:relative; text-align:left">
 	<div style="border:1px solid #0697CE; z-index:1; position:absolute; top:15px; left:15px; width:982px; height:859px; opacity:0.3; filter: alpha(opacity = 30); background:black"></div>
 	
 	<div style="position:relative; z-index:2; opacity:1; margin-top:30px; float:left; width:218px; height:153px;" >
@@ -245,14 +244,148 @@ a.menu:hover, a.menu:active {
 	<!-- CONTENT CENTER -->
 	</div>
 	
-	<div style="border-bottom:1px solid #0697CE;border-top:1px solid #0697CE; position:relative; top:34px; left:15px; width:984px; height:30px; background:black; color:white; text-align:left; font-size:11px; font-family: 'Trebuchet MS',Arial,Helvetica, sans-serif;">
-		<div style="padding: 7px 0 0 15px;float:left">Promar &copy; 2012</div>
-		<div style="padding: 7px 15px 0 0;float:right;color:#777">Site created <a href="http://twitter.." style="color:#555" title="Site created by przemek kozinski">by</a></div>
+	<div style="border-bottom:1px solid #0697CE; position:relative; top:34px; left:15px; width:984px; height:30px; background:black; color:white; text-align:left; font-size:11px">
+		<div style="padding: 7px 0 0 15px;float:left">&copy; 2012 Promar</div>
+		<div style="padding: 7px 15px 0 0;float:right;color:#777">created by</div>
 		<div style="clear:both"></div>
 	</div>
 </div>
 
 
+<!-- 
+ -->
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+
+<div style="width:100%; height: 126px; text-align:center; background: url('/img/bg.gif') top left; padding: 10px 0 0 0;">
+
+	<div style="width: 956px; height: 126px; background: url('/img/toolbar2.png') top left no-repeat; margin: 0 auto; text-align: left">
+
+<!-- 
+		<div onclick="save_all()" class="btn_out" title="Zapisz">
+			<div class="btn_in">Zapisz</div>
+		</div>
+		<div style="margin-left: 95px" onclick="window.open('/uploads/u<?php echo $userid ?>_saved.jpg?r=<?php echo rand(0,99)?>', '_blank')" class="btn_out" title="Podgląd">
+ -->
+		<div style="margin-left: 95px" onclick="window.open('/index.php/EmailsTemplate/preview', '_blank')" class="btn_out" title="Podgląd">
+			<div class="btn_in">Podgląd</div>
+		</div>
+		<div onclick="clear_canvas()" class="btn_out" title="Wyczyść">
+			<div class="btn_in">Wyczyść</div>
+		</div>
+		<div onclick="window.open('/index.php/EmailsTemplate/pdf', '_blank')" class="btn_out" title="Wydrukuj">
+			<div class="btn_in">Wydrukuj</div>
+		</div>
+		<div onclick="window.open('/index.php/EmailsTemplate/downloadjpg', '_blank')" class="btn_out" title="Pobierz JPG">
+			<div class="btn_in">Pobierz JPG</div>
+		</div>
+		<div onclick="window.open('/index.php/EmailsTemplate/downloadpdf', '_blank')" class="btn_out" title="Pobierz PDF">
+			<div class="btn_in">Pobierz PDF</div>
+		</div>
+		<div onclick="window.open('/index.php/EmailsTemplate/send_form', '_blank')" class="btn_out" title="Wyślij email">
+			<div class="btn_in" style="font-size:10px">Wyślij Zapytanie</div>
+		</div>
+
+		
+		<div style="clear: both"></div>
+	</div>
+</div>
+<div style="width: 100%; height: 4px; background: url('/img/break.png') repeat-x;"></div>
+
+
+<div style="text-align: center;width:100%;margin-top:15px">
+	<div style="width:1012px; height:612px; background: #fff; margin:0 auto;text-align: left">
+		<div style="float:left;text-align: center">
+		
+		<?php ob_start(); ?>
+
+						
+		<?php
+
+			/* odczytanie rozmiaru pliku tła - potrzebne do dynamicznego skalowania warstwy #canvas */
+			$bgWidth = 0; 
+			$bgHeight = 0;
+			if (is_file($_SERVER['DOCUMENT_ROOT'].$bg)) {
+				list($bgWidth, $bgHeight) = getimagesize($_SERVER['DOCUMENT_ROOT'].$bg);
+			}
+			
+			
+			//@todo - dodac zabezpieczneie na wypadek za duzego rozmiaru
+			
+			//@todo - dodac zabezpiecznie jakby odczytany rozmiar byl null
+		?>
+
+		<div id="canvas" onclick="hideContextMenu()" style="margin: 0 auto; z-index: 100;position: relative; width:<?php echo $bgWidth?>px; height: <?php echo $bgHeight?>px; background: url('<?php echo $bg ?>') no-repeat;padding:0;font-size:1px;line-height:1px"></div>
+		
+			<?php 
+				$content = ob_get_clean();
+				echo divShadow(812, 612, $content,0) 
+			?>
+				
+				<br>
+			 <?php //showButton('Wybierz tło', "show_add_bg()", 'grey'); ?>
+			 <?php showButton('Wybierz tło', "location.href='/index.php/EmailsTemplate/choose_background'", 'grey'); ?>
+		</div>
+		<div style="float:left;">
+		
+		<?php ob_start(); ?>
+
+
+
+
+
+					<div id="list-items" style="position: relative;  width: 188px; height: 588px; text-align: center; overflow: auto;">
+						
+						<?php 
+						
+						foreach ($items as $filename) {
+							
+							echo '
+							<div class="draggable" title="Złap lampę i przesuń na tło" id="parent-prod'.str_replace('.png', '', $filename).'" style="margin-bottom: 10px">
+								<img id="prod'.str_replace('.png', '', $filename).'" class="'.str_replace('.png', '', $filename).'" src="/uploads/'.$filename.'" style="max-width:170px; max-height:400px">
+							</div>
+							';
+						}//foreach
+						
+						?>
+						
+					</div>
+
+
+		
+			<?php 
+				$content = ob_get_clean();
+				echo divShadow(200, 610, $content,0);
+				echo '<br>';		
+				showButton('Dodaj element', "if('".$bgid."' == '0'){alert('Proszę najpierw wybrać tło.')}else{wnd=window.open('/index.php/EmailsTemplate/choose_item?bg=".$bgid."')}", 'grey')
+			?>
+				
+		</div>
+		<div style="clear:both"></div>
+	</div>
+</div>
+<!-- 
+<textarea id="elements_msg" style="border:none; width:100%; height:100px"></textarea>
+ -->
+
+<!-- FOOTER -->
+<?php echo footer_html() ?>
 
 
 
@@ -276,6 +409,21 @@ a.menu:hover, a.menu:active {
  		
 		showContextMenu($aLinks, 'contextMenuMain'); 	
  	?>
+
+
+<!-- onclick="hide_add_bg()" -->
+<div id="overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; display: none; background: black; opacity: 0.7"></div>
+<div id="popup_canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3000; display: none;">
+	<div id="add_bg_form" style="position: relative; top: 400px; margin: 0 auto; width: 500px; height: 308px; border: 1px solid #ddd; z-index: 4000; background: white;">
+		<div style="padding: 20px">
+		 Wybierz obrazek tła:
+			<form enctype="multipart/form-data" name="form" method="post" action="/index.php/EmailsTemplate/uploadBg">
+				<input type="file" style="height:30px" name="file"><br><br>
+				<table width="100%"><tr><td width="50%"><?php showSubmit('Zapisz', 'green'); ?></td><td width="50%"><?php showButton('Anuluj', 'hide_add_bg()', 'grey'); ?></td></tr></table>
+			</form>
+		</div>
+	</div>
+</div>
 
 
 <script src="/javascript/jquery-1.6.1.min.js" type="text/javascript"></script>
