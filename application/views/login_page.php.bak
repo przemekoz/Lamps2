@@ -20,7 +20,7 @@ body {
 
 <?php echo panelshowTopLogout(' - logowanie') ?>
 
-<form action="/konfigurator.php/Home/login" method="post">
+<form action="/index.php/Home/login" method="post">
 <br>
 <br>
 

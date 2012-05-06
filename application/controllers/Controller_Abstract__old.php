@@ -146,9 +146,9 @@ class Controller_Abstract extends CI_Controller {
 	{
 		$config['upload_path'] = $this->uploadDir;
 		$config['allowed_types'] = 'png';
-		$config['max_size']	= '5120'; //KB
-		$config['max_width']  = '5000';
-		$config['max_height']  = '5000';
+		$config['max_size']	= '2048'; //KB
+		$config['max_width']  = '1000';
+		$config['max_height']  = '1000';
 		$config['overwrite']  = TRUE;
 		if (strlen($filename)) {
 			$config['file_name']  = $filename;

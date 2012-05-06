@@ -14,7 +14,7 @@
 	<div style="width: 1000px;">
 	
 		<div style="width: 150px; float:left">
-<form name="form" method="post" action="/konfigurator.php/<?php echo $url?>/save_params">
+<form name="form" method="post" action="/index.php/<?php echo $url?>/save_params">
 <?php echo form_hidden('id_crown', $cid) ?>
 <?php echo form_hidden('id_fitting', $fid) ?>
 Przesunięcie X: <?php echo form_input('lambda_x', $LAMBDA_X) ?><br><br>

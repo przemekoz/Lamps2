@@ -14,7 +14,7 @@
 <br><br>
 Wiązanie z <?php echo $text_dst?>:	
 
-<form name="form" action="/konfigurator.php/<?php echo $url?>/save" method="post">
+<form name="form" action="/index.php/<?php echo $url?>/save" method="post">
 <?php echo form_hidden('id', $id)?>	
 <?php echo form_hidden('src', $src)?>	
 <?php echo form_hidden('dst', $dst)?>	

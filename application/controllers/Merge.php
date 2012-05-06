@@ -113,7 +113,12 @@ class Merge extends CI_Controller {
     	 */    
     	$elements = array();                                                                              
     	$this->db->select('id, title, street, garden, width, height');
-    	$this->db->where('(`mode`=\''.$main->mode.'\') AND (street=1 OR garden=1)');
+    	if ($src == 'column' && $dst == 'crown') {
+	    	$this->db->where('(street=1 OR garden=1)');
+    	} else {
+	    	$this->db->where('(`mode`=\''.$main->mode.'\') AND (street=1 OR garden=1)');
+    	}
+    	
     	$this->db->order_by('title');
     	//wybierz tabelę: crown lub fitting 
     	$query = $this->db->get($dst);
@@ -131,7 +136,10 @@ class Merge extends CI_Controller {
     		$link = '';
     		/* jeśli łączenie korona oprawa -> wyświetl link dodatkowych pcji */
     		if ($src == 'crown' && $dst == 'fitting') {
-	    		$link = ' <a href="/index.php/'.$this->module_url.'/set_params_crown_fitting?cid='.$mainId.'&fid='.$row['id'].'">ustaw łączenie</a>';
+	    		$link = ' <a href="/konfigurator.php/'.$this->module_url.'/set_params_crown_fitting?cid='.$mainId.'&fid='.$row['id'].'">ustaw łączenie</a>';
+    		}
+    		elseif ($src == 'column' && $dst == 'crown') {
+	    		$link = ' <a href="/konfigurator.php/'.$this->module_url.'/set_params_column_crown?cid='.$mainId.'&crid='.$row['id'].'">ustaw łączenie</a>';
     		}
     		
     		$elements[ $row['street'].$row['garden'] ][] = '<td>'.form_checkbox('element['.$row['id'].']', 1, $checked). '</td><td><b>'. $row['title'].'</b></td><td>'.$row['width'].'x'.$row['height'].$link.'</td>';
@@ -285,6 +293,74 @@ class Merge extends CI_Controller {
     	
 			/* przekierownaie do ekranu wyboru */
     	redirect($this->module_url.'/merge?src=crown&dst=fitting&id='.$crownId);
+    }
+
+    
+    /*
+    | wyswietla parametry dodatkoe -- przesuniecie korony wzgledem kolumny (X)
+    */
+    public function set_params_column_crown() {
+    	$data = array();
+    	$crownId = $this->input->get('crid');
+    	$columnId = $this->input->get('cid');
+    	
+    	/* odczytanie aktualnych ustawien */
+    	$this->db->select('width, height, title');
+    	$query = $this->db->get_where('column', array('id'=>$columnId));
+    	$row = $query->result_array();
+    	/* szerokosc kolumny */
+    	$data['X'] = $row[0]['width'];
+    	/* wysokosc kolumny */
+    	$data['Y'] = $row[0]['height'];
+    	$data['column_title'] = $row[0]['title'];
+    	
+    	
+    	$this->db->select('width, height, title');
+    	$query = $this->db->get_where('crown', array('id'=>$crownId));
+    	$row = $query->result_array();
+    	/* szerokosc corony */
+    	$data['A'] = $row[0]['width'];
+    	/* wysokosc corony */
+    	$data['B'] = $row[0]['height'];
+    	$data['crown_title'] = $row[0]['title'];
+
+    	/* wartosc x od ktorej ustawiana jest oprawa lewa */
+    	$data['K'] = 0;
+
+    	/* odczytanie i wyswietleni obrazkow w defaultowych pozycjach */
+    	$this->db->select('lambda_x');
+    	$query = $this->db->get_where('merge_column_crown', array('id_crown'=>$crownId, 'id_column'=>$columnId));
+    	$row = $query->result_array();
+    	/* przesuniecie wzgledem osi X */
+    	$data['LAMBDA_X'] = $row[0]['lambda_x'];
+    	
+    	$data['cid'] = $this->input->get('cid');
+    	$data['crid'] = $this->input->get('crid');
+    	$data['url'] = $this->module_url;
+    	$data['dir_relative'] = '/uploads/';
+    	
+    	$data['templateContent'] = $this->load->view($this->module_url.'/set_params_column_crown', $data, true);
+			$this->load->view('main_panel', $data);
+    }
+    
+    
+    
+    // do laczenia kolumn z koronami (porblem jednostronnych)
+    public function save_params2() {
+    	$crownId = $this->input->post('id_crown');
+    	$columnId = $this->input->post('id_column');
+    	
+			/* usuniecie starego */
+    	$this->db->where(array('id_crown'=>$crownId, 'id_column'=>$columnId));
+    	$this->db->delete('merge_column_crown');
+    	//echo $this->db->last_query();
+    	//die;
+    	
+			/* insert nowego */
+    	$this->db->insert('merge_column_crown', $_POST);
+    	
+			/* przekierownaie do ekranu wyboru */
+    	redirect($this->module_url.'/merge?src=column&dst=crown&id='.$columnId);
     }
     
     

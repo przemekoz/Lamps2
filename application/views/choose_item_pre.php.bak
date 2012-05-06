@@ -30,7 +30,7 @@
 		<?php ob_start(); ?>
 		
 	<h3>Wybierz kategorie produktów:</h3>	<br>
-	<form name="form" action="/konfigurator.php/<?php echo $url?>/choose_items">
+	<form name="form" action="/index.php/<?php echo $url?>/choose_items">
 			<?php echo form_hidden('bg', $bgid);?>
 			<?php echo form_checkbox('street', 1, true);?> Miasto - ulica <br>
 			<?php echo form_checkbox('garden', 1, true);?> Dom - ogród<br><br><br>

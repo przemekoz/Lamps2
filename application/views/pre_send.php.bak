@@ -22,7 +22,7 @@ function complete(request) {
         break;
     }
     
-   $.post("/konfigurator.php/sendemails/ajax_show_progress/", { value: 'empty' },
+   $.post("/index.php/sendemails/ajax_show_progress/", { value: 'empty' },
    function(data) {
        document.getElementById('progress').innerHTML = data;
    });
@@ -38,7 +38,7 @@ function complete(request) {
         alert('ajax request');
         isAjaxRequest = true;
         
-        $.post("/konfigurator.php/sendemails/ajax_send_pack/"+cronTime, { value: 'empty' },
+        $.post("/index.php/sendemails/ajax_send_pack/"+cronTime, { value: 'empty' },
         function(data) {
            complete(data)
         });
@@ -342,7 +342,7 @@ function FileUpload(img, file) {
           var canvas = self.ctrl.ctx.canvas;
           canvas.parentNode.removeChild(canvas);
       }, false);
-  xhr.open("POST", "http://mss/konfigurator.php/sendemails/upload/");
+  xhr.open("POST", "http://mss/index.php/sendemails/upload/");
   xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
   reader.onload = function(evt) {
     xhr.sendAsBinary(evt.target.result);
@@ -358,7 +358,7 @@ function textFileUpload(file) {
     fileSize = file.size,
     fileData = file.getAsBinary(), // works on TEXT data ONLY.
     boundary = "xxxxxxxxx",
-    uri = "http://mss/konfigurator.php/sendemails/upload/",
+    uri = "http://mss/index.php/sendemails/upload/",
     xhr = new XMLHttpRequest();
   
   xhr.open("POST", uri, true);
@@ -394,7 +394,7 @@ function upload2()
     var boundary = 'xxxxxxxxxx';
     var xhr = new XMLHttpRequest;
 
-    xhr.open("POST", "http://mss/konfigurator.php/sendemails/upload/", true);
+    xhr.open("POST", "http://mss/index.php/sendemails/upload/", true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             alert(xhr.responseText);

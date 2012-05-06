@@ -21,17 +21,17 @@ if ( ! function_exists('panelshowTop'))
 			<div style="padding: 0 25px;font-family:tahoma,sans-serif;">
 			
 			<!--
-				<div onclick="location.href=\'/index.php/klienci\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj klientami">Klienci</div>
+				<div onclick="location.href=\'/konfigurator.php/klienci\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj klientami">Klienci</div>
 			-->
 				
-				<div onclick="location.href=\'/index.php/Tlo\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj tłami">Tła</div>
-				<div onclick="location.href=\'/index.php/Slupy\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj kolumnami">Kolumny</div>
-				<div onclick="location.href=\'/index.php/Korony\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj koronami">Korony</div>
-				<div onclick="location.href=\'/index.php/Oprawy\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj oprawami">Oprawy</div>
-				<div onclick="location.href=\'/index.php/Merge/choose/column/crown\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Kolumny --&gt; korony</div>
-				<div onclick="location.href=\'/index.php/Merge/choose/column/fitting\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Kolumny --&gt; oprawy</div>
-				<div onclick="location.href=\'/index.php/Merge/choose/crown/fitting\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Korony --&gt; oprawy</div>
-				<div onclick="location.href=\'/index.php/Home/logout\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 30px;cursor:pointer" title="Wyloguj">Wyloguj</div>
+				<div onclick="location.href=\'/konfigurator.php/Tlo\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj tłami">Tła</div>
+				<div onclick="location.href=\'/konfigurator.php/Slupy\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj kolumnami">Kolumny</div>
+				<div onclick="location.href=\'/konfigurator.php/Korony\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj koronami">Korony</div>
+				<div onclick="location.href=\'/konfigurator.php/Oprawy\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Zarzadzaj oprawami">Oprawy</div>
+				<div onclick="location.href=\'/konfigurator.php/Merge/choose/column/crown\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Kolumny --&gt; korony</div>
+				<div onclick="location.href=\'/konfigurator.php/Merge/choose/column/fitting\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Kolumny --&gt; oprawy</div>
+				<div onclick="location.href=\'/konfigurator.php/Merge/choose/crown/fitting\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 0;cursor:pointer" title="Łączenie kolumny z koronami">Korony --&gt; oprawy</div>
+				<div onclick="location.href=\'/konfigurator.php/Home/logout\'" onmouseover="this.style.color=\'#003D4C\';this.style.background=\'#fff\'" onmouseout="this.style.color=\'#fff\';this.style.background=\'#003D4C\'" style="padding: 5px;border:1px solid white; float:left;margin:5px 10px 0 30px;cursor:pointer" title="Wyloguj">Wyloguj</div>
 				<!--
 				<div style="margin:5px 10px 0 30px; float:left; border:2px solid #0F7D98; width:100px; height:30px; color:#0F7D98"><div style="padding:5px 0 0 5px">jlkalajdlajlds</div></div>
 				-->
@@ -127,7 +127,7 @@ if ( ! function_exists('panelShowSubmitCancel'))
 	function panelShowSubmitCancel($cancelUrl='') {
 		$link = 'javascript:history.back()';
 		if (strlen($cancelUrl)) {
-			$link = '/index.php/'.$cancelUrl;
+			$link = '/konfigurator.php/'.$cancelUrl;
 		}
 		$html = '
 			<table cellpadding="5" style="margin:10px 0 10px 0;">

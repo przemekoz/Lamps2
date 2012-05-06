@@ -87,22 +87,22 @@
 		</div>
 		<div style="margin-left: 95px" onclick="window.open('/uploads/u<?php echo $userid ?>_saved.jpg?r=<?php echo rand(0,99)?>', '_blank')" class="btn_out" title="Podgląd">
  -->
-		<div style="margin-left: 95px" onclick="window.open('/konfigurator.php/EmailsTemplate/preview', '_blank')" class="btn_out" title="Podgląd">
+		<div style="margin-left: 95px" onclick="window.open('/index.php/EmailsTemplate/preview', '_blank')" class="btn_out" title="Podgląd">
 			<div class="btn_in">Podgląd</div>
 		</div>
 		<div onclick="clear_canvas()" class="btn_out" title="Wyczyść">
 			<div class="btn_in">Wyczyść</div>
 		</div>
-		<div onclick="window.open('/konfigurator.php/EmailsTemplate/pdf', '_blank')" class="btn_out" title="Wydrukuj">
+		<div onclick="window.open('/index.php/EmailsTemplate/pdf', '_blank')" class="btn_out" title="Wydrukuj">
 			<div class="btn_in">Wydrukuj</div>
 		</div>
-		<div onclick="window.open('/konfigurator.php/EmailsTemplate/downloadjpg', '_blank')" class="btn_out" title="Pobierz JPG">
+		<div onclick="window.open('/index.php/EmailsTemplate/downloadjpg', '_blank')" class="btn_out" title="Pobierz JPG">
 			<div class="btn_in">Pobierz JPG</div>
 		</div>
-		<div onclick="window.open('/konfigurator.php/EmailsTemplate/downloadpdf', '_blank')" class="btn_out" title="Pobierz PDF">
+		<div onclick="window.open('/index.php/EmailsTemplate/downloadpdf', '_blank')" class="btn_out" title="Pobierz PDF">
 			<div class="btn_in">Pobierz PDF</div>
 		</div>
-		<div onclick="window.open('/konfigurator.php/EmailsTemplate/send_form', '_blank')" class="btn_out" title="Wyślij email">
+		<div onclick="window.open('/index.php/EmailsTemplate/send_form', '_blank')" class="btn_out" title="Wyślij email">
 			<div class="btn_in" style="font-size:10px">Wyślij Zapytanie</div>
 		</div>
 
@@ -144,7 +144,7 @@
 				
 				<br>
 			 <?php //showButton('Wybierz tło', "show_add_bg()", 'grey'); ?>
-			 <?php showButton('Wybierz tło', "location.href='/konfigurator.php/EmailsTemplate/choose_background'", 'grey'); ?>
+			 <?php showButton('Wybierz tło', "location.href='/index.php/EmailsTemplate/choose_background'", 'grey'); ?>
 		</div>
 		<div style="float:left;">
 		
@@ -177,7 +177,7 @@
 				$content = ob_get_clean();
 				echo divShadow(200, 610, $content,0);
 				echo '<br>';		
-				showButton('Dodaj element', "if('".$bgid."' == '0'){alert('Proszę najpierw wybrać tło.')}else{wnd=window.open('/konfigurator.php/EmailsTemplate/choose_item?bg=".$bgid."')}", 'grey')
+				showButton('Dodaj element', "if('".$bgid."' == '0'){alert('Proszę najpierw wybrać tło.')}else{wnd=window.open('/index.php/EmailsTemplate/choose_item?bg=".$bgid."')}", 'grey')
 			?>
 				
 		</div>
@@ -208,7 +208,7 @@
 		 	
  		$aLinks = array();
  		$aLinks[] = contextMenuLink('Zapisz obrazek','save_all();hideContextMenu()', 'save.png');
- 		$aLinks[] = contextMenuLink('Zapisz jako pdf', "window.open('/konfigurator.php/EmailsTemplate/pdf');hideContextMenu()", 'pdf.png');
+ 		$aLinks[] = contextMenuLink('Zapisz jako pdf', "window.open('/index.php/EmailsTemplate/pdf');hideContextMenu()", 'pdf.png');
  		$aLinks[] = contextMenuLink('Wyczyść', 'clear_canvas();hideContextMenu()', 'package_purge.png');
  		
 		showContextMenu($aLinks, 'contextMenuMain'); 	
@@ -221,7 +221,7 @@
 	<div id="add_bg_form" style="position: relative; top: 400px; margin: 0 auto; width: 500px; height: 308px; border: 1px solid #ddd; z-index: 4000; background: white;">
 		<div style="padding: 20px">
 		 Wybierz obrazek tła:
-			<form enctype="multipart/form-data" name="form" method="post" action="/konfigurator.php/EmailsTemplate/uploadBg">
+			<form enctype="multipart/form-data" name="form" method="post" action="/index.php/EmailsTemplate/uploadBg">
 				<input type="file" style="height:30px" name="file"><br><br>
 				<table width="100%"><tr><td width="50%"><?php showSubmit('Zapisz', 'green'); ?></td><td width="50%"><?php showButton('Anuluj', 'hide_add_bg()', 'grey'); ?></td></tr></table>
 			</form>
@@ -415,7 +415,7 @@
   
   
          function save_all() {
-              $.post("/konfigurator.php/EmailsTemplate/ajax_save_image/", { products: array2json(products), bg: '<?php echo $bg ?>' },
+              $.post("/index.php/EmailsTemplate/ajax_save_image/", { products: array2json(products), bg: '<?php echo $bg ?>' },
                function(data) {
                     if (data == 'ok') {
                        //ok 

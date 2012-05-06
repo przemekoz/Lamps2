@@ -29,7 +29,7 @@
 
 <?php panelshowTop('Slupy - dodaj/edytuj'); ?>
 
-<form enctype="multipart/form-data" name="form" method="post" action="/konfigurator.php/<?php echo $url ?>/save">
+<form enctype="multipart/form-data" name="form" method="post" action="/index.php/<?php echo $url ?>/save">
 
 <input type="hidden" name="id" value="<?php echo $id; ?>">
 

@@ -12,7 +12,7 @@
 <?php panelshowTop('Łączenie wybór elementu głównego '); ?>
 	
 	
-<form name="form" action="/konfigurator.php/<?php echo $url?>/merge">
+<form name="form" action="/index.php/<?php echo $url?>/merge">
 
 <?php echo form_hidden('src', $src)?>	
 <?php echo form_hidden('dst', $dst)?>

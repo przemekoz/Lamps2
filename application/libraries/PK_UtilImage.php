@@ -128,7 +128,6 @@ class PK_UtilImage {
 			$this->imagecopy($img, $img_resource, floor(($width-$w)/2), $hh, 0, 0, $w, $h);
 			$img_resource = $img;
 		}
-
 		
 		/* jesli na tle sa jakies produkty */
 		if (!empty($tInfo)) {
@@ -141,7 +140,7 @@ class PK_UtilImage {
 				
 			$img = $this->createimage($width, $height);
 			$black 	= imagecolorallocate($img, 0, 0, 0);
-			$this->imagecopy($img, $img_resource, 0, 0, 0, 0, $w, $h);
+			$this->imagecopy($img, $img_resource, 0, 0, 0, 0, $width, $h);
 			
 			$offset = $h+20;
 			for ($i=0; $i<count($tInfo); $i++) {

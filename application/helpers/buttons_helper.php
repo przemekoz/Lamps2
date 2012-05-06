@@ -17,8 +17,7 @@ if ( ! function_exists('getButton'))
 	function getButton($text, $onclick, $type='green') {
 		$fontColor = 'white';
 		if ($type == 'grey') {
-			//$fontColor = '#889797';
-			$fontColor = '#5f6969';
+			$fontColor = '#889797';
 		}
 		if ($type == 'green') {
 			$fontColor = '#3C703C';
@@ -27,10 +26,8 @@ if ( ! function_exists('getButton'))
 			$fontColor = '#B24B4B';
 		}
 
-		//$btn  = '<div title="'.$text.'" onclick="'.$onclick.'" style="background: url(\'/img/btn_'.$type.'.png\') top left no-repeat;  width: 160px; height:62px; border:none; margin:0; padding:0; cursor: pointer">';
-		//$btn .= '<div style="padding: 18px 0 0 0; text-align: center;  font-family: arial, sans-serif; font-size: 19px; line-height: 1.1em; font-weight: bold; color: '.$fontColor.'">'.$text.'</div>';
-		$btn  = '<div title="'.$text.'" onclick="'.$onclick.'" style="background: url(\'/img/btn_'.$type.'.png\') top left no-repeat;  width: 120px; height:34px; border:none; margin:0; padding:0; cursor: pointer">';
-		$btn .= '<div style="padding: 9px 0 0 0; text-align: center;  font-family: arial, sans-serif; font-size: 12px; line-height: 1.1em; font-weight: bold; color: '.$fontColor.'">'.$text.'</div>';
+		$btn  = '<div title="'.$text.'" onclick="'.$onclick.'" style="background: url(\'/img/btn_'.$type.'.png\') top left no-repeat;  width: 160px; height:62px; border:none; margin:0; padding:0; cursor: pointer">';
+		$btn .= '<div style="padding: 18px 0 0 0; text-align: center;  font-family: arial, sans-serif; font-size: 19px; line-height: 1.1em; font-weight: bold; color: '.$fontColor.'">'.$text.'</div>';
 		$btn .= '</div>';
 
 		return $btn;

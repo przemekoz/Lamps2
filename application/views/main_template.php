@@ -92,16 +92,16 @@
 		<div onclick="clear_canvas()" class="btn_out" title="Wyczyść">
 			<div class="btn_in">Wyczyść</div>
 		</div>
-		<div onclick="window.open('/index.php/EmailsTemplate/pdf', '_blank')" class="btn_out" title="Wydrukuj">
+		<div onclick="window.open('/konfigurator.php/EmailsTemplate/pdf', '_blank')" class="btn_out" title="Wydrukuj">
 			<div class="btn_in">Wydrukuj</div>
 		</div>
-		<div onclick="window.open('/index.php/EmailsTemplate/downloadjpg', '_blank')" class="btn_out" title="Pobierz JPG">
+		<div onclick="window.open('/konfigurator.php/EmailsTemplate/downloadjpg', '_blank')" class="btn_out" title="Pobierz JPG">
 			<div class="btn_in">Pobierz JPG</div>
 		</div>
-		<div onclick="window.open('/index.php/EmailsTemplate/downloadpdf', '_blank')" class="btn_out" title="Pobierz PDF">
+		<div onclick="window.open('/konfigurator.php/EmailsTemplate/downloadpdf', '_blank')" class="btn_out" title="Pobierz PDF">
 			<div class="btn_in">Pobierz PDF</div>
 		</div>
-		<div onclick="window.open('/index.php/EmailsTemplate/send_form', '_blank')" class="btn_out" title="Wyślij email">
+		<div onclick="window.open('/konfigurator.php/EmailsTemplate/send_form', '_blank')" class="btn_out" title="Wyślij email">
 			<div class="btn_in" style="font-size:10px">Wyślij Zapytanie</div>
 		</div>
 
@@ -121,7 +121,7 @@
 	<div style="width:300px;  background: #fff; margin:0 auto;text-align: left">
 		
 		
-	<form name="form" action="/index.php/<?php echo $url?>/send" method="post">
+	<form name="form" action="/konfigurator.php/<?php echo $url?>/send" method="post">
 	<?php echo inputText('Imię nazwisko:', 'my_name', '', 'small'); ?><br>	
 	<?php echo inputText('Nazwa firmy:', 'my_company', '', 'small'); ?><br>	
 	<?php echo inputText('Email:<font color=red>*</font>', 'my_email', '', 'small'); ?><br>	

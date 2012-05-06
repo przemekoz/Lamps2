@@ -149,7 +149,7 @@ function hideTextarea(id)
     document.getElementById(id).style.display = 'none';
    
    var val = document.getElementById(id+'_value').value;
-   $.post("/konfigurator.php/emailstemplate/ajax_set_preview/"+id, { value: val },
+   $.post("/index.php/emailstemplate/ajax_set_preview/"+id, { value: val },
    function(data) {
         if (data == 'ok') {
            location.reload(true); 

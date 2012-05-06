@@ -9,7 +9,7 @@
 
 <?php panelshowTop('Korony'); ?>
 	
-		<?php showLink('Dodaj', "/index.php/{$url}/edycja/0", '', true) ?><br><br>
+		<?php showLink('Dodaj', "/konfigurator.php/{$url}/edycja/0", '', true) ?><br><br>
 		
 		<?php panelShowTableTop() ?>
 	
@@ -25,8 +25,8 @@
 			$row->street, 
 			$row->garden, 
 			$row->width.' x '.$row->height,
-			getLink('Edycja',"/index.php/{$url}/edycja/{$row->id}").' '.
-			getLink('Usuń',"#usun", "if(confirm('Potwierdź usunięcie'))location.href='/index.php/{$url}/usun/{$row->id}'")
+			getLink('Edycja',"/konfigurator.php/{$url}/edycja/{$row->id}").' '.
+			getLink('Usuń',"#usun", "if(confirm('Potwierdź usunięcie'))location.href='/konfigurator.php/{$url}/usun/{$row->id}'")
 			);	 
 		?>
 		

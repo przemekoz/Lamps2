@@ -47,16 +47,16 @@
 		<div onclick="clear_canvas()" class="btn_out" title="Wyczyść">
 			<div class="btn_in">Wyczyść</div>
 		</div>
-		<div onclick="window.open('/konfigurator.php/emailstemplate/pdf', '_blank')" class="btn_out" title="Wydrukuj">
+		<div onclick="window.open('/index.php/emailstemplate/pdf', '_blank')" class="btn_out" title="Wydrukuj">
 			<div class="btn_in">Wydrukuj</div>
 		</div>
-		<div onclick="window.open('/konfigurator.php/emailstemplate/downloadjpg', '_blank')" class="btn_out" title="Pobierz JPG">
+		<div onclick="window.open('/index.php/emailstemplate/downloadjpg', '_blank')" class="btn_out" title="Pobierz JPG">
 			<div class="btn_in">Pobierz JPG</div>
 		</div>
-		<div onclick="window.open('/konfigurator.php/emailstemplate/downloadpdf', '_blank')" class="btn_out" title="Pobierz PDF">
+		<div onclick="window.open('/index.php/emailstemplate/downloadpdf', '_blank')" class="btn_out" title="Pobierz PDF">
 			<div class="btn_in">Pobierz PDF</div>
 		</div>
-		<div onclick="window.open('/konfigurator.php/emailstemplate/send', '_blank')" class="btn_out" title="Wyślij email">
+		<div onclick="window.open('/index.php/emailstemplate/send', '_blank')" class="btn_out" title="Wyślij email">
 			<div class="btn_in">Wyślij email</div>
 		</div>
 
@@ -73,7 +73,7 @@
 		
 		<?php ob_start(); ?>
 
-			<form enctype="multipart/form-data" name="form" method="post" action="/konfigurator.php/<?php echo $url ?>/upload_bg">
+			<form enctype="multipart/form-data" name="form" method="post" action="/index.php/<?php echo $url ?>/upload_bg">
 
 
 		<h4 style="padding: 0 0 0 15px">Wybierz plik z dysku</h4>
@@ -94,8 +94,8 @@
 		<div id="items-list" style=" height:450px; overflow: auto">
 				<?php
 						foreach ($list as $row) {
-							//echo '<a href="/konfigurator.php/'.$url.'/drag?bg='.$row->id.'" title="Wybierz tło"><img src="/uploads/background_'.$row->id.'.jpg" style="max-width:200px; max-height:200px;padding: 2px; border: 1px solid #ddd"></a>';
-							echo '<div style="float:left; margin: 15px"><a href="/konfigurator.php/'.$url.'/drag?bg='.$row->id.'" title="Wybierz tło"><img src="/uploads/background_'.$row->id.'.jpg" style="max-width:200px; max-height:200px;padding: 2px; border: 1px solid #ddd"></a></div>';
+							//echo '<a href="/index.php/'.$url.'/drag?bg='.$row->id.'" title="Wybierz tło"><img src="/uploads/background_'.$row->id.'.jpg" style="max-width:200px; max-height:200px;padding: 2px; border: 1px solid #ddd"></a>';
+							echo '<div style="float:left; margin: 15px"><a href="/index.php/'.$url.'/drag?bg='.$row->id.'" title="Wybierz tło"><img src="/uploads/background_'.$row->id.'.jpg" style="max-width:200px; max-height:200px;padding: 2px; border: 1px solid #ddd"></a></div>';
 						}//foreach
 						
 				?>

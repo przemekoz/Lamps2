@@ -7,7 +7,7 @@
 </style>
 
 
-<?php panelshowTop('Definiowanie dodatkowych parametrów łączenia koron z oprawami'); ?>
+<?php panelshowTop('Definiowanie dodatkowych parametrów łączenia kolumn z koronami'); ?>
 
 
 
@@ -16,7 +16,7 @@
 		<div style="width: 150px; float:left">
 <form name="form" method="post" action="/konfigurator.php/<?php echo $url?>/save_params">
 <?php echo form_hidden('id_crown', $cid) ?>
-<?php echo form_hidden('id_fitting', $fid) ?>
+<?php echo form_hidden('id_column', $fid) ?>
 Przesunięcie X: <?php echo form_input('lambda_x', $LAMBDA_X) ?><br><br>
 Przesunięcie Y: <?php echo form_input('lambda_y', $LAMBDA_Y) ?><br><br>
 
@@ -32,15 +32,15 @@ Przesunięcie Y: <?php echo form_input('lambda_y', $LAMBDA_Y) ?><br><br>
 		
 		<div style="width: 850px; float:left; text-align: center;">
 		
-		<b><?php echo $crown_title ?></b>, <b><?php echo $fitting_title ?></b>
+		<b><?php echo $crown_title ?></b>, <b><?php echo $column_title ?></b>
 		
 			<div id="canvas" style="width: <?php echo $X ?>px; height: <?php echo ($B+$Y) ?>px; margin: 0 auto; position: relative; text-align:center; background: #f8f8f8; border: 1px dashed #ddd">
 			
-				<div id="fitting_left" style="z-index:10; position:absolute; left:<?php echo $K ?>px; top:<?php echo $top_fitting?>px; width:<?php echo $A ?>px; height:<?php echo $B ?>px;">
-					<img src="<?php echo $dir_relative?>/fitting_<?php echo $fid ?>.png" width="<?php echo $A ?>" height="<?php echo $B ?>">
+				<div id="column_left" style="z-index:10; position:absolute; left:<?php echo $K ?>px; top:<?php echo $top_column?>px; width:<?php echo $A ?>px; height:<?php echo $B ?>px;">
+					<img src="<?php echo $dir_relative?>/column_<?php echo $fid ?>.png" width="<?php echo $A ?>" height="<?php echo $B ?>">
 				</div>
-				<div id="fitting_right" style="<?php echo $show_right_fitting ?>; z-index:10; position:absolute; left:<?php echo $N ?>px; top:<?php echo $top_fitting?>px; width:<?php echo $A ?>px; height:<?php echo $B ?>px;">
-					<img src="<?php echo $dir_relative?>/fitting_<?php echo $fid ?>.png" width="<?php echo $A ?>" height="<?php echo $B ?>">
+				<div id="column_right" style="<?php echo $show_right_column ?>; z-index:10; position:absolute; left:<?php echo $N ?>px; top:<?php echo $top_column?>px; width:<?php echo $A ?>px; height:<?php echo $B ?>px;">
+					<img src="<?php echo $dir_relative?>/column_<?php echo $fid ?>.png" width="<?php echo $A ?>" height="<?php echo $B ?>">
 				</div>
 				
 				<div id="crown" style="z-index:9; position:relative; margin:0 auto; left:0; top:<?php echo $top_crown?>px; width: <?php echo $X ?>px; height: <?php echo $Y ?>px;">
@@ -99,9 +99,9 @@ function set_lambda() {
 	/* canvas */
  	document.getElementById('canvas').style.width = X1+'px';
 	/* lewa oprawa */
- 	document.getElementById('fitting_left').style.left = K+'px';
+ 	document.getElementById('column_left').style.left = K+'px';
 	/* prawa oprawa */
- 	document.getElementById('fitting_right').style.left = N+'px';
+ 	document.getElementById('column_right').style.left = N+'px';
 
 	// -------------- //
 	// przesuniecie Y //
@@ -123,9 +123,9 @@ function set_lambda() {
 		//oprawy wiszace
 		var top = Y - lambda_y;
 		/* lewa oprawa */
-	 	document.getElementById('fitting_left').style.top = top+'px';
+	 	document.getElementById('column_left').style.top = top+'px';
 		/* prawa oprawa */
-	 	document.getElementById('fitting_right').style.top = top+'px';
+	 	document.getElementById('column_right').style.top = top+'px';
 	}
 	
 }
